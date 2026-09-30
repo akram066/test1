@@ -152,10 +152,12 @@ export const WeakMan: React.FC = () => {
   // GIVES IN moves up to make room for the stack.
   const up = prog(frame, E.first.in - 4, 16, EASE_IN);
   // Desaturate, then the whole stack sinks and blurs.
-  const desatFrom = S.last.out + 2;
+  // Both start early enough that sentence two never lands on top of sentence one,
+  // but never before ALONE has hit and flashed.
+  const desatFrom = Math.max(S.last.at + 4, Math.min(S.last.out + 2, TH.first.in - 6));
   const desat = prog(frame, desatFrom, 18, EASE_CALM);
-  const sinkFrom = Math.max(desatFrom + 4, TH.first.in - 10);
-  const sink = prog(frame, sinkFrom, 40, EASE_CALM);
+  const sinkFrom = Math.max(S.last.at + 4, Math.min(desatFrom + 4, TH.first.in - 8));
+  const sink = prog(frame, sinkFrom, 40, EASE_IN);
   const redGlow = frame >= G.first.at ? 1 - prog(frame, G.first.at, 26, EASE_OUT) : 0;
 
   // Sentence two: HATES HIMSELF lifts when AND arrives.

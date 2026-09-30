@@ -16,11 +16,11 @@ const outDir = join(root, "out", "stills");
 
 const heroFrames = () => [
   0, // gold line already slicing
-  part("hookC").last.out + 8, // full hook
-  part("stack").last.out + 1, // BORED TIRED ALONE stacked
+  TIMELINE.hook.exitFrom - 1, // full hook, just before the shatter
+  part("thenHe").first.in - 1, // BORED TIRED ALONE stacked
   TIMELINE.scanner.from - 1, // REPEATS IT TOMORROW + cycle arrow
   part("urge").last.out + 6, // AN URGE IS A WAVE
-  part("stands").last.out + 4, // HE STANDS UP
+  part("leaves").first.at - 3, // HE STANDS UP (just before the next cut)
   part("phone").last.out + 6, // phone outside the bedroom
   DURATION_IN_FRAMES - 1, // final frame / thumbnail
 ];
