@@ -1,0 +1,6 @@
+node_modules/
+out/
+whisper.cpp/
+public/sfx/
+public/voiceover*
+.env

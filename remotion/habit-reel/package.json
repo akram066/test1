@@ -1,0 +1,36 @@
+{
+  "name": "habit-reel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Words-only motion-graphics reel built with Remotion.",
+  "type": "module",
+  "scripts": {
+    "sfx": "tsx scripts/generate-sfx.ts",
+    "voice": "tsx scripts/prepare-voice.ts",
+    "timeline": "tsx scripts/print-timeline.ts",
+    "studio": "remotion studio",
+    "render": "remotion render HabitReel out/habit_reel.mp4",
+    "thumbnail": "remotion still HabitReel out/habit_reel_thumbnail.png --frame=-1",
+    "stills": "tsx scripts/render-stills.ts",
+    "build": "npm run sfx && npm run voice && npm run render && npm run thumbnail",
+    "test": "tsx scripts/align.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.531",
+    "@remotion/cli": "4.0.531",
+    "@remotion/google-fonts": "4.0.531",
+    "@remotion/install-whisper-cpp": "4.0.531",
+    "@remotion/motion-blur": "4.0.531",
+    "@remotion/renderer": "4.0.531",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.531"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "@types/react": "19.1.8",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}
