@@ -144,6 +144,36 @@ def drone(d=16):
     return (tone * 0.5 + bed * 5) * breath, (tone * 0.5 + bed * 4.5) * breath
 
 
+def ring(d=0.7):
+    """Alarm-clock bell: two detuned metallic partials, hammered at 22 Hz, quick decay."""
+    t = t_axis(d)
+    tone = sum(a * np.sin(2 * np.pi * f * t) for f, a in [(2350, 1), (2390, 0.8), (3720, 0.35), (5130, 0.15)])
+    hammer = 0.55 + 0.45 * np.sign(np.sin(2 * np.pi * 22 * t))
+    return tone * hammer * np.minimum(1, t / 0.004) * np.exp(-t * 5)
+
+
+def pop(d=0.16):
+    """Cold notification blip: a short sine drop with a soft click."""
+    t = t_axis(d)
+    ph = np.cumsum(2 * np.pi * (1500 - 600 * np.minimum(1, t / 0.05)) / SR)
+    return np.sin(ph) * np.minimum(1, t / 0.002) * np.exp(-t * 34) + 0.2 * tick(d)
+
+
+def pulse(d=0.75):
+    """Heartbeat (lub-dub) for the phone glow."""
+    out = thump(d, 70, 38, 11, 0.05)
+    s = int(0.2 * SR)
+    out[s:] += 0.65 * thump(d, 80, 42, 13, 0.05)[: len(out) - s]
+    return out
+
+
+def drawer(d=0.55):
+    """Wooden drawer sliding shut: band-passed rumble with a rising pitch."""
+    t = t_axis(d) / d
+    env = np.sin(np.pi * np.minimum(1, t * 1.15)) ** 1.5
+    return biquad(noise(len(t)), "bp", 260 + 380 * t, 1.6) * env + 0.3 * biquad(noise(len(t)), "lp", 140) * env
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX:")
@@ -159,6 +189,10 @@ def main():
     save("tick", tick())
     save("slam", slam())
     save("drone", *drone())
+    save("ring", ring())
+    save("pop", pop())
+    save("pulse", pulse())
+    save("drawer", drawer())
 
 
 if __name__ == "__main__":

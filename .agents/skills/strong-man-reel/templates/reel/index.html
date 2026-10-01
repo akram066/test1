@@ -469,7 +469,8 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#070405
   B.typing.forEach(function (tp, i) {
     tl.set(chars[i], { opacity: 1 }, tp.t);
     tl.set(carets[i], { opacity: 1 }, tp.t);
-    if (i > 0) tl.set(carets[i - 1], { opacity: 0 }, tp.t);
+    // short words can overlap the next word's first letter: never hide a caret before it was shown
+    if (i > 0) tl.set(carets[i - 1], { opacity: 0 }, Math.max(tp.t, B.typing[i - 1].t + 0.01));
   });
   tl.from('#s1-redact', { scaleX: 0, duration: 0.16, ease: 'power4.out' }, B.redact);
   tl.from('#s1-redact span', { opacity: 0, duration: 0.1, ease: 'power1.out' }, B.redact + 0.12);

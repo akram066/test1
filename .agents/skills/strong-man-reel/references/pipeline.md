@@ -45,6 +45,7 @@
 {
   "voice": {
     "engine": "file",                       // "file" (ElevenLabs/recording) or "kokoro"
+    "aligner": "sphinx",                    // engine=file only: "sphinx" (forced alignment) or "energy" (default)
     "file": "assets/voiceover.source.mp3",  // used when engine = file
     "lang": "en-us", "peak_db": -3,
     "kokoro": { "blend": {"am_onyx": 0.7, "bm_lewis": 0.3}, "speed": 0.84, "pitch_semitones": -1,
@@ -67,7 +68,7 @@ a plain number is absolute seconds. Cue extras: `offset`, `gain` (a number or a 
 schedule as `typingFor()` in index.html). Keys starting with `_` are comments.
 
 SFX available from `tools/sfx.py`: whoosh, impact, stamp, sub, crack, click, flip, snap, riser, tick,
-slam, drone. To add a sound, write a function and a `save()` call there.
+slam, drone, ring (alarm bell), pop (notification blip), pulse (heartbeat), drawer (wooden slide). To add a sound, write a function and a `save()` call there.
 
 ## 4. Voice
 
@@ -89,8 +90,12 @@ Use the ElevenLabs connector tools when they are available:
 4. Poll `creative_get_flow_run_status` until done, then download each `master_url` with curl right away
    (signed URLs expire after about 2 hours) into `assets/voiceover.source.mp3` (keep the other takes too).
 5. Pick the take: deeper median pitch, every pause honoured, fewer misses in
-   `python3 tools/check_voice.py <take>` (after a first alignment). Then set `voice.engine = "file"` and run
-   `python3 tools/build.py --voice`.
+   `python3 tools/check_voice.py <take>` (after a first alignment). Then set `voice.engine = "file"`,
+   `voice.aligner = "sphinx"` and run `python3 tools/build.py --voice`.
+6. Word timings: `aligner: "sphinx"` runs `tools/align_sphinx.py`, a pocketsphinx forced alignment of the
+   script against the audio (free, offline, measured per word; it stops if the alignment does not match the
+   script). Prefer it over the default energy aligner, which only spreads words by phoneme count inside
+   detected sentences. Local Whisper needs Hugging Face downloads, which sandboxes often block.
 
 ElevenLabs may disable a free-tier account for "unusual activity" when traffic comes through a proxy or
 VPN (this happened from a sandbox). If calls start failing with that message, stop: keep the finished
@@ -167,5 +172,14 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - HyperFrames AAC-encodes audio twice. Plosive spikes overshoot to clipping. The tools de-spike the voice and
   soft-limit the mix; always check `max_volume` on the final MP4.
 - A one-off "FFmpeg cannot start" from `hyperframes render` after a restart is transient: re-run it.
+- Typewriter carets: `typingFor()` gives every word at least 0.18 s, so a short word's last letter can come
+  after the next word's first letter. Hide a caret at `max(next letter, its own letter + 0.01)` or it sticks.
+- A scene push-in scales text outward from the centre: at 1.03, text at 90 px ends up at 76 px. Cap push-ins
+  at 1.03 and keep edge-aligned text at 104 px from the sides.
+- `hyperframes snapshot` seeks differently from a plain `tl.seek()`: a `tl.set(..., 0)` that hides an element
+  which a later `fromTo(..., {immediateRender: false})` reveals can stay hidden. Place such elements with a
+  static `gsap.set()` and reveal them with a self-contained `fromTo(..., {immediateRender: true})`.
+- A bright line through the middle of words reads as a strikethrough (it flips the meaning of a rule).
+  Break type with offset halves instead, and flash the seam only as they snap together.
 - In sandboxes, Chrome may reject the proxy's TLS certificate; local fonts avoid that. Add the proxy CA
   to the NSS store (`certutil -A -d sql:$HOME/.pki/nssdb -t C,, ...`) if pages must fetch remote assets.
