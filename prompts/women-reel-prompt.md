@@ -1,9 +1,26 @@
 # Reusable prompt: Her Calm Corner reel (women's page)
 
-Copy everything inside the box, fill in the three lines at the top, and send it.
+Copy everything inside the box, fill in the TOPIC, SCRIPT and colour lines, and send it.
 In this kit, Claude loads the `her-calm-reel` skill automatically. The prompt also works on its own.
 
 ```text
+Act like a senior motion designer and Remotion engineer. Build a premium, words-only
+motion-graphics reel: no people, faces or footage, just kinetic typography plus the symbolic
+objects described below. Use high-quality HyperFrames and hyper-motion throughout.
+
+QUALITY BAR (hyper-motion, high-quality HyperFrames):
+- Treat every frame as a designed frame: no static moments. Something always drifts, breathes or moves.
+- Layered depth: background, mid and foreground layers moving at different speeds (parallax),
+  slow camera push-ins, and camera moves that carry the eye from one scene to the next.
+- Motion with intent: at least 3 different eases per scene, entrances that overlap, staggered letters
+  and words, objects that anticipate and settle. Nothing linear, nothing robotic.
+- Transitions are designed moments that carry meaning, never a default cut or plain crossfade.
+- Every word lands exactly on its spoken timestamp, with sound effects locked to the same beats.
+- Pixel-level polish: safe margins (90 px sides, 120 px top and bottom), no overflow, no overlapping
+  text, crisp readable type at phone size, self-hosted fonts, a deterministic timeline.
+- Render at high quality (HyperFrames --quality high, H.264, CRF 18 master) and check frames
+  from the actual MP4, not only previews, before delivering.
+
 Make a new reel for my women's page "Her Calm Corner" in the same structure as the approved
 "If no one told you today" video.
 
