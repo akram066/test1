@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Her Calm Corner</title>
+<script src="assets/gsap.min.js"></script>
+<script src="timing.js"></script>
+<style>
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:300 700;font-display:block;src:url("assets/fonts/Fraunces-variable.woff2") format("woff2")}
+@font-face{font-family:"Fraunces";font-style:italic;font-weight:300 700;font-display:block;src:url("assets/fonts/Fraunces-italic-variable.woff2") format("woff2")}
+@font-face{font-family:"DM Sans";font-style:normal;font-weight:400 700;font-display:block;src:url("assets/fonts/DMSans-variable.woff2") format("woff2")}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8}
+#reel{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8;color:#3A2B2E}
+.serif{font-family:"Fraunces",serif;font-weight:500;line-height:1.02;letter-spacing:-.015em}
+.it{font-style:italic;font-weight:400;color:#B9605A}
+.sans{font-family:"DM Sans",sans-serif;font-weight:500}
+.scene{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8}
+.abs{position:absolute}
+.w{display:inline-block}
+.light{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(232,185,174,.95) 0%,rgba(232,185,174,.55) 40%,rgba(232,185,174,0) 70%)}
+.honey{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(216,178,110,.55) 0%,rgba(216,178,110,0) 70%)}
+#s2,#s3,#s4,#s5{opacity:0}
+
+/* life layer */
+#dots{position:absolute;inset:0;z-index:40;pointer-events:none}
+#dots i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(216,178,110,.55),rgba(216,178,110,0) 70%)}
+#vignette{position:absolute;inset:-60px;z-index:41;pointer-events:none;background:radial-gradient(ellipse 75% 60% at 50% 46%,rgba(246,239,232,0) 55%,rgba(214,192,176,.55) 100%)}
+#grain{position:absolute;inset:0;z-index:42;pointer-events:none;opacity:.07;mix-blend-mode:multiply;background-size:256px 256px}
+#bar{position:absolute;left:90px;top:1786px;width:900px;height:3px;z-index:43;background:rgba(164,145,137,.3)}
+#bar i{position:absolute;inset:0;background:#B9605A;transform-origin:0 50%;transform:scaleX(0)}
+/* transition overlays */
+#bloom{position:absolute;left:240px;top:520px;width:600px;height:600px;z-index:30;border-radius:50%;opacity:0;background:radial-gradient(circle,#F3D9CF 0%,#F0D2C6 55%,rgba(240,210,198,0) 72%)}
+#sweep{position:absolute;left:-1400px;top:-300px;width:1100px;height:2520px;z-index:31;transform:rotate(14deg);opacity:0;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,244,228,1) 0%,rgba(250,230,205,.9) 45%,rgba(246,239,232,0) 72%)}
+
+/* S1 open */
+#s1-light{left:240px;top:520px;width:600px;height:600px}
+#s1-title{left:0;width:1080px;top:830px;text-align:center;font-size:100px}
+#s1-line{left:0;top:0}
+
+/* S2 list */
+#s2-head{left:90px;top:300px;font-size:104px}
+#s2-head div{white-space:nowrap}
+#s2-card{left:170px;top:800px;width:740px;height:700px;background:#FFF9F3;border-radius:28px;box-shadow:0 30px 60px rgba(120,80,60,.14),0 4px 12px rgba(120,80,60,.08);transform:rotate(-2.5deg);padding:70px 64px}
+.item{display:flex;align-items:center;gap:28px;font-size:44px;height:92px;color:#3A2B2E}
+.box{width:44px;height:44px;border:4px solid #A49189;border-radius:10px;flex:none;position:relative}
+.item.next{color:#B9605A;font-family:"Fraunces",serif;font-style:italic;font-size:52px;margin-top:26px;white-space:nowrap}
+.item.next .box{border-color:#B9605A}
+#check{position:absolute;left:-2px;top:-14px;overflow:visible}
+
+/* S3 actions */
+#s3-glass{left:150px;top:330px;width:210px;height:330px;overflow:visible}
+#s3-water{left:530px;top:380px;font-size:84px}
+#s3-window-light{left:600px;top:760px;width:380px;height:440px}
+#s3-window{left:620px;top:790px;width:320px;height:380px;perspective:1000px}
+#s3-window .pane{position:absolute;top:0;width:50%;height:100%;background:#EFE4DA;border:6px solid #3A2B2E}
+#s3-window .l{left:0;transform-origin:0 50%}
+#s3-window .r{right:0;transform-origin:100% 50%}
+#s3-open{left:90px;top:900px;font-size:88px}
+#s3-breath{left:330px;top:1240px;width:420px;height:420px;border-radius:50%;border:6px solid #7F9C86;background:radial-gradient(circle,rgba(127,156,134,.22),rgba(127,156,134,0) 70%)}
+#s3-breathe{left:0;width:1080px;top:1400px;text-align:center;font-size:96px}
+
+/* S4 rest */
+#s4-rest{left:0;width:1080px;top:270px;text-align:center;font-size:230px}
+#s4-not{left:0;width:1080px;top:540px;text-align:center;font-size:76px}
+#s4-cup{left:330px;top:820px;width:420px;height:470px;overflow:visible}
+#s4-work{right:90px;top:1430px;font-size:84px;position:absolute;text-align:right}
+#s4-under{right:90px;top:1540px;position:absolute;width:520px;height:6px;border-radius:3px;background:#E8B9AE;transform-origin:100% 50%}
+
+/* S5 close */
+#s5-sun{left:290px;top:500px;width:500px;height:500px}
+#s5-kind{left:0;width:1080px;top:640px;text-align:center;font-size:124px}
+#s5-emblem{left:500px;top:1150px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#E8B9AE 0%,#E8B9AE 45%,rgba(232,185,174,0) 72%)}
+#s5-follow{left:0;width:1080px;top:1270px;text-align:center;font-size:40px;letter-spacing:.1em;color:rgba(58,43,46,.8)}
+#s5-name{left:0;width:1080px;top:1346px;text-align:center;font-size:46px;letter-spacing:.34em;font-weight:700;color:#B9605A}
+</style>
+</head>
+<body>
+<div id="reel" data-composition-id="reel" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+<audio id="mix" data-start="0" data-duration="20" data-track-index="0" src="assets/mix.wav" data-volume="1"></audio>
+
+<!-- ============ S1 · A GENTLE REMINDER (the light opens) ============ -->
+<div id="s1" class="scene">
+  <div id="s1-light" class="light"></div>
+  <div id="s1-title" class="abs serif"><span class="w" data-w="gentle:0">A</span> <span class="w it" data-w="gentle:1">gentle</span> <span class="w" data-w="gentle:2">reminder.</span></div>
+  <svg id="s1-line" class="abs" width="1080" height="1920"><path id="s1-stroke" d="M 300 975 C 420 995, 640 990, 790 968" fill="none" stroke="#B9605A" stroke-width="7" stroke-linecap="round"/></svg>
+</div>
+
+<!-- ============ S2 · YOU DON'T HAVE TO DO EVERYTHING TODAY (let the list go) ============ -->
+<div id="s2" class="scene">
+  <div id="s2-head" class="abs serif">
+    <div><span class="w" data-w="today:0">You</span> <span class="w" data-w="today:1">don't</span> <span class="w" data-w="today:2">have</span> <span class="w" data-w="today:3">to</span></div>
+    <div><span class="w" data-w="today:4">do</span> <span class="w it" data-w="today:5">everything</span></div>
+    <div><span class="w" data-w="today:6">today.</span></div>
+  </div>
+  <div id="s2-card" class="abs sans">
+    <div class="item i1"><span class="box"></span>Answer every message</div>
+    <div class="item i2"><span class="box"></span>Clean the whole house</div>
+    <div class="item i3"><span class="box"></span>Fix every problem</div>
+    <div class="item i4"><span class="box"></span>Be perfect for everyone</div>
+    <div class="item next"><span class="box"><svg id="check" width="60" height="60" viewBox="0 0 60 60"><path id="check-path" d="M 8 30 L 22 44 L 52 8" fill="none" stroke="#B9605A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><span class="w" data-w="next:0">Just</span> <span class="w" data-w="next:1">the</span> <span class="w" data-w="next:2">next</span> <span class="w" data-w="next:3">small</span> <span class="w" data-w="next:4">thing.</span></span></div>
+  </div>
+</div>
+
+<!-- ============ S3 · WATER · WINDOW · BREATHE (diagonal cascade) ============ -->
+<div id="s3" class="scene">
+  <svg id="s3-glass" class="abs" viewBox="0 0 210 330">
+    <defs><clipPath id="glass-in"><path d="M 22 12 L 188 12 L 168 316 L 42 316 Z"/></clipPath></defs>
+    <g clip-path="url(#glass-in)"><rect id="water-fill" x="0" y="330" width="210" height="330" fill="#A9C4C0"/></g>
+    <path d="M 22 12 L 188 12 L 168 316 L 42 316 Z" fill="none" stroke="#3A2B2E" stroke-width="7" stroke-linejoin="round"/>
+  </svg>
+  <div id="s3-water" class="abs serif"><div><span class="w" data-w="water:0">Drink</span> <span class="w" data-w="water:1">a</span> <span class="w" data-w="water:2">glass</span></div><div><span class="w" data-w="water:3">of</span> <span class="w it" data-w="water:4">water.</span></div></div>
+  <div id="s3-window-light" class="honey"></div>
+  <div id="s3-window" class="abs"><div class="pane l"></div><div class="pane r"></div></div>
+  <div id="s3-open" class="abs serif"><div><span class="w" data-w="window:0">Open</span> <span class="w" data-w="window:1">the</span></div><div><span class="w it" data-w="window:2">window.</span></div></div>
+  <div id="s3-breath" class="abs"></div>
+  <div id="s3-breathe" class="abs serif"><span class="w it" data-w="breathe:0">Breathe.</span></div>
+</div>
+
+<!-- ============ S4 · REST IS NOT A REWARD (the teacup) ============ -->
+<div id="s4" class="scene">
+  <div id="s4-rest" class="abs serif"><span class="w it" data-w="rest:0">Rest</span></div>
+  <div id="s4-not" class="abs serif"><span class="w" data-w="rest:1">is</span> <span class="w" data-w="rest:2">not</span> <span class="w" data-w="rest:3">a</span> <span class="w" data-w="rest:4">reward.</span></div>
+  <svg id="s4-cup" class="abs" viewBox="0 0 420 470">
+    <g fill="none" stroke="#7F9C86" stroke-width="7" stroke-linecap="round">
+      <path class="steam" d="M 150 190 C 120 150, 180 120, 150 70 C 130 40, 160 20, 150 0"/>
+      <path class="steam" d="M 210 200 C 180 160, 240 130, 210 80 C 190 50, 220 30, 210 6"/>
+      <path class="steam" d="M 270 190 C 240 150, 300 120, 270 70 C 250 40, 280 20, 270 0"/>
+    </g>
+    <path d="M 70 230 L 350 230 C 345 330, 300 390, 210 390 C 120 390, 75 330, 70 230 Z" fill="#E8B9AE" stroke="#3A2B2E" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M 348 262 C 400 262, 405 330, 340 332" fill="none" stroke="#3A2B2E" stroke-width="7" stroke-linecap="round"/>
+    <path d="M 30 420 C 120 446, 300 446, 390 420" fill="none" stroke="#3A2B2E" stroke-width="7" stroke-linecap="round"/>
+  </svg>
+  <div id="s4-work" class="serif"><span class="w" data-w="work:0">It's</span> <span class="w" data-w="work:1">part</span> <span class="w" data-w="work:2">of</span> <span class="w" data-w="work:3">the</span> <span class="w it" data-w="work:4">work.</span></div>
+  <div id="s4-under"></div>
+</div>
+
+<!-- ============ S5 · BE KIND TO YOURSELF TODAY (final card) ============ -->
+<div id="s5" class="scene">
+  <div id="s5-sun" class="honey"></div>
+  <div id="s5-kind" class="abs serif"><div><span class="w" data-w="kind:0">Be</span> <span class="w" data-w="kind:1">kind</span> <span class="w" data-w="kind:2">to</span></div><div><span class="w it" data-w="kind:3">yourself</span> <span class="w" data-w="kind:4">today.</span></div></div>
+  <div id="s5-emblem" class="abs"></div>
+  <div id="s5-follow" class="abs sans"><span class="w" data-w="cta:0">FOLLOW</span> <span class="w" data-w="cta:1">FOR</span> <span class="w" data-w="cta:2">MORE</span> <span class="w" data-w="cta:3">GENTLE</span> <span class="w" data-w="cta:4">REMINDERS</span></div>
+  <div id="s5-name" class="abs sans">HER CALM CORNER</div>
+</div>
+
+<!-- ============ life layer + overlays ============ -->
+<div id="bloom"></div>
+<div id="sweep"></div>
+<div id="dots"></div>
+<div id="vignette"></div>
+<div id="grain"></div>
+<div id="bar"><i id="bar-fill"></i></div>
+</div>
+
+<script>
+(function () {
+  var R = window.REEL, D = R.duration, C = R.cut;
+  var q = function (s) { return document.querySelector(s); };
+  var qa = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var byS = {};
+  R.words.forEach(function (w) { (byS[w.sentence] = byS[w.sentence] || []).push(w); });
+  var ws = function (s, i) { return byS[s][i].start; };
+  var we = function (s, i) { return byS[s][i].end; };
+  var el = function (s, i) { return q('[data-w="' + s + ':' + i + '"]'); };
+  var LEAD = 0.1;   // words float in a touch earlier than the men's page: softer, never late
+  function prng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  // ---------- static prep ----------
+  q('#grain').style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>") + '")';
+  var dr = prng(7), dots = q('#dots');
+  for (var i = 0; i < 7; i++) { var d = document.createElement('i'); var s = 40 + dr() * 90; d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (dr() * 1000) + 'px;top:' + (200 + dr() * 1500) + 'px;opacity:' + (0.25 + dr() * 0.35); d.id = 'dot' + i; dots.appendChild(d); }
+  function dash(sel, len) { qa(sel).forEach(function (p) { p.setAttribute('stroke-dasharray', len); p.setAttribute('stroke-dashoffset', len); }); }
+  dash('#s1-stroke', 520); dash('#check-path', 80); dash('#s4-cup .steam', 240);
+
+  var tl = gsap.timeline({ paused: true });
+  function show(id, t) { tl.set(id, { opacity: 1 }, t); }
+  function hide(id, t) { tl.set(id, { opacity: 0 }, t); }
+  // soft word entrance: fade up with a little blur; never a slam
+  function floatIn(s, i, extra) {
+    tl.from(el(s, i), Object.assign({ opacity: 0, y: 26, filter: 'blur(8px)', duration: 0.7, ease: 'power2.out' }, extra || {}), ws(s, i) - LEAD);
+  }
+  // primary transition: the light motif blooms to fill the frame, then dissolves over the next scene
+  function lightBloom(t, from, dur) {
+    dur = dur || 0.45;
+    tl.set('#bloom', { opacity: 1, left: from[0] - 300, top: from[1] - 300, scale: 0.4 }, t - dur);
+    tl.to('#bloom', { scale: 7, duration: dur, ease: 'power2.in' }, t - dur);
+    tl.to('#bloom', { opacity: 0, duration: 0.7, ease: 'sine.inOut' }, t);
+  }
+  // accent: a warm band of light sweeps across while the scenes cross-dissolve under it
+  function lightSweep(t) {
+    tl.set('#sweep', { opacity: 1, x: 0 }, t - 0.5);
+    tl.to('#sweep', { x: 3000, duration: 1.0, ease: 'sine.inOut' }, t - 0.5);
+    tl.set('#sweep', { opacity: 0 }, t + 0.55);
+  }
+
+  // ---------- life layer ----------
+  tl.to('#bar-fill', { scaleX: 1, duration: D, ease: 'none' }, 0);
+  qa('#dots i').forEach(function (d, n) { tl.fromTo(d, { y: 0, x: 0 }, { y: -60 - n * 12, x: (n % 2 ? 1 : -1) * 30, duration: D, ease: 'sine.inOut', immediateRender: false }, 0); });
+  tl.fromTo('#vignette', { scale: 1 }, { scale: 1.05, duration: D / 4, ease: 'sine.inOut', repeat: 3, yoyo: true }, 0);
+
+  // =============== S1 A GENTLE REMINDER ===============
+  tl.from('#s1-light', { scale: 0.3, opacity: 0, duration: 1.4, ease: 'sine.out' }, 0.05);
+  tl.to('#s1-light', { scale: 1.08, duration: 1.6, ease: 'sine.inOut', repeat: 1, yoyo: true }, 1.5);
+  floatIn('gentle', 0); floatIn('gentle', 1, { ease: 'sine.out', duration: 0.9 }); floatIn('gentle', 2);
+  tl.to('#s1-stroke', { attr: { 'stroke-dashoffset': 0 }, duration: 0.8, ease: 'power2.inOut' }, we('gentle', 2) - 0.2);
+  lightBloom(C.list, [540, 820], 0.4);
+  hide('#s1', C.list); show('#s2', C.list);
+
+  // =============== S2 YOU DON'T HAVE TO DO EVERYTHING TODAY ===============
+  [0, 1, 2, 3, 4, 5, 6].forEach(function (i) { floatIn('today', i, i === 5 ? { ease: 'sine.out', duration: 0.9 } : null); });
+  tl.from('#s2-card', { y: 120, opacity: 0, rotation: -6, duration: 0.9, ease: 'power2.out' }, C.list + 0.2);
+  ['.i1', '.i2', '.i3', '.i4'].forEach(function (c, n) { tl.from('#s2-card ' + c, { opacity: 0, x: -24, duration: 0.45, ease: 'back.out(1.3)' }, ws('today', 0) + 0.1 + n * 0.14); });
+  // let the list go: everything but the next small thing softens and fades
+  tl.to(['#s2-card .i1', '#s2-card .i2', '#s2-card .i3', '#s2-card .i4'], { opacity: 0.22, filter: 'blur(3px)', duration: 0.9, stagger: 0.08, ease: 'sine.inOut' }, ws('next', 0) - 0.2);
+  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('next', i, { y: 14 }); });
+  tl.from('#s2-card .item.next .box', { scale: 0, duration: 0.4, ease: 'back.out(1.6)', transformOrigin: '50% 50%' }, ws('next', 0) - 0.1);
+  tl.to('#check-path', { attr: { 'stroke-dashoffset': 0 }, duration: 0.35, ease: 'power2.out' }, ws('next', 4));
+  tl.to('#s2-card', { rotation: 0, duration: 1.4, ease: 'sine.inOut' }, ws('next', 0));
+  lightSweep(C.actions);
+  tl.to('#s2', { opacity: 0, duration: 0.5, ease: 'sine.inOut' }, C.actions - 0.15);
+  // reveal with an explicit fromTo: a from() that starts before the scene is shown would record the
+  // hidden opacity as its target and the scene would never appear in a sequential render
+  tl.fromTo('#s3', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.inOut', immediateRender: false }, C.actions - 0.15);
+
+  // =============== S3 WATER · WINDOW · BREATHE ===============
+  tl.from('#s3-glass', { opacity: 0, y: 30, duration: 0.6, ease: 'power2.out' }, C.actions);
+  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('water', i); });
+  tl.to('#water-fill', { attr: { y: 90 }, duration: 1.4, ease: 'sine.inOut' }, ws('water', 0));
+  tl.from('#s3-window', { opacity: 0, scale: 0.9, duration: 0.6, ease: 'power2.out' }, ws('window', 0) - 0.4);
+  tl.to('#s3-window .l', { rotationY: -70, duration: 0.9, ease: 'power2.inOut' }, ws('window', 0));
+  tl.to('#s3-window .r', { rotationY: 70, duration: 0.9, ease: 'power2.inOut' }, ws('window', 0));
+  tl.from('#s3-window-light', { opacity: 0, scale: 0.6, duration: 1.2, ease: 'sine.out' }, ws('window', 0) + 0.1);
+  [0, 1, 2].forEach(function (i) { floatIn('window', i, { x: -20, y: 0 }); });
+  tl.from('#s3-breath', { opacity: 0, scale: 0.6, duration: 0.6, ease: 'power2.out' }, ws('breathe', 0) - 0.5);
+  tl.to('#s3-breath', { scale: 1.2, duration: 1.1, ease: 'sine.inOut', repeat: 1, yoyo: true }, ws('breathe', 0) - 0.1);
+  floatIn('breathe', 0, { duration: 1.0, ease: 'sine.out' });
+  lightBloom(C.rest, [540, 1450], 0.5);
+  hide('#s3', C.rest); show('#s4', C.rest);
+
+  // =============== S4 REST IS NOT A REWARD ===============
+  floatIn('rest', 0, { duration: 1.0, ease: 'sine.out', y: 40 });
+  [1, 2, 3, 4].forEach(function (i) { floatIn('rest', i, { y: 16 }); });
+  tl.from('#s4-cup', { opacity: 0, y: 50, duration: 0.9, ease: 'power2.out' }, C.rest + 0.15);
+  qa('#s4-cup .steam').forEach(function (p, n) {
+    tl.to(p, { attr: { 'stroke-dashoffset': 0 }, duration: 1.2, ease: 'sine.inOut' }, C.rest + 0.5 + n * 0.25);
+    tl.fromTo(p, { y: 0, opacity: 1 }, { y: -18, opacity: 0.5, duration: 1.4, repeat: 2, yoyo: true, ease: 'sine.inOut', immediateRender: false }, C.rest + 1.7 + n * 0.2);
+  });
+  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('work', i, { y: 18 }); });
+  tl.from('#s4-under', { scaleX: 0, duration: 0.7, ease: 'power2.out' }, we('work', 4) - 0.1);
+  // accent: blur dissolve into the final card
+  tl.to('#s4', { opacity: 0, filter: 'blur(14px)', duration: 0.6, ease: 'sine.inOut' }, C.close - 0.3);
+  tl.fromTo('#s5', { opacity: 0, filter: 'blur(14px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.7, ease: 'sine.inOut', immediateRender: false }, C.close - 0.3);
+
+  // =============== S5 BE KIND TO YOURSELF TODAY ===============
+  tl.from('#s5-sun', { opacity: 0, scale: 0.5, y: 120, duration: 1.6, ease: 'sine.out' }, C.close);
+  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('kind', i, i === 3 ? { duration: 1.0, ease: 'sine.out' } : null); });
+  tl.from('#s5-emblem', { opacity: 0, scale: 0.4, duration: 0.8, ease: 'back.out(1.3)' }, ws('cta', 0) - 0.4);
+  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('cta', i, { y: 12, filter: 'blur(4px)' }); });
+  tl.from('#s5-name', { opacity: 0, y: 14, duration: 0.9, ease: 'power2.out' }, we('cta', 4) + 0.15);
+  tl.fromTo('#s5-kind', { scale: 1 }, { scale: 1.025, duration: Math.max(0.5, D - C.close - 0.5), ease: 'sine.inOut', immediateRender: false }, C.close + 0.5);
+
+  // ---------- per-frame: grain ----------
+  var gr = q('#grain');
+  function render() {
+    var f = Math.round(tl.time() * 30), g = prng(f * 7919 + 1);
+    gr.style.backgroundPosition = Math.floor(g() * 256) + 'px ' + Math.floor(g() * 256) + 'px';
+  }
+  tl.eventCallback('onUpdate', render);
+  render();
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines['reel'] = tl;
+})();
+</script>
+</body>
+</html>

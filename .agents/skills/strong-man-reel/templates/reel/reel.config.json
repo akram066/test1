@@ -1,0 +1,409 @@
+{
+  "_readme": "Single source of truth for one reel. Edit, then run: python3 tools/build.py --voice. See the skill's references/pipeline.md for every field.",
+  "meta": {
+    "page": "The Strong Man Code",
+    "title": "The habit no man talks about",
+    "slug": "strong-man-code"
+  },
+  "fps": 30,
+  "voice": {
+    "engine": "kokoro",
+    "file": "assets/voiceover.source.mp3",
+    "lang": "en-us",
+    "peak_db": -3,
+    "kokoro": {
+      "blend": {
+        "am_onyx": 0.7,
+        "bm_lewis": 0.3
+      },
+      "speed": 0.84,
+      "pitch_semitones": -1,
+      "reverb": 0.07,
+      "room_rt60": 0.4,
+      "phoneme_fixes": {
+        "ˈɜːdʒ": "ˈɜɹdʒ"
+      }
+    }
+  },
+  "gaps": {
+    "sentence": 0.34,
+    "short": 0.72,
+    "long": 1.2,
+    "hold": 1.05
+  },
+  "lead_in": 0.35,
+  "end_hold": 2.2,
+  "script": [
+    {
+      "id": "hook",
+      "text": "The habit no man talks about.",
+      "pause": "short"
+    },
+    {
+      "id": "weak",
+      "text": "A weak man gives in every time he is bored, tired or alone."
+    },
+    {
+      "id": "hates",
+      "text": "Then he hates himself, and repeats it tomorrow.",
+      "pause": "short"
+    },
+    {
+      "id": "strong",
+      "text": "A strong man knows an urge is a wave."
+    },
+    {
+      "id": "rises",
+      "text": "It rises."
+    },
+    {
+      "id": "passes",
+      "text": "It passes.",
+      "pause": "short"
+    },
+    {
+      "id": "stands",
+      "text": "He stands up."
+    },
+    {
+      "id": "leaves",
+      "text": "He leaves the room."
+    },
+    {
+      "id": "moves",
+      "text": "He moves his body."
+    },
+    {
+      "id": "phone",
+      "text": "The phone stays outside the bedroom.",
+      "pause": "long"
+    },
+    {
+      "id": "rule",
+      "text": "Control your urges, or they will control you.",
+      "pause": "hold"
+    },
+    {
+      "id": "cta",
+      "text": "Follow for more rules."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "at": 0
+    },
+    {
+      "id": "weak",
+      "at": "weak:0",
+      "lead": 0.15
+    },
+    {
+      "id": "hates",
+      "at": "hates:0",
+      "lead": 0.1
+    },
+    {
+      "id": "repeats",
+      "at": "hates:4",
+      "lead": 0.08
+    },
+    {
+      "id": "strong",
+      "at": "strong:0",
+      "lead": 0.2
+    },
+    {
+      "id": "stands",
+      "at": "stands:0",
+      "lead": 0.15
+    },
+    {
+      "id": "leaves",
+      "at": "leaves:0",
+      "lead": 0.1
+    },
+    {
+      "id": "moves",
+      "at": "moves:0",
+      "lead": 0.1
+    },
+    {
+      "id": "phone",
+      "at": "phone:0",
+      "lead": 0.1
+    },
+    {
+      "id": "rule",
+      "at": "rule:0",
+      "lead": 0.45
+    }
+  ],
+  "cues": [
+    {
+      "sfx": "whoosh",
+      "at": 0,
+      "gain": "whoosh",
+      "mul": 0.8,
+      "_": "frame-0 blade"
+    },
+    {
+      "sfx": "stamp",
+      "at": "hook:1",
+      "offset": -0.02,
+      "gain": "impact",
+      "_": "HABIT slam"
+    },
+    {
+      "sfx": "tick",
+      "typing": [
+        "hook:4",
+        "hook:5"
+      ],
+      "gain": "tick"
+    },
+    {
+      "sfx": "impact",
+      "at": "hook:5:end",
+      "offset": 0.05,
+      "gain": "impact",
+      "mul": 0.5,
+      "_": "redaction bar"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:weak",
+      "offset": -0.25,
+      "gain": "whoosh"
+    },
+    {
+      "sfx": "impact",
+      "at": "weak:0",
+      "offset": 0.3,
+      "gain": "impact",
+      "mul": 0.6,
+      "_": "pawn lands"
+    },
+    {
+      "sfx": "stamp",
+      "at": "weak:3",
+      "gain": "impact",
+      "_": "GIVES IN stamp"
+    },
+    {
+      "sfx": "sub",
+      "at": "weak:3",
+      "gain": "sub"
+    },
+    {
+      "sfx": "click",
+      "at": "weak:9",
+      "gain": "click"
+    },
+    {
+      "sfx": "click",
+      "at": "weak:10",
+      "gain": "click"
+    },
+    {
+      "sfx": "click",
+      "at": "weak:12",
+      "gain": "click"
+    },
+    {
+      "sfx": "crack",
+      "at": "scene:hates",
+      "offset": -0.12,
+      "gain": "crack"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:repeats",
+      "offset": -0.12,
+      "gain": "whoosh",
+      "mul": 0.7
+    },
+    {
+      "sfx": "flip",
+      "at": "hates:5",
+      "span": {
+        "to": "hates:7",
+        "count": 4,
+        "end_offset": -0.05
+      },
+      "gain": "flip"
+    },
+    {
+      "sfx": "flip",
+      "at": "hates:7",
+      "offset": 0.3,
+      "repeat": {
+        "count": 3,
+        "every": 0.06
+      },
+      "gain": "flip",
+      "mul": 0.7,
+      "_": "rewind"
+    },
+    {
+      "sfx": "flip",
+      "at": "hates:7",
+      "offset": 0.5,
+      "repeat": {
+        "count": 3,
+        "every": 0.07
+      },
+      "gain": "flip",
+      "mul": 0.6,
+      "_": "replay"
+    },
+    {
+      "sfx": "riser",
+      "at": "scene:strong",
+      "offset": -1.25,
+      "gain": "riser"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:strong",
+      "offset": -0.1,
+      "gain": "whoosh"
+    },
+    {
+      "sfx": "impact",
+      "at": "strong:0",
+      "offset": 0.55,
+      "gain": "impact",
+      "mul": 0.7,
+      "_": "king settles"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "rises:0",
+      "gain": "whoosh",
+      "mul": 0.45
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:stands",
+      "offset": -0.12,
+      "gain": "whoosh",
+      "mul": 0.8
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:leaves",
+      "offset": -0.12,
+      "gain": "whoosh",
+      "mul": 0.8
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:moves",
+      "offset": -0.2,
+      "gain": "whoosh"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:phone",
+      "offset": -0.12,
+      "gain": "whoosh",
+      "mul": 0.8
+    },
+    {
+      "sfx": "slam",
+      "at": "stands:1",
+      "offset": 0.22,
+      "gain": "impact",
+      "mul": 0.8,
+      "_": "king stands"
+    },
+    {
+      "sfx": "impact",
+      "at": "moves:1",
+      "offset": 0.22,
+      "repeat": {
+        "count": 3,
+        "every": 0.32
+      },
+      "gain": "impact",
+      "mul": 0.45,
+      "_": "king hops"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "phone:1",
+      "gain": "whoosh",
+      "mul": 0.4
+    },
+    {
+      "sfx": "slam",
+      "at": "phone:5",
+      "offset": 0.1,
+      "gain": "impact",
+      "_": "door slams"
+    },
+    {
+      "sfx": "click",
+      "at": "phone:5",
+      "offset": 0.45,
+      "gain": "click",
+      "_": "lock"
+    },
+    {
+      "sfx": "sub",
+      "at": "rule:0",
+      "gain": "sub"
+    },
+    {
+      "sfx": "whoosh",
+      "at": "scene:rule",
+      "offset": 0.1,
+      "gain": "whoosh",
+      "mul": 0.5
+    },
+    {
+      "sfx": "whoosh",
+      "at": "rule:7:end",
+      "offset": 0.5,
+      "gain": "whoosh",
+      "mul": 0.8
+    },
+    {
+      "sfx": "snap",
+      "at": "rule:7:end",
+      "offset": 0.55,
+      "gain": "string",
+      "_": "strings cut"
+    },
+    {
+      "sfx": "impact",
+      "at": "rule:7:end",
+      "offset": 0.83,
+      "gain": "impact",
+      "mul": 0.5
+    },
+    {
+      "sfx": "impact",
+      "at": "cta:3:end",
+      "offset": 0.15,
+      "gain": "impact",
+      "mul": 0.4
+    }
+  ],
+  "sound": {
+    "voice": 1.0,
+    "drone": 0.14,
+    "whoosh": 0.42,
+    "impact": 0.55,
+    "sub": 0.62,
+    "crack": 0.5,
+    "tick": 0.18,
+    "click": 0.45,
+    "flip": 0.35,
+    "string": 0.4,
+    "riser": 0.3,
+    "duck_sfx_db": -6,
+    "duck_drone_db": -8
+  }
+}

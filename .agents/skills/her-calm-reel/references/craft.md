@@ -121,7 +121,7 @@ Keep text contrast at 4.5:1 or better on the canvas (`npx hyperframes validate` 
 
 ## 7. The starter reel, scene by scene
 
-"A gentle reminder: the next small thing" (about 25 s with the Kokoro voice). It is in `assets/template/index.html`.
+"A gentle reminder: the next small thing" (about 25 s with the Kokoro voice). It is in `templates/reel/index.html`.
 
 | # | Beat | Object | Layout | Out |
 | --- | --- | --- | --- | --- |

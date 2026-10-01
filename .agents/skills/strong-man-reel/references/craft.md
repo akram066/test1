@@ -144,7 +144,7 @@ Keep one accent per video; tint the black and ash slightly toward it.
 
 ## 7. The approved reference reel, scene by scene
 
-"The habit no man talks about" (31.9 s with the ElevenLabs voice). It is in `assets/template/index.html`;
+"The habit no man talks about" (31.9 s with the ElevenLabs voice). It is in `templates/reel/index.html`;
 copy its patterns.
 
 | # | Beat | Object | Layout | Out |

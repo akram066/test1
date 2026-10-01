@@ -6,7 +6,7 @@ description: Make faceless motion-graphics reels for the women's Facebook page "
 # Her Calm Reel
 
 Same production machine as the men's page, different soul: everything floats, fills, opens and breathes.
-The starter reel ("A gentle reminder: the next small thing") is in [assets/template/](assets/template/index.html).
+The starter reel ("A gentle reminder: the next small thing") is in [templates/reel/](templates/reel/index.html).
 It builds and renders as-is, so each new video starts from a working, on-brand composition.
 
 Read these when the step calls for them:

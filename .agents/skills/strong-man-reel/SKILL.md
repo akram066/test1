@@ -6,7 +6,7 @@ description: Make faceless motion-graphics reels for the men's Facebook page "Th
 # Strong Man Reel
 
 Every reel in this series has the same machine and a different subject. The approved reference
-("The habit no man talks about") is in [assets/template/](assets/template/index.html). It builds and
+("The habit no man talks about") is in [templates/reel/](templates/reel/index.html). It builds and
 renders as-is, so each new video starts from something that already works and replaces the script,
 objects, colours and scenes.
 

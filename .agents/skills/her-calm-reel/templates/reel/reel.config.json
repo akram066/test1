@@ -1,0 +1,215 @@
+{
+  "_readme": "Single source of truth for one reel. Edit, then run: python3 tools/build.py --voice. See the skill's references/pipeline.md for every field.",
+  "meta": {
+    "page": "Her Calm Corner",
+    "title": "A gentle reminder: the next small thing",
+    "slug": "her-calm-corner"
+  },
+  "fps": 30,
+  "voice": {
+    "engine": "kokoro",
+    "file": "assets/voiceover.source.mp3",
+    "lang": "en-us",
+    "peak_db": -3,
+    "kokoro": {
+      "blend": {
+        "af_sarah": 0.7,
+        "af_heart": 0.3
+      },
+      "speed": 0.86,
+      "pitch_semitones": 0,
+      "eq": "female",
+      "reverb": 0.1,
+      "room_rt60": 0.5,
+      "phoneme_fixes": {}
+    }
+  },
+  "gaps": {
+    "sentence": 0.42,
+    "short": 0.8,
+    "long": 1.2,
+    "hold": 1.0
+  },
+  "lead_in": 0.5,
+  "end_hold": 2.6,
+  "script": [
+    {
+      "id": "gentle",
+      "text": "A gentle reminder.",
+      "pause": "short"
+    },
+    {
+      "id": "today",
+      "text": "You don't have to do everything today."
+    },
+    {
+      "id": "next",
+      "text": "Just the next small thing.",
+      "pause": "short"
+    },
+    {
+      "id": "water",
+      "text": "Drink a glass of water."
+    },
+    {
+      "id": "window",
+      "text": "Open the window."
+    },
+    {
+      "id": "breathe",
+      "text": "Breathe.",
+      "pause": "short"
+    },
+    {
+      "id": "rest",
+      "text": "Rest is not a reward."
+    },
+    {
+      "id": "work",
+      "text": "It's part of the work.",
+      "pause": "long"
+    },
+    {
+      "id": "kind",
+      "text": "Be kind to yourself today.",
+      "pause": "short"
+    },
+    {
+      "id": "cta",
+      "text": "Follow for more gentle reminders."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "open",
+      "at": 0
+    },
+    {
+      "id": "list",
+      "at": "today:0",
+      "lead": 0.3
+    },
+    {
+      "id": "actions",
+      "at": "water:0",
+      "lead": 0.3
+    },
+    {
+      "id": "rest",
+      "at": "rest:0",
+      "lead": 0.35
+    },
+    {
+      "id": "close",
+      "at": "kind:0",
+      "lead": 0.45
+    }
+  ],
+  "cues": [
+    {
+      "sfx": "bloom",
+      "at": 0,
+      "gain": "bloom",
+      "_": "light opens"
+    },
+    {
+      "sfx": "chime",
+      "at": "gentle:1",
+      "gain": "chime",
+      "_": "a gentle reminder"
+    },
+    {
+      "sfx": "air",
+      "at": "scene:list",
+      "offset": -0.45,
+      "gain": "air"
+    },
+    {
+      "sfx": "pop",
+      "at": "today:0",
+      "offset": 0.1,
+      "repeat": {
+        "count": 4,
+        "every": 0.14
+      },
+      "gain": "pop",
+      "_": "list items"
+    },
+    {
+      "sfx": "pluck",
+      "at": "next:4",
+      "gain": "pluck",
+      "_": "check mark"
+    },
+    {
+      "sfx": "air",
+      "at": "scene:actions",
+      "offset": -0.45,
+      "gain": "air"
+    },
+    {
+      "sfx": "drop",
+      "at": "water:4",
+      "gain": "drop",
+      "_": "glass fills"
+    },
+    {
+      "sfx": "bloom",
+      "at": "window:0",
+      "gain": "bloom",
+      "mul": 0.7,
+      "_": "window light"
+    },
+    {
+      "sfx": "air",
+      "at": "breathe:0",
+      "gain": "air",
+      "mul": 0.8,
+      "_": "breath"
+    },
+    {
+      "sfx": "air",
+      "at": "scene:rest",
+      "offset": -0.45,
+      "gain": "air"
+    },
+    {
+      "sfx": "chime",
+      "at": "work:4",
+      "gain": "chime",
+      "mul": 0.7
+    },
+    {
+      "sfx": "bloom",
+      "at": "scene:close",
+      "offset": -0.5,
+      "gain": "bloom"
+    },
+    {
+      "sfx": "chime",
+      "at": "kind:3",
+      "gain": "chime",
+      "mul": 0.8
+    },
+    {
+      "sfx": "pluck",
+      "at": "cta:4:end",
+      "offset": 0.2,
+      "gain": "pluck",
+      "mul": 0.8
+    }
+  ],
+  "sound": {
+    "voice": 1.0,
+    "drone": 0.08,
+    "air": 0.32,
+    "chime": 0.2,
+    "page": 0.3,
+    "drop": 0.35,
+    "pluck": 0.22,
+    "pop": 0.2,
+    "bloom": 0.22,
+    "duck_sfx_db": -6,
+    "duck_drone_db": -6
+  }
+}

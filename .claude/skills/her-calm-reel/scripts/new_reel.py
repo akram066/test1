@@ -10,7 +10,7 @@ as-is, so you start from a working composition and replace the script, scenes an
 import argparse, json, os, re, shutil, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = os.path.join(os.path.dirname(HERE), "assets", "template")
+TEMPLATE = os.path.join(os.path.dirname(HERE), "templates", "reel")
 
 ap = argparse.ArgumentParser()
 ap.add_argument("slug")
@@ -23,6 +23,8 @@ dest = os.path.abspath(args.dest or os.path.join(base, args.slug))
 if os.path.exists(dest):
     sys.exit(f"{dest} already exists: pick another slug or remove it")
 shutil.copytree(TEMPLATE, dest, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+# the template keeps fonts and gsap in static/ (repos often gitignore assets/); projects expect assets/
+os.rename(os.path.join(dest, "static"), os.path.join(dest, "assets"))
 for d in ("renders", "snapshots", os.path.join("assets", "sfx")):
     os.makedirs(os.path.join(dest, d), exist_ok=True)
 json.dump({"id": "reel", "name": args.slug, "width": 1080, "height": 1920, "fps": 30},

@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Strong Man Code</title>
+<script src="assets/gsap.min.js"></script>
+<script src="timing.js"></script>
+<style>
+@font-face{font-family:"Big Shoulders Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/BigShouldersDisplay-900.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-400.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-700.woff2") format("woff2")}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#070405}
+#reel{position:relative;width:1080px;height:1920px;overflow:hidden;background:#070405;color:#F1E8E4}
+.bs{font-family:"Big Shoulders Display",sans-serif;font-weight:900;line-height:.86;letter-spacing:-.01em;text-transform:uppercase;white-space:nowrap}
+.mono{font-family:"JetBrains Mono",monospace;white-space:nowrap;text-transform:uppercase}
+.scene{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:#070405}
+.abs{position:absolute}
+.w{display:inline-block}
+.red{color:#E3141C}.bone{color:#F1E8E4}.ash{color:#8D7F81}
+.ghost{position:absolute;font-family:"Big Shoulders Display",sans-serif;font-weight:900;text-transform:uppercase;white-space:nowrap;color:rgba(7,4,5,0);-webkit-text-stroke:2px rgba(227,20,28,.16);line-height:.8}
+.glow{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(227,20,28,.34) 0%,rgba(227,20,28,.12) 38%,rgba(227,20,28,0) 70%)}
+.mask{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em}
+.mask>span{display:inline-block}
+.sym{position:absolute;overflow:visible}
+#s2,#s3,#s4,#s5,#s6,#s7,#s8,#s9,#s10{opacity:0}
+
+/* HUD */
+#hud{position:absolute;inset:0;z-index:40;pointer-events:none}
+#hud .bar{position:absolute;left:90px;top:1786px;width:900px;height:3px;background:rgba(141,127,129,.28)}
+#hud .fill{position:absolute;left:0;top:0;width:100%;height:100%;background:#E3141C;transform-origin:0 50%;transform:scaleX(0)}
+#vignette{position:absolute;inset:-80px;z-index:45;pointer-events:none;background:radial-gradient(ellipse 72% 58% at 50% 48%,rgba(7,4,5,0) 52%,rgba(0,0,0,.72) 100%)}
+#grain{position:absolute;inset:0;z-index:46;pointer-events:none;opacity:.07;mix-blend-mode:screen;background-size:256px 256px}
+
+/* transition overlays */
+#slash{position:absolute;left:-460px;top:-160px;width:2000px;height:2240px;z-index:30;background:#E3141C;transform:translateX(-2600px) skewX(-16deg)}
+#slash i{position:absolute;top:0;bottom:0;width:10px;background:#F1E8E4}
+#slash i:first-child{left:0}#slash i:last-child{right:0}
+#wipe{position:absolute;inset:0;z-index:31;background:#E3141C;clip-path:inset(1140px 1000px 640px 80px);opacity:0}
+#wipe::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:#F1E8E4}
+#crack{position:absolute;inset:0;z-index:29;opacity:0;pointer-events:none}
+#scan{position:absolute;inset:0;z-index:32;opacity:0;background:repeating-linear-gradient(0deg,rgba(227,20,28,.28) 0 3px,rgba(7,4,5,0) 3px 9px)}
+#tear{position:absolute;left:290px;top:470px;width:500px;height:120px;z-index:33;background:#E3141C;opacity:0;transform-origin:50% 50%;clip-path:polygon(0 0,100% 0,100% 88%,94% 100%,86% 90%,78% 100%,69% 91%,61% 100%,52% 89%,44% 100%,35% 90%,27% 100%,18% 91%,9% 100%,0 90%)}
+#black{position:absolute;inset:0;z-index:47;background:#000;opacity:0}
+
+/* S1 hook */
+#s1-blade{left:-760px;top:900px;width:2600px;height:26px;background:#E3141C;box-shadow:0 0 40px rgba(227,20,28,.8);transform:rotate(-24deg)}
+#s1-blade2{left:-760px;top:960px;width:2600px;height:5px;background:#F1E8E4;opacity:.7;transform:rotate(-24deg)}
+#s1-the{left:96px;top:600px;font-size:46px;letter-spacing:.34em}
+#s1-habit{left:74px;top:660px;font-size:340px;color:#E3141C;transform-origin:20% 60%}
+#s1-noman{left:90px;top:1000px;font-size:132px}
+#s1-talks{left:90px;top:1140px;font-size:132px}
+#s1-talks .ch{opacity:0}
+#s1-talks .caret{display:inline-block;width:0;height:.86em;vertical-align:top;position:relative;opacity:0}
+#s1-talks .caret::after{content:"";position:absolute;left:6px;top:.04em;width:14px;height:.78em;background:#E3141C}
+#s1-redact{left:74px;top:1128px;width:720px;height:132px;background:#E3141C;transform-origin:0 50%;display:flex;align-items:center;justify-content:center}
+#s1-redact span{font-size:34px;letter-spacing:.42em;color:#070405;font-weight:700}
+
+/* S2 weak */
+#s2-every{left:0;width:1080px;top:292px;text-align:center;font-size:40px;letter-spacing:.16em}
+.icon{position:absolute;width:150px;height:150px;top:462px;overflow:visible}
+#s2-clock{left:135px}#s2-batt{left:465px}#s2-bulb{left:795px}
+.iconword{position:absolute;top:650px;font-size:84px;width:300px;text-align:center}
+#w-bored{left:60px}#w-tired{left:390px}#w-alone{left:706px}
+#w-or{left:668px;top:676px;font-size:32px;letter-spacing:.2em}
+#s2-strings{left:0;top:0}
+#s2-pawn{left:150px;top:1080px;width:300px;height:480px;color:#8D7F81;transform-origin:50% 100%}
+#s2-label{left:506px;top:1156px;font-size:92px}
+#s2-lead{left:420px;top:1196px;width:80px;height:3px;background:#8D7F81;transform-origin:0 50%}
+#s2-stamp{left:490px;top:1296px;font-size:112px;color:#E3141C;border:7px solid #E3141C;padding:12px 22px 6px;transform:rotate(-7deg)}
+
+/* S3 hates */
+#s3-mirror{left:250px;top:420px;width:580px;height:730px;border:5px solid #F1E8E4;background:radial-gradient(ellipse at 35% 25%,#1d0c0e 0%,#0d0607 70%)}
+.shard{position:absolute;left:0;top:0;width:570px;height:720px}
+.shard svg{position:absolute;left:170px;top:190px;width:230px;height:368px;color:#8D7F81}
+#s3-then{left:90px;top:1236px;font-size:42px;letter-spacing:.24em}
+#s3-hates{left:84px;top:1296px;font-size:176px}
+#s3-himself{right:112px;top:1470px;font-size:176px;position:absolute}
+.broken{position:relative;display:inline-block}
+.broken .top{display:block;clip-path:inset(0 0 50% 0)}
+.broken .bot{position:absolute;left:0;top:0;clip-path:inset(50% 0 0 0)}
+
+/* S4 repeats */
+#s4-loop{left:0;top:0}
+#s4-cal{left:290px;top:470px;width:500px;height:580px;perspective:1400px}
+#s4-cal .band{position:absolute;left:0;top:0;width:500px;height:120px;background:#E3141C;display:flex;align-items:center;justify-content:center;font-size:30px;letter-spacing:.34em;color:#070405;font-weight:700;z-index:20}
+#s4-cal .ring{position:absolute;top:-26px;width:30px;height:58px;border:7px solid #F1E8E4;border-radius:16px;z-index:21}
+.page{position:absolute;left:0;top:120px;width:500px;height:460px;overflow:hidden;background:#F1E8E4;transform-origin:50% 0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#070405;backface-visibility:hidden;border-bottom:6px solid #cfc3bf}
+.page .dow{font-size:40px;letter-spacing:.3em;font-weight:700}
+.page .num{font-size:250px;line-height:.9}
+.page.final .num{font-size:104px;color:#E3141C;line-height:1}
+#s4-and{left:90px;top:1170px;font-size:42px;letter-spacing:.24em}
+#s4-repeats{left:84px;top:1230px;font-size:160px}
+
+/* S5 strong */
+#s5-glow{left:140px;top:360px;width:800px;height:800px}
+#s5-king{left:410px;top:560px;width:260px;height:473px}
+#s5-title{left:0;width:1080px;top:286px;text-align:center;font-size:124px}
+#s5-knows{left:0;width:1080px;top:420px;text-align:center;font-size:40px;letter-spacing:.4em}
+#s5-wave{left:0;top:1060px;width:1080px;height:560px;overflow:visible}
+#s5-rises{left:90px;top:1600px;font-size:104px}
+#s5-passes{right:90px;top:1600px;font-size:104px;position:absolute}
+
+/* S6 stands */
+#s6-he{left:90px;top:300px;font-size:176px}
+#s6-up{right:80px;top:440px;font-size:430px;position:absolute}
+#s6-king{left:410px;top:1010px;width:260px;height:473px;transform-origin:85% 98%}
+.dust{position:absolute;width:14px;height:14px;border-radius:50%;background:#8D7F81;top:1470px}
+
+/* S7 leaves */
+#s7-world{position:absolute;inset:0;transform-origin:540px 1060px}
+#s7-light{left:335px;top:705px;width:410px;height:710px;background:radial-gradient(ellipse at 50% 60%,#ff3a3f 0%,#E3141C 45%,#7E0B12 100%)}
+#s7-spill{left:200px;top:1420px;width:680px;height:220px;background:radial-gradient(ellipse at 50% 0%,rgba(227,20,28,.55) 0%,rgba(227,20,28,0) 70%)}
+#s7-frame{left:330px;top:700px;width:420px;height:720px;border:6px solid #F1E8E4}
+#s7-doorwrap{left:336px;top:706px;width:408px;height:708px;perspective:1600px}
+#s7-door{width:100%;height:100%;background:#140809;border:2px solid rgba(241,232,228,.35);transform-origin:0 50%}
+#s7-door .knob{position:absolute;right:34px;top:52%;width:22px;height:22px;border-radius:50%;background:#E3141C}
+#s7-king{left:110px;top:1190px;width:130px;height:236px}
+#s7-he{left:90px;top:300px;font-size:156px}
+#s7-room{right:90px;top:1560px;font-size:156px;position:absolute}
+
+/* S8 moves */
+#s8-floor{left:60px;top:900px;width:960px;height:960px;transform:perspective(1100px) rotateX(58deg);transform-origin:50% 0;display:grid;grid-template-columns:repeat(8,1fr);border:3px solid #7E0B12}
+#s8-floor b{display:block;border:1px solid rgba(227,20,28,.25)}
+#s8-floor b.d{background:#1a090b}#s8-floor b.l{background:#0c0506}
+#s8-floor b.hit{background:#E3141C}
+#s8-king{left:470px;top:1080px;width:140px;height:255px}
+#s8-he{left:90px;top:296px;font-size:190px}
+#s8-body{right:90px;top:480px;font-size:190px;position:absolute}
+.speed{position:absolute;height:5px;background:#E3141C;opacity:.0}
+
+/* S9 phone */
+#s9-phone-t{left:90px;top:290px;font-size:156px}
+#s9-stays{left:90px;top:452px;font-size:46px;letter-spacing:.24em;font-weight:700}
+#s9-light{left:526px;top:646px;width:348px;height:748px;background:radial-gradient(ellipse at 50% 60%,#ff3a3f 0%,#E3141C 45%,#7E0B12 100%)}
+#s9-frame{left:520px;top:640px;width:360px;height:760px;border:6px solid #F1E8E4}
+#s9-doorwrap{left:526px;top:646px;width:348px;height:748px;perspective:1600px}
+#s9-door{width:100%;height:100%;background:#140809;border:2px solid rgba(241,232,228,.35);transform-origin:0 50%}
+#s9-door .plate{position:absolute;left:0;right:0;top:120px;text-align:center;font-size:26px;letter-spacing:.3em;color:#8D7F81}
+#s9-lock{left:780px;top:1010px;width:64px;height:84px;overflow:visible}
+#s9-phone{left:600px;top:1150px;width:120px;height:214px;overflow:visible}
+#s9-bed{right:90px;top:1484px;font-size:156px;position:absolute}
+
+/* S10 rule */
+#s10-bar{left:0;top:0;width:1080px;height:1920px;overflow:visible}
+#s10-control{left:0;width:1080px;top:420px;text-align:center;font-size:236px;color:#E3141C}
+#s10-urges{left:0;width:1080px;top:640px;text-align:center;font-size:124px}
+.hang{position:absolute;transform-origin:0 0}
+.hang>span{display:block;transform:translateX(-50%)}
+#h-or{left:330px;top:900px;font-size:100px}#h-they{left:540px;top:900px;font-size:100px}#h-will{left:752px;top:900px;font-size:100px}
+#h-control{left:420px;top:1036px;font-size:152px}#h-you{left:806px;top:1036px;font-size:152px}
+#s10-king{left:505px;top:1232px;width:70px;height:127px}
+#s10-follow{left:0;width:1080px;top:1398px;text-align:center;font-size:40px;letter-spacing:.22em}
+#s10-brand{left:0;width:1080px;top:1470px;text-align:center;font-size:82px;color:#E3141C;letter-spacing:.05em}
+#s10-blade{left:-300px;top:790px;width:1700px;height:10px;background:#F1E8E4;box-shadow:0 0 30px rgba(227,20,28,.9);transform:rotate(-12deg) scaleX(0);transform-origin:0 50%}
+</style>
+</head>
+<body>
+<div id="reel" data-composition-id="reel" data-start="0" data-duration="31.87" data-width="1080" data-height="1920">
+<audio id="mix" data-start="0" data-duration="31.87" data-track-index="0" src="assets/mix.wav" data-volume="1"></audio>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="pawn" viewBox="0 0 200 320">
+      <g fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round">
+        <circle cx="100" cy="62" r="38"/>
+        <path d="M58 116 h84 a9 9 0 0 1 0 18 h-84 a9 9 0 0 1 0 -18z"/>
+        <path d="M74 134 C72 180 58 222 44 252 L156 252 C142 222 128 180 126 134 Z"/>
+        <rect x="30" y="252" width="140" height="24" rx="8"/>
+        <rect x="18" y="276" width="164" height="32" rx="10"/>
+      </g>
+    </symbol>
+    <linearGradient id="kingGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff4b4f"/><stop offset=".45" stop-color="#E3141C"/><stop offset="1" stop-color="#7E0B12"/>
+    </linearGradient>
+    <symbol id="king" viewBox="0 0 220 400">
+      <rect x="100" y="4" width="20" height="62" rx="3"/>
+      <rect x="80" y="22" width="60" height="20" rx="3"/>
+      <path d="M58 150 C44 112 72 78 110 78 C148 78 176 112 162 150 Z"/>
+      <rect x="50" y="150" width="120" height="24" rx="7"/>
+      <path d="M74 174 C72 240 56 300 40 332 L180 332 C164 300 148 240 146 174 Z"/>
+      <rect x="28" y="332" width="164" height="26" rx="8"/>
+      <rect x="14" y="358" width="192" height="36" rx="11"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ S1 · HOOK ============ -->
+<div id="s1" class="scene">
+  <div id="s1-ghost" class="ghost" style="left:-40px;top:1320px;font-size:560px">HABIT</div>
+  <div id="s1-blade" class="abs"></div>
+  <div id="s1-blade2" class="abs"></div>
+  <div id="s1-the" class="abs mono bone"><span class="w" data-w="hook:0">THE</span></div>
+  <div id="s1-habit" class="abs bs"><span class="w" data-w="hook:1">HABIT</span></div>
+  <div id="s1-noman" class="abs bs bone"><span class="mask"><span data-w="hook:2">NO</span></span> <span class="mask"><span data-w="hook:3">MAN</span></span></div>
+  <div id="s1-talks" class="abs bs bone"></div>
+  <div id="s1-redact" class="abs"><span class="mono">[ REDACTED ]</span></div>
+</div>
+
+<!-- ============ S2 · WEAK MAN (pawn pulled by temptations) ============ -->
+<div id="s2" class="scene">
+  <div id="s2-ghost" class="ghost" style="left:-30px;top:1560px;font-size:520px">WEAK</div>
+  <div id="s2-every" class="abs mono bone">
+    <span class="w" data-w="weak:5">EVERY</span> <span class="w" data-w="weak:6">TIME</span> <span class="w" data-w="weak:7">HE</span> <span class="w" data-w="weak:8">IS</span>
+  </div>
+  <svg id="s2-strings" class="abs" width="1080" height="1920">
+    <line id="str1" x1="210" y1="616" x2="300" y2="1124" stroke="#E3141C" stroke-width="4"/>
+    <line id="str2" x1="540" y1="616" x2="300" y2="1124" stroke="#E3141C" stroke-width="4"/>
+    <line id="str3" x1="870" y1="616" x2="300" y2="1124" stroke="#E3141C" stroke-width="4"/>
+  </svg>
+  <svg id="s2-clock" class="icon" viewBox="0 0 150 150">
+    <circle cx="75" cy="75" r="62" fill="#140809" stroke="#F1E8E4" stroke-width="6"/>
+    <g stroke="#8D7F81" stroke-width="5" stroke-linecap="round"><line x1="75" y1="20" x2="75" y2="30"/><line x1="130" y1="75" x2="120" y2="75"/><line x1="75" y1="130" x2="75" y2="120"/><line x1="20" y1="75" x2="30" y2="75"/></g>
+    <line id="clock-h" x1="75" y1="75" x2="75" y2="44" stroke="#F1E8E4" stroke-width="7" stroke-linecap="round"/>
+    <line id="clock-m" x1="75" y1="75" x2="75" y2="28" stroke="#E3141C" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="75" cy="75" r="7" fill="#E3141C"/>
+  </svg>
+  <svg id="s2-batt" class="icon" viewBox="0 0 150 150">
+    <rect x="12" y="44" width="116" height="62" rx="10" fill="#140809" stroke="#F1E8E4" stroke-width="6"/>
+    <rect x="130" y="62" width="10" height="26" rx="3" fill="#F1E8E4"/>
+    <rect id="batt-lvl" x="22" y="54" width="96" height="42" rx="4" fill="#F1E8E4"/>
+  </svg>
+  <svg id="s2-bulb" class="icon" viewBox="0 0 150 150">
+    <line x1="75" y1="-60" x2="75" y2="30" stroke="#8D7F81" stroke-width="4"/>
+    <circle id="bulb-glow" cx="75" cy="72" r="58" fill="#E3141C" opacity=".28"/>
+    <path d="M75 30 C48 30 36 52 38 72 C40 90 56 98 58 116 L92 116 C94 98 110 90 112 72 C114 52 102 30 75 30 Z" fill="#140809" stroke="#F1E8E4" stroke-width="6"/>
+    <path id="bulb-fil" d="M62 92 L70 74 L80 90 L88 72" fill="none" stroke="#E3141C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="58" y="118" width="34" height="18" rx="4" fill="#8D7F81"/>
+  </svg>
+  <div id="w-bored" class="iconword bs ash"><span class="w" data-w="weak:9">BORED.</span></div>
+  <div id="w-tired" class="iconword bs ash"><span class="w" data-w="weak:10">TIRED.</span></div>
+  <div id="w-or" class="abs mono bone"><span class="w" data-w="weak:11">OR</span></div>
+  <div id="w-alone" class="iconword bs ash"><span class="w" data-w="weak:12">ALONE.</span></div>
+  <svg id="s2-pawn" class="sym"><use href="#pawn"/></svg>
+  <div id="s2-lead" class="abs"></div>
+  <div id="s2-label" class="abs bs ash"><span class="w" data-w="weak:0">A</span> <span class="w" data-w="weak:1">WEAK</span> <span class="w" data-w="weak:2">MAN</span></div>
+  <div id="s2-stamp" class="abs bs"><span class="w" data-w="weak:3">GIVES</span> <span class="w" data-w="weak:4">IN</span></div>
+</div>
+
+<!-- ============ S3 · HATES HIMSELF (cracked mirror) ============ -->
+<div id="s3" class="scene">
+  <div id="s3-mirror" class="abs">
+    <div class="shard" id="sh1" style="clip-path:polygon(0 0,52% 0,55% 41%,0 62%)"><svg class="sym"><use href="#pawn"/></svg></div>
+    <div class="shard" id="sh2" style="clip-path:polygon(52% 0,100% 0,100% 58%,55% 41%)"><svg class="sym"><use href="#pawn"/></svg></div>
+    <div class="shard" id="sh3" style="clip-path:polygon(0 62%,55% 41%,100% 58%,100% 100%,0 100%)"><svg class="sym"><use href="#pawn"/></svg></div>
+  </div>
+  <div id="s3-then" class="abs mono bone"><span class="w" data-w="hates:0">THEN</span> <span class="w" data-w="hates:1">HE</span></div>
+  <div id="s3-hates" class="abs bs red"><span class="w" data-w="hates:2">HATES</span></div>
+  <div id="s3-himself" class="bs bone"><span class="w broken" data-w="hates:3"><span class="top">HIMSELF.</span><span class="bot">HIMSELF.</span></span></div>
+</div>
+
+<!-- ============ S4 · REPEATS IT TOMORROW (calendar loop) ============ -->
+<div id="s4" class="scene">
+  <svg id="s4-loop" class="abs" width="1080" height="1920">
+    <path id="loop-arc" d="M 540 400 A 360 360 0 1 1 250 548" fill="none" stroke="#E3141C" stroke-width="7" stroke-linecap="round"/>
+    <path id="loop-head" d="M 222 528 L 262 590 L 290 520 Z" fill="#E3141C"/>
+  </svg>
+  <div id="s4-cal" class="abs">
+    <div class="ring" style="left:34px"></div><div class="ring" style="left:436px"></div>
+    <div class="band mono">DAY AFTER DAY</div>
+    <div class="page final" id="pg5"><div class="dow mono">AGAIN</div><div class="num bs"><span class="w" data-w="hates:7">TOMORROW.</span></div></div>
+    <div class="page" id="pg4"><div class="dow mono">THU</div><div class="num bs">17</div></div>
+    <div class="page" id="pg3"><div class="dow mono">WED</div><div class="num bs">16</div></div>
+    <div class="page" id="pg2"><div class="dow mono">TUE</div><div class="num bs">15</div></div>
+    <div class="page" id="pg1"><div class="dow mono">MON</div><div class="num bs">14</div></div>
+  </div>
+  <div id="s4-and" class="abs mono bone"><span class="w" data-w="hates:4">AND</span></div>
+  <div id="s4-repeats" class="abs bs bone"><span class="w" data-w="hates:5">REPEATS</span> <span class="w red" data-w="hates:6">IT</span></div>
+</div>
+
+<!-- ============ S5 · STRONG MAN (king + the wave) ============ -->
+<div id="s5" class="scene">
+  <div id="s5-ghost" class="ghost" style="left:-60px;top:1180px;font-size:470px">STRONG</div>
+  <div id="s5-glow" class="glow"></div>
+  <svg id="s5-king" class="sym" fill="url(#kingGrad)"><use href="#king"/></svg>
+  <div id="s5-title" class="abs bs bone"><span class="w" data-w="strong:0">A</span> <span class="w red" data-w="strong:1">STRONG</span> <span class="w" data-w="strong:2">MAN</span></div>
+  <div id="s5-knows" class="abs mono bone"><span class="w" data-w="strong:3">KNOWS</span></div>
+  <svg id="s5-wave" class="abs" viewBox="0 0 1080 560">
+    <path id="wv3" fill="none" stroke="#8D7F81" stroke-width="2" opacity=".6"/>
+    <path id="wv2" fill="none" stroke="#7E0B12" stroke-width="5"/>
+    <path id="wv1" fill="none" stroke="#E3141C" stroke-width="6"/>
+    <path id="wvText" fill="none" stroke="none"/>
+    <text class="bs" font-size="86" fill="#F1E8E4" dy="-24"><textPath href="#wvText" startOffset="170">
+      <tspan data-w="strong:4">AN</tspan> <tspan data-w="strong:5">URGE</tspan> <tspan data-w="strong:6">IS</tspan> <tspan data-w="strong:7">A</tspan> <tspan data-w="strong:8" fill="#E3141C">WAVE.</tspan>
+    </textPath></text>
+  </svg>
+  <div id="s5-rises" class="abs bs bone"><span class="w" data-w="rises:0">IT</span> <span class="w" data-w="rises:1">RISES.</span></div>
+  <div id="s5-passes" class="bs bone"><span class="w" data-w="passes:0">IT</span> <span class="w red" data-w="passes:1">PASSES.</span></div>
+</div>
+
+<!-- ============ S6 · HE STANDS UP ============ -->
+<div id="s6" class="scene">
+  <div id="s6-he" class="abs bs bone"><span class="w" data-w="stands:0">HE</span> <span class="w red" data-w="stands:1">STANDS</span></div>
+  <div id="s6-up" class="bs bone"><span class="mask"><span data-w="stands:2">UP.</span></span></div>
+  <div class="dust" id="d1" style="left:400px"></div><div class="dust" id="d2" style="left:470px"></div><div class="dust" id="d3" style="left:640px"></div><div class="dust" id="d4" style="left:700px"></div>
+  <svg id="s6-king" class="sym" fill="url(#kingGrad)"><use href="#king"/></svg>
+</div>
+
+<!-- ============ S7 · HE LEAVES THE ROOM (door) ============ -->
+<div id="s7" class="scene">
+  <div id="s7-world">
+    <div id="s7-light" class="abs"></div>
+    <div id="s7-spill" class="abs"></div>
+    <svg id="s7-king" class="sym" fill="url(#kingGrad)"><use href="#king"/></svg>
+    <div id="s7-doorwrap" class="abs"><div id="s7-door" class="abs"><div class="knob"></div></div></div>
+    <div id="s7-frame" class="abs"></div>
+    <div id="s7-he" class="abs bs bone"><span class="w" data-w="leaves:0">HE</span> <span class="w red" data-w="leaves:1">LEAVES</span></div>
+    <div id="s7-room" class="bs bone"><span class="w" data-w="leaves:2">THE</span> <span class="w" data-w="leaves:3">ROOM.</span></div>
+  </div>
+</div>
+
+<!-- ============ S8 · HE MOVES HIS BODY (king moves on the board) ============ -->
+<div id="s8" class="scene">
+  <div id="s8-floor" class="abs"></div>
+  <svg id="s8-king" class="sym" fill="url(#kingGrad)"><use href="#king"/></svg>
+  <div class="speed" id="sp1" style="left:90px;top:420px;width:300px"></div>
+  <div class="speed" id="sp2" style="right:90px;top:640px;width:260px"></div>
+  <div id="s8-he" class="abs bs bone"><span class="w" data-w="moves:0">HE</span> <span class="w red" data-w="moves:1">MOVES</span></div>
+  <div id="s8-body" class="bs bone"><span class="w" data-w="moves:2">HIS</span> <span class="w" data-w="moves:3">BODY.</span></div>
+</div>
+
+<!-- ============ S9 · THE PHONE STAYS OUTSIDE THE BEDROOM ============ -->
+<div id="s9" class="scene">
+  <div id="s9-phone-t" class="abs bs bone"><span class="w" data-w="phone:0">THE</span> <span class="w" data-w="phone:1">PHONE</span></div>
+  <div id="s9-stays" class="abs mono"><span class="w bone" data-w="phone:2">STAYS</span> <span class="w red" data-w="phone:3">OUTSIDE</span></div>
+  <div id="s9-light" class="abs"></div>
+  <svg id="s9-phone" class="abs" viewBox="0 0 120 214">
+    <rect x="5" y="5" width="110" height="204" rx="20" fill="#070405" stroke="#E3141C" stroke-width="8"/>
+    <rect x="44" y="18" width="32" height="9" rx="4.5" fill="#E3141C"/>
+    <line x1="40" y1="190" x2="80" y2="190" stroke="#E3141C" stroke-width="7" stroke-linecap="round"/>
+  </svg>
+  <div id="s9-doorwrap" class="abs"><div id="s9-door" class="abs"><div class="plate mono">BEDROOM</div></div></div>
+  <div id="s9-frame" class="abs"></div>
+  <svg id="s9-lock" class="abs" viewBox="0 0 64 84">
+    <path id="lock-shackle" d="M16 40 V24 a16 16 0 0 1 32 0 V40" fill="none" stroke="#E3141C" stroke-width="7"/>
+    <rect x="6" y="38" width="52" height="42" rx="7" fill="#E3141C"/>
+    <circle cx="32" cy="58" r="6" fill="#070405"/>
+  </svg>
+  <div id="s9-bed" class="bs bone"><span class="w" data-w="phone:4">THE</span> <span class="w" data-w="phone:5">BEDROOM.</span></div>
+</div>
+
+<!-- ============ S10 · THE RULE (marionette strings, then cut) ============ -->
+<div id="s10" class="scene">
+  <div id="s10-ghost" class="ghost" style="left:-50px;top:1580px;font-size:430px">CODE</div>
+  <svg id="s10-bar" class="abs" width="1080" height="1920">
+    <g id="strings-lo" stroke="#B3101A" stroke-width="3">
+      <line id="st1" x1="330" y1="262" x2="330" y2="900"/><line id="st2" x1="540" y1="262" x2="540" y2="900"/>
+      <line id="st3" x1="752" y1="262" x2="752" y2="900"/><line id="st4" x1="420" y1="262" x2="420" y2="1036"/>
+      <line id="st5" x1="806" y1="262" x2="806" y2="1036"/>
+    </g>
+    <g id="ctrl">
+      <rect x="270" y="248" width="580" height="26" rx="6" fill="#E3141C"/>
+      <rect x="547" y="160" width="26" height="190" rx="6" fill="#E3141C"/>
+      <rect x="470" y="318" width="180" height="20" rx="6" fill="#7E0B12"/>
+    </g>
+  </svg>
+  <div id="s10-control" class="abs bs"><span class="w" data-w="rule:0">CONTROL</span></div>
+  <div id="s10-urges" class="abs bs bone"><span class="w" data-w="rule:1">YOUR</span> <span class="w" data-w="rule:2">URGES</span></div>
+  <div class="hang bs bone" id="h-or"><span data-w="rule:3">OR</span></div>
+  <div class="hang bs bone" id="h-they"><span data-w="rule:4">THEY</span></div>
+  <div class="hang bs bone" id="h-will"><span data-w="rule:5">WILL</span></div>
+  <div class="hang bs bone" id="h-control"><span data-w="rule:6">CONTROL</span></div>
+  <div class="hang bs red" id="h-you"><span data-w="rule:7">YOU.</span></div>
+  <div id="s10-blade" class="abs"></div>
+  <svg id="s10-king" class="sym" fill="url(#kingGrad)"><use href="#king"/></svg>
+  <div id="s10-follow" class="abs mono bone"><span class="w" data-w="cta:0">FOLLOW</span> <span class="w" data-w="cta:1">FOR</span> <span class="w" data-w="cta:2">MORE</span> <span class="w red" data-w="cta:3">RULES</span></div>
+  <div id="s10-brand" class="abs bs">THE STRONG MAN CODE</div>
+</div>
+
+<!-- ============ persistent layers ============ -->
+<svg id="crack" width="1080" height="1920">
+  <g fill="none" stroke="#F1E8E4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <polyline class="ck" points="569,721 520,610 530,540 480,420"/>
+    <polyline class="ck" points="569,721 640,640 700,600 830,560"/>
+    <polyline class="ck" points="569,721 700,760 830,840"/>
+    <polyline class="ck" points="569,721 470,820 400,880 250,870"/>
+    <polyline class="ck" points="569,721 590,860 560,1000 600,1150"/>
+    <polyline class="ck" points="569,721 430,700 330,740"/>
+  </g>
+  <circle cx="569" cy="721" r="10" fill="#F1E8E4"/>
+</svg>
+<div id="slash"><i></i><i></i></div>
+<div id="wipe"></div>
+<div id="scan"></div>
+<div id="tear"></div>
+<div id="hud">
+  <div class="bar"><div class="fill" id="hud-fill"></div></div>
+</div>
+<div id="vignette"></div>
+<div id="grain"></div>
+<div id="black"></div>
+</div>
+
+<script>
+(function () {
+  var R = window.REEL;
+  var D = R.duration;
+  var q = function (s) { return document.querySelector(s); };
+  var qa = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var byS = {};
+  R.words.forEach(function (w) { (byS[w.sentence] = byS[w.sentence] || []).push(w); });
+  var ws = function (s, i) { return byS[s][i].start; };
+  var we = function (s, i) { return byS[s][i].end; };
+  var el = function (s, i) { return q('[data-w="' + s + ':' + i + '"]'); };
+  var LEAD = 0.06;
+  var C = R.cut, SC = R.scenes;
+
+  // ---------- beats derived from word timings (sound for them lives in reel.config.json cues) ----------
+  // typingFor(): letters spread over 85% of each word: the SAME schedule build.py uses for "typing" cues.
+  function typingFor(refs) {
+    var out = [];
+    refs.forEach(function (r, wi) {
+      var w = byS[r[0]][r[1]], L = w.text.toUpperCase(), span = Math.max(0.18, (w.end - w.start) * 0.85);
+      for (var k = 0; k < L.length; k++) out.push({ t: w.start - 0.03 + span * k / L.length, ch: L[k], word: wi });
+    });
+    return out;
+  }
+  var B = {
+    typing: typingFor([['hook', 4], ['hook', 5]]),
+    redact: we('hook', 5) + 0.05,
+    flips: [0, 1, 2, 3].map(function (i) { return ws('hates', 5) + (ws('hates', 7) - 0.05 - ws('hates', 5)) * i / 4; }),
+    rewind: ws('hates', 7) + 0.3,
+    wave: { rises: ws('rises', 0), passes: ws('passes', 1) },
+    stringsCut: we('rule', 7) + 0.55
+  };
+
+  // deterministic PRNG (mulberry32)
+  function prng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  // ---------- static DOM prep (synchronous) ----------
+  q('#grain').style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>") + '")';
+  var talks = q('#s1-talks');
+  B.typing.forEach(function (tp, i) {
+    if (i > 0 && tp.word !== B.typing[i - 1].word) talks.appendChild(document.createTextNode(' '));
+    var s = document.createElement('span'); s.className = 'ch'; s.textContent = tp.ch; talks.appendChild(s);
+    var c = document.createElement('span'); c.className = 'caret'; talks.appendChild(c);
+  });
+  var floor = q('#s8-floor');
+  for (var i = 0; i < 64; i++) { var b = document.createElement('b'); b.className = ((Math.floor(i / 8) + i) % 2 ? 'd' : 'l'); b.id = 'sq' + i; floor.appendChild(b); }
+
+  var tl = gsap.timeline({ paused: true });
+
+  // ---------- helpers ----------
+  function show(id, t) { tl.set(id, { opacity: 1 }, t); }
+  function hide(id, t) { tl.set(id, { opacity: 0 }, t); }
+  function slash(t, dir) {
+    tl.fromTo('#slash', { x: -2600 * dir, skewX: -16 }, { x: 0, duration: 0.2, ease: 'power3.in', immediateRender: false }, t - 0.2);
+    tl.to('#slash', { x: 2600 * dir, duration: 0.26, ease: 'power3.out' }, t);
+  }
+  function drift(sel, t0, t1, vars) { tl.fromTo(sel, vars.from, Object.assign({ duration: t1 - t0, ease: 'sine.inOut', immediateRender: false }, vars.to), t0); }
+
+  // ---------- persistent: HUD, progress ----------
+  tl.to('#hud-fill', { scaleX: 1, duration: D, ease: 'none' }, 0);
+ 
+  tl.fromTo('#vignette', { scale: 1 }, { scale: 1.06, duration: D / 6, ease: 'sine.inOut', repeat: 5, yoyo: true }, 0);
+
+  // =============== S1 HOOK ===============
+  tl.fromTo('#s1-blade', { x: -700 }, { x: 1500, duration: 0.42, ease: 'power2.in' }, 0);
+  tl.fromTo('#s1-blade2', { x: -900 }, { x: 1600, duration: 0.5, ease: 'power3.in' }, 0);
+  tl.set(['#s1-blade', '#s1-blade2'], { opacity: 0 }, 0.56);
+  drift('#s1-ghost', 0, SC.hook.end, { from: { x: 0 }, to: { x: -160 } });
+  tl.from(el('hook', 0), { opacity: 0, x: -30, duration: 0.3, ease: 'power2.out' }, ws('hook', 0) - LEAD);
+  tl.fromTo('#s1-habit', { scale: 1.7, opacity: 0, filter: 'blur(18px)' }, { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 0.22, ease: 'expo.out' }, ws('hook', 1) - LEAD);
+  // camera shake on the slam (3 frames)
+  var sh = prng(11), t0 = ws('hook', 1) - LEAD + 0.12;
+  for (var k = 0; k < 4; k++) tl.set('#s1', { x: k < 3 ? (sh() - .5) * 34 : 0, y: k < 3 ? (sh() - .5) * 34 : 0 }, t0 + k / 30);
+  [2, 3].forEach(function (i) { tl.from(el('hook', i), { yPercent: 110, duration: 0.34, ease: 'power4.out' }, ws('hook', i) - LEAD); });
+  var chars = qa('#s1-talks .ch'), carets = qa('#s1-talks .caret');
+  B.typing.forEach(function (tp, i) {
+    tl.set(chars[i], { opacity: 1 }, tp.t);
+    tl.set(carets[i], { opacity: 1 }, tp.t);
+    if (i > 0) tl.set(carets[i - 1], { opacity: 0 }, tp.t);
+  });
+  tl.from('#s1-redact', { scaleX: 0, duration: 0.16, ease: 'power4.out' }, B.redact);
+  tl.from('#s1-redact span', { opacity: 0, duration: 0.1, ease: 'power1.out' }, B.redact + 0.12);
+  // T1: redaction bar floods the frame, then the red panel lifts away
+  tl.set('#wipe', { opacity: 1 }, C.weak - 0.26);
+  tl.fromTo('#wipe', { clipPath: 'inset(1128px 286px 660px 74px)' }, { clipPath: 'inset(0px 0px 0px 0px)', duration: 0.26, ease: 'power3.in', immediateRender: false }, C.weak - 0.26);
+  hide('#s1', C.weak); show('#s2', C.weak);
+  tl.to('#wipe', { yPercent: -100, duration: 0.42, ease: 'power3.inOut' }, C.weak);
+  tl.set('#wipe', { opacity: 0 }, C.weak + 0.45);
+
+  // =============== S2 WEAK MAN ===============
+  drift('#s2-ghost', C.weak, C.hates, { from: { x: 0 }, to: { x: -140 } });
+  drift('#s2', C.weak, C.hates, { from: { scale: 1 }, to: { scale: 1.04 } });
+  tl.from('#s2-pawn', { y: -1300, duration: 0.55, ease: 'bounce.out' }, ws('weak', 0) - 0.25);
+  tl.from('#s2-lead', { scaleX: 0, duration: 0.3, ease: 'power3.out' }, ws('weak', 0));
+  [0, 1, 2].forEach(function (i, n) {
+    tl.from(el('weak', i), { opacity: 0, y: 40, rotationX: -80, transformOrigin: '50% 100%', duration: 0.36, ease: ['power3.out', 'back.out(1.6)', 'expo.out'][n] }, ws('weak', i) - LEAD);
+  });
+  // GIVES IN — rubber stamp slam, pawn buckles
+  tl.from('#s2-stamp', { scale: 2.6, opacity: 0, rotation: -18, duration: 0.2, ease: 'power4.in' }, ws('weak', 3) - 0.2);
+  tl.from(el('weak', 4), { opacity: 0, duration: 0.12, ease: 'power1.out' }, ws('weak', 4) - LEAD);
+  tl.to('#s2-pawn', { rotation: 11, scaleY: 0.94, duration: 0.3, ease: 'power3.out' }, ws('weak', 3));
+  // EVERY TIME HE IS — terminal words
+  [5, 6, 7, 8].forEach(function (i) { tl.from(el('weak', i), { opacity: 0, x: 18, duration: 0.18, ease: 'power2.out' }, ws('weak', i) - LEAD); });
+  // temptations: icon pops + its string snaps taut to the pawn's head
+  var icons = [['#s2-clock', 9, '#str1', -6], ['#s2-batt', 10, '#str2', 4], ['#s2-bulb', 12, '#str3', 9]];
+  icons.forEach(function (ic, n) {
+    var t = ws('weak', ic[1]);
+    tl.from(ic[0], { scale: 0, rotation: n % 2 ? 20 : -20, transformOrigin: '50% 50%', duration: 0.34, ease: 'back.out(2)' }, t - 0.1);
+    tl.from(el('weak', ic[1]), { opacity: 0, y: -30, duration: 0.26, ease: ['power4.out', 'expo.out', 'power3.out'][n] }, t - LEAD);
+    tl.fromTo(ic[2], { attr: { x2: ic[0] === '#s2-clock' ? 210 : ic[0] === '#s2-batt' ? 540 : 870, y2: 616 } }, { attr: { x2: 300, y2: 1124 }, duration: 0.3, ease: 'power3.in', immediateRender: true }, t + 0.05);
+    tl.to('#s2-pawn', { rotation: ic[3], duration: 0.25, ease: 'back.out(3)' }, t + 0.33);
+  });
+  tl.from(el('weak', 11), { opacity: 0, duration: 0.2, ease: 'power1.out' }, ws('weak', 11) - LEAD);
+  // clock spins, battery drains red, bulb flickers
+  tl.to('#clock-m', { rotation: 360 * 5, svgOrigin: '75 75', duration: 2.4, ease: 'power1.inOut' }, ws('weak', 9));
+  tl.to('#clock-h', { rotation: 150, svgOrigin: '75 75', duration: 2.4, ease: 'power1.inOut' }, ws('weak', 9));
+  tl.to('#batt-lvl', { attr: { width: 10 }, fill: '#E3141C', duration: 1.1, ease: 'power2.in' }, ws('weak', 10) + 0.1);
+  var fl = prng(5);
+  for (var f = 0; f < 9; f++) tl.set(['#bulb-glow', '#bulb-fil'], { opacity: fl() > 0.45 ? 1 : 0.15 }, ws('weak', 12) + 0.12 + f * 0.07);
+  // after ALONE the strings yank the pawn up: it is controlled
+  tl.to('#s2-pawn', { y: -46, rotation: -4, duration: 0.5, ease: 'elastic.out(1,0.4)' }, we('weak', 12) - 0.1);
+  // T2: glass crack spreads over the frame, the scene drops away, the crack stays on the mirror
+  var cks = qa('#crack .ck');
+  cks.forEach(function (p) { var L = 700; p.setAttribute('stroke-dasharray', L); p.setAttribute('stroke-dashoffset', L); });
+  tl.set('#crack', { opacity: 1 }, C.hates - 0.16);
+  tl.to(cks, { attr: { 'stroke-dashoffset': 0 }, duration: 0.14, stagger: 0.012, ease: 'power4.out' }, C.hates - 0.16);
+  tl.to('#s2', { filter: 'brightness(2.2)', duration: 0.05, ease: 'none' }, C.hates - 0.05);
+  tl.to('#s2', { y: 140, rotation: 3, opacity: 0, filter: 'brightness(1)', duration: 0.3, ease: 'power3.in' }, C.hates);
+  show('#s3', C.hates);
+  tl.from('#s3', { opacity: 0, duration: 0.2, ease: 'power1.out', immediateRender: false }, C.hates);
+
+  // =============== S3 HATES HIMSELF ===============
+  tl.from('#s3-mirror', { scale: 0.92, duration: 0.5, ease: 'power3.out' }, C.hates);
+  tl.fromTo('#sh1', { x: 0, y: 0 }, { x: -9, y: -4, rotation: -1.2, duration: 0.4, ease: 'expo.out' }, C.hates + 0.02);
+  tl.fromTo('#sh2', { x: 0 }, { x: 12, y: 5, rotation: 1.4, duration: 0.4, ease: 'expo.out' }, C.hates + 0.02);
+  tl.fromTo('#sh3', { y: 0 }, { y: 10, x: 4, duration: 0.4, ease: 'expo.out' }, C.hates + 0.02);
+  [0, 1].forEach(function (i) { tl.from(el('hates', i), { opacity: 0, y: 14, duration: 0.2, ease: 'power2.out' }, ws('hates', i) - LEAD); });
+  tl.from(el('hates', 2), { opacity: 0, scale: 1.4, filter: 'blur(10px)', duration: 0.22, ease: 'expo.out' }, ws('hates', 2) - LEAD);
+  tl.from(el('hates', 3), { opacity: 0, x: 80, duration: 0.3, ease: 'power4.out' }, ws('hates', 3) - LEAD);
+  tl.to('#s3-himself .bot', { x: 22, duration: 0.18, ease: 'back.out(3)' }, ws('hates', 3) + 0.22);
+  drift('#s3-mirror', C.hates, C.repeats, { from: { rotation: 0 }, to: { rotation: -1.5 } });
+  // T3: tape-rewind roll (scanlines + vertical roll)
+  tl.set('#scan', { opacity: 1 }, C.repeats - 0.16);
+  tl.to('#s3', { y: 900, skewY: 4, duration: 0.18, ease: 'power3.in' }, C.repeats - 0.16);
+  tl.set('#crack', { opacity: 0 }, C.repeats);
+  hide('#s3', C.repeats); show('#s4', C.repeats);
+  tl.from('#s4', { y: -900, skewY: -4, duration: 0.26, ease: 'power3.out', immediateRender: false }, C.repeats);
+  tl.set('#scan', { opacity: 0 }, C.repeats + 0.2);
+
+  // =============== S4 REPEATS IT TOMORROW ===============
+  tl.from('#s4-cal', { scale: 0.7, rotation: -8, opacity: 0, duration: 0.4, ease: 'back.out(1.7)', immediateRender: false }, C.repeats + 0.02);
+  tl.from(el('hates', 4), { opacity: 0, x: -24, duration: 0.2, ease: 'power2.out' }, ws('hates', 4) - LEAD);
+  tl.from(el('hates', 5), { opacity: 0, yPercent: 60, duration: 0.3, ease: 'power4.out' }, ws('hates', 5) - LEAD);
+  tl.from(el('hates', 6), { opacity: 0, scale: 1.8, duration: 0.2, ease: 'expo.out' }, ws('hates', 6) - LEAD);
+  var pages = ['#pg1', '#pg2', '#pg3', '#pg4'];
+  pages.forEach(function (p, i) { tl.to(p, { rotationX: 112, opacity: 0.0, duration: 0.17, ease: 'power2.in' }, B.flips[i]); });
+  tl.fromTo(el('hates', 7), { scale: 1.3 }, { scale: 1, duration: 0.3, ease: 'expo.out', immediateRender: false }, B.flips[3] + 0.12);
+  // rewind: the last three pages fall back down, then flip away again (the loop)
+  [3, 2, 1].forEach(function (i, n) { tl.to(pages[i], { rotationX: 0, opacity: 1, duration: 0.06, ease: 'power1.in' }, B.rewind + n * 0.06); });
+  [1, 2, 3].forEach(function (i, n) { tl.to(pages[i], { rotationX: 112, opacity: 0, duration: 0.08, ease: 'power2.in' }, B.rewind + 0.2 + n * 0.07); });
+  tl.fromTo('#s4-cal', { x: 0 }, { x: 10, duration: 0.035, repeat: 5, yoyo: true, ease: 'steps(1)', immediateRender: false }, B.rewind);
+  var arc = q('#loop-arc'); arc.setAttribute('stroke-dasharray', 2100); arc.setAttribute('stroke-dashoffset', 2100);
+  tl.to('#loop-arc', { attr: { 'stroke-dashoffset': 0 }, duration: 0.7, ease: 'power2.inOut' }, B.rewind - 0.05);
+  tl.from('#loop-head', { scale: 0, transformOrigin: '50% 50%', duration: 0.2, ease: 'back.out(3)' }, B.rewind + 0.62);
+  // T4: the red calendar band tears off and swallows the frame
+  tl.set('#tear', { opacity: 1 }, C.strong - 0.32);
+  tl.fromTo('#tear', { x: 0, y: 0, scaleX: 1, scaleY: 1, rotation: 0 }, { x: 0, y: 420, scaleX: 3.2, scaleY: 22, rotation: -8, duration: 0.32, ease: 'power3.in', immediateRender: false }, C.strong - 0.32);
+  hide('#s4', C.strong); show('#s5', C.strong);
+  tl.to('#tear', { y: -2700, rotation: -24, duration: 0.38, ease: 'power3.out' }, C.strong);
+  tl.set('#tear', { opacity: 0 }, C.strong + 0.4);
+
+  // =============== S5 STRONG MAN + WAVE ===============
+  drift('#s5-ghost', C.strong, C.stands, { from: { x: 0 }, to: { x: -180 } });
+  tl.from('#s5-king', { y: 520, opacity: 0, duration: 0.9, ease: 'power3.out' }, ws('strong', 0) - 0.3);
+  tl.from('#s5-glow', { scale: 0.3, opacity: 0, duration: 1.1, ease: 'power2.out' }, ws('strong', 0) - 0.1);
+  tl.to('#s5-glow', { scale: 1.12, duration: 1.6, repeat: 2, yoyo: true, ease: 'sine.inOut' }, ws('strong', 0) + 1.0);
+  [0, 1, 2].forEach(function (i, n) { tl.from(el('strong', i), { opacity: 0, y: 50, duration: 0.34, ease: ['power3.out', 'expo.out', 'power4.out'][n] }, ws('strong', i) - LEAD); });
+  tl.from(el('strong', 3), { opacity: 0, scaleX: 1.9, duration: 0.5, ease: 'power3.out' }, ws('strong', 3) - LEAD);
+  var wv = { amp: 0, lift: 0, draw: 0 };
+  tl.to(wv, { draw: 1, amp: 26, duration: 0.8, ease: 'power2.out' }, ws('strong', 4) - 0.35);
+  [4, 5, 6, 7, 8].forEach(function (i) { tl.fromTo(el('strong', i), { attr: { 'fill-opacity': 0 } }, { attr: { 'fill-opacity': 1 }, duration: 0.18, ease: 'power1.out' }, ws('strong', i) - LEAD); });
+  tl.to(wv, { amp: 118, lift: 105, duration: 0.95, ease: 'sine.inOut' }, B.wave.rises - 0.1);
+  tl.from(el('rises', 0), { opacity: 0, y: 60, duration: 0.3, ease: 'power3.out' }, ws('rises', 0) - LEAD);
+  tl.from(el('rises', 1), { opacity: 0, y: 90, duration: 0.5, ease: 'sine.out' }, ws('rises', 1) - LEAD);
+  tl.to(wv, { amp: 0, lift: 0, duration: 1.4, ease: 'sine.inOut' }, B.wave.passes - 0.2);
+  tl.from(el('passes', 0), { opacity: 0, duration: 0.3, ease: 'sine.out' }, ws('passes', 0) - LEAD);
+  tl.from(el('passes', 1), { opacity: 0, filter: 'blur(12px)', duration: 0.6, ease: 'sine.out' }, ws('passes', 1) - LEAD);
+  tl.to('#s5-king', { filter: 'drop-shadow(0 0 30px rgba(227,20,28,.9))', duration: 0.6, ease: 'sine.inOut' }, B.wave.rises);
+  // T5: red blade slash
+  slash(C.stands, 1);
+  hide('#s5', C.stands); show('#s6', C.stands);
+
+  // =============== S6 HE STANDS UP ===============
+  tl.from(el('stands', 0), { opacity: 0, x: -60, duration: 0.25, ease: 'power3.out' }, ws('stands', 0) - LEAD);
+  tl.from(el('stands', 1), { opacity: 0, x: 90, skewX: -14, duration: 0.3, ease: 'expo.out' }, ws('stands', 1) - LEAD);
+  tl.from(el('stands', 2), { yPercent: 105, duration: 0.4, ease: 'power4.out' }, ws('stands', 2) - LEAD);
+  tl.fromTo('#s6-king', { rotation: -90, opacity: 1 }, { rotation: 0, duration: 0.42, ease: 'power4.in', immediateRender: true }, ws('stands', 1) - 0.2);
+  tl.from('#s6-king', { x: -220, duration: 0.3, ease: 'power3.out' }, C.stands);
+  var dust = ['#d1', '#d2', '#d3', '#d4'];
+  dust.forEach(function (d, n) { tl.fromTo(d, { opacity: 0, x: 0, y: 0, scale: 0.4 }, { opacity: 0.8, x: (n < 2 ? -1 : 1) * (60 + n * 14), y: -40 - n * 8, scale: 1.4, duration: 0.45, ease: 'power2.out', immediateRender: true }, ws('stands', 1) + 0.22); });
+  var s6shake = prng(23), t6 = ws('stands', 1) + 0.22;
+  for (k = 0; k < 4; k++) tl.set('#s6', { x: k < 3 ? (s6shake() - .5) * 26 : 0, y: k < 3 ? (s6shake() - .5) * 26 : 0 }, t6 + k / 30);
+  // T6: slash back
+  slash(C.leaves, -1);
+  hide('#s6', C.leaves); show('#s7', C.leaves);
+
+  // =============== S7 HE LEAVES THE ROOM ===============
+  tl.from('#s7-frame', { scaleY: 0, transformOrigin: '50% 100%', duration: 0.3, ease: 'power4.out' }, C.leaves);
+  tl.from(el('leaves', 0), { opacity: 0, y: -40, duration: 0.25, ease: 'power3.out' }, ws('leaves', 0) - LEAD);
+  tl.from(el('leaves', 1), { opacity: 0, x: 70, duration: 0.3, ease: 'expo.out' }, ws('leaves', 1) - LEAD);
+  tl.to('#s7-door', { rotationY: -78, duration: 0.45, ease: 'power2.inOut' }, ws('leaves', 1) - 0.15);
+  tl.from(['#s7-light', '#s7-spill'], { opacity: 0, duration: 0.4, ease: 'power2.out' }, ws('leaves', 1) - 0.1);
+  tl.from('#s7-king', { x: -200, opacity: 0, duration: 0.3, ease: 'power3.out' }, C.leaves + 0.05);
+  tl.to('#s7-king', { x: 370, y: -60, scale: 0.8, duration: 0.7, ease: 'power2.inOut' }, ws('leaves', 1) + 0.15);
+  tl.to('#s7-king', { opacity: 0, filter: 'brightness(3)', duration: 0.25, ease: 'power2.in' }, ws('leaves', 3));
+  tl.from(el('leaves', 2), { opacity: 0, x: 60, duration: 0.25, ease: 'power2.out' }, ws('leaves', 2) - LEAD);
+  tl.from(el('leaves', 3), { opacity: 0, yPercent: 50, duration: 0.3, ease: 'back.out(1.8)' }, ws('leaves', 3) - LEAD);
+  // T7: zoom through the doorway into the red light
+  tl.to('#s7-world', { scale: 9, duration: 0.36, ease: 'power3.in' }, C.moves - 0.36);
+  hide('#s7', C.moves); show('#s8', C.moves);
+  tl.from('#s8', { scale: 1.4, filter: 'blur(16px)', duration: 0.45, ease: 'power3.out', immediateRender: false }, C.moves);
+
+  // =============== S8 HE MOVES HIS BODY ===============
+  tl.fromTo('#s8-floor', { y: 0 }, { y: -120, duration: C.phone - C.moves, ease: 'sine.inOut' }, C.moves);
+  tl.from(el('moves', 0), { opacity: 0, x: -120, skewX: 18, duration: 0.25, ease: 'expo.out' }, ws('moves', 0) - LEAD);
+  tl.from(el('moves', 1), { opacity: 0, x: -200, skewX: 22, duration: 0.3, ease: 'power4.out' }, ws('moves', 1) - LEAD);
+  tl.from(el('moves', 2), { opacity: 0, x: 160, skewX: -18, duration: 0.25, ease: 'expo.out' }, ws('moves', 2) - LEAD);
+  tl.from(el('moves', 3), { opacity: 0, x: 220, skewX: -22, duration: 0.3, ease: 'power4.out' }, ws('moves', 3) - LEAD);
+  tl.fromTo(['#sp1', '#sp2'], { scaleX: 0, opacity: 0.9 }, { scaleX: 1, opacity: 0, duration: 0.35, stagger: 0.15, ease: 'power2.out', immediateRender: true }, ws('moves', 1));
+  var hops = [[-150, 30, 'sq43'], [120, 60, 'sq45'], [-40, -40, 'sq36']], hx = 0, hy = 0;
+  hops.forEach(function (h, n) {
+    var t = ws('moves', 1) + n * 0.32;
+    hx += h[0]; hy += h[1];
+    tl.to('#s8-king', { x: hx, duration: 0.26, ease: 'power2.inOut' }, t);
+    tl.to('#s8-king', { y: hy - 90, duration: 0.13, ease: 'power2.out' }, t);
+    tl.to('#s8-king', { y: hy, duration: 0.13, ease: 'power2.in' }, t + 0.13);
+    tl.set('#' + h[2], { backgroundColor: '#E3141C' }, t + 0.24);
+  });
+  tl.from('#s8-king', { y: -400, opacity: 0, duration: 0.35, ease: 'bounce.out' }, C.moves + 0.02);
+  // T8: slash
+  slash(C.phone, 1);
+  hide('#s8', C.phone); show('#s9', C.phone);
+
+  // =============== S9 PHONE OUTSIDE THE BEDROOM ===============
+  tl.from('#s9-frame', { scaleX: 0, duration: 0.3, ease: 'power4.out' }, C.phone);
+  tl.set('#s9-door', { rotationY: -38 }, C.phone);
+  tl.from(el('phone', 0), { opacity: 0, x: -50, duration: 0.25, ease: 'power3.out' }, ws('phone', 0) - LEAD);
+  tl.from(el('phone', 1), { opacity: 0, x: -90, duration: 0.3, ease: 'expo.out' }, ws('phone', 1) - LEAD);
+  tl.from(el('phone', 2), { opacity: 0, y: 20, duration: 0.22, ease: 'power2.out' }, ws('phone', 2) - LEAD);
+  tl.from(el('phone', 3), { opacity: 0, x: 60, scaleX: 1.6, transformOrigin: '0 50%', duration: 0.4, ease: 'power3.out' }, ws('phone', 3) - LEAD);
+  tl.from('#s9-phone', { opacity: 0, duration: 0.15, ease: 'power1.out' }, ws('phone', 1) - 0.1);
+  tl.to('#s9-phone', { x: -450, y: 40, rotation: -12, duration: 0.7, ease: 'power3.inOut' }, ws('phone', 1));
+  tl.to('#s9-phone', { rotation: 0, duration: 0.3, ease: 'back.out(2)' }, ws('phone', 1) + 0.7);
+  tl.from(el('phone', 4), { opacity: 0, y: 40, duration: 0.25, ease: 'power2.out' }, ws('phone', 4) - LEAD);
+  tl.from(el('phone', 5), { opacity: 0, y: 60, duration: 0.3, ease: 'power4.out' }, ws('phone', 5) - LEAD);
+  tl.to('#s9-door', { rotationY: 0, duration: 0.14, ease: 'power4.in' }, ws('phone', 5) - 0.04);
+  tl.to('#s9-light', { opacity: 0, duration: 0.14, ease: 'power4.in' }, ws('phone', 5) - 0.04);
+  var s9s = prng(31), t9 = ws('phone', 5) + 0.1;
+  for (k = 0; k < 4; k++) tl.set('#s9', { x: k < 3 ? (s9s() - .5) * 30 : 0, y: k < 3 ? (s9s() - .5) * 30 : 0 }, t9 + k / 30);
+  tl.from('#s9-lock', { opacity: 0, scale: 0.5, transformOrigin: '50% 50%', duration: 0.2, ease: 'back.out(2.5)' }, ws('phone', 5) + 0.25);
+  tl.fromTo('#lock-shackle', { y: -14 }, { y: 0, duration: 0.1, ease: 'power4.in', immediateRender: true }, ws('phone', 5) + 0.42);
+  // T9: four frames of pure black
+  tl.set('#black', { opacity: 1 }, C.rule - 4 / 30);
+  hide('#s9', C.rule); show('#s10', C.rule);
+  tl.set('#black', { opacity: 0 }, C.rule);
+
+  // =============== S10 THE RULE ===============
+  var rule0 = ws('rule', 0);
+  tl.from('#ctrl', { y: -420, duration: 0.5, ease: 'power3.out' }, C.rule);
+  tl.from(el('rule', 0), { opacity: 0, scale: 1.25, filter: 'blur(14px)', duration: 0.3, ease: 'expo.out' }, rule0 - LEAD);
+  [1, 2].forEach(function (i, n) { tl.from(el('rule', i), { opacity: 0, y: 50, duration: 0.3, ease: ['power3.out', 'power4.out'][n] }, ws('rule', i) - LEAD); });
+  var strs = ['#st1', '#st2', '#st3', '#st4', '#st5'], hangs = ['#h-or', '#h-they', '#h-will', '#h-control', '#h-you'];
+  hangs.forEach(function (hsel, n) {
+    var t = ws('rule', 3 + n);
+    var yEnd = n < 3 ? 900 : 1036;
+    tl.fromTo(strs[n], { attr: { y2: 262 } }, { attr: { y2: yEnd }, duration: 0.2, ease: 'power3.in', immediateRender: true }, t - 0.18);
+    tl.from(hsel, { y: -260, opacity: 0, duration: 0.45, ease: 'elastic.out(1,0.45)' }, t - LEAD);
+    tl.fromTo(hsel, { rotation: 0 }, { rotation: (n % 2 ? -1 : 1) * 3, duration: 0.55, repeat: Math.max(1, Math.round((B.stringsCut - t) / 0.55) - 1), yoyo: true, ease: 'sine.inOut', immediateRender: false }, t + 0.4);
+  });
+  // the blade cuts the strings: words drop and settle, free
+  var cutT = B.stringsCut;
+  tl.to('#s10-blade', { scaleX: 1, duration: 0.14, ease: 'power4.in' }, cutT - 0.12);
+  tl.to('#s10-blade', { opacity: 0, duration: 0.2, ease: 'power2.out' }, cutT + 0.05);
+  tl.to('#strings-lo', { opacity: 0, y: 160, duration: 0.35, ease: 'power2.in' }, cutT);
+  tl.to('#ctrl', { y: -560, duration: 0.32, ease: 'power2.in' }, cutT + 0.04);
+  hangs.forEach(function (hsel, n) {
+    tl.to(hsel, { rotation: 0, y: 26, duration: 0.3, ease: 'bounce.out' }, cutT + 0.02 + n * 0.03);
+  });
+  tl.from('#s10-king', { opacity: 0, y: 40, duration: 0.5, ease: 'power3.out' }, ws('cta', 0) - 0.3);
+  [0, 1, 2, 3].forEach(function (i, n) { tl.from(el('cta', i), { opacity: 0, y: 18, duration: 0.25, ease: ['power2.out', 'power3.out', 'expo.out', 'back.out(2)'][n] }, ws('cta', i) - LEAD); });
+  tl.from('#s10-brand', { opacity: 0, clipPath: 'inset(0 100% 0 0)', duration: 0.6, ease: 'power3.inOut' }, we('cta', 3) + 0.1);
+  tl.fromTo(['#s10-control', '#s10-urges'], { scale: 1 }, { scale: 1.025, duration: D - rule0, ease: 'sine.inOut', immediateRender: false }, rule0);
+
+  // ---------- procedural layers: wave, timecode, grain ----------
+  var wEls = [q('#wv1'), q('#wv2'), q('#wv3'), q('#wvText')];
+  var LAYERS = [[1, 0, 0], [0.72, 1.3, 14], [0.45, 2.6, 30], [0.28, 0, -40]];
+  function waveD(t, m, full) {
+    var base = 330 - wv.lift, a = wv.amp * m[0], ph = t * 2.3 + m[1], d = '';
+    var x1 = full ? 1120 : -40 + (1160 * wv.draw);
+    for (var x = -40; x <= x1; x += 12) d += (x === -40 ? 'M' : 'L') + x + ' ' + (base + m[2] * 0.3 + a * Math.sin(x / 520 * 6.2832 + ph)).toFixed(1) + ' ';
+    return d || 'M-40 330';
+  }
+  var gr = q('#grain');
+  function render() {
+    var t = tl.time();
+    if (t >= C.strong - 0.1 && t <= C.stands + 0.1) {
+      for (var i = 0; i < 4; i++) wEls[i].setAttribute('d', waveD(t, LAYERS[i], i === 3));
+    }
+    var f = Math.round(t * 30), g = prng(f * 7919 + 1);
+    gr.style.backgroundPosition = Math.floor(g() * 256) + 'px ' + Math.floor(g() * 256) + 'px';
+  }
+  tl.eventCallback('onUpdate', render);
+  render();
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines['reel'] = tl;
+})();
+</script>
+</body>
+</html>
