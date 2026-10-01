@@ -2,7 +2,7 @@
   "_readme": "Single source of truth for one reel. Edit, then run: python3 tools/build.py --voice. See the skill's references/pipeline.md for every field.",
   "meta": {
     "page": "Her Calm Corner",
-    "title": "A gentle reminder: the next small thing",
+    "title": "If no one told you today",
     "slug": "her-calm-corner"
   },
   "fps": 30,
@@ -13,183 +13,334 @@
     "peak_db": -3,
     "kokoro": {
       "blend": {
-        "af_sarah": 0.7,
-        "af_heart": 0.3
+        "af_heart": 0.6,
+        "af_sarah": 0.4
       },
-      "speed": 0.86,
+      "speed": 0.9,
       "pitch_semitones": 0,
       "eq": "female",
       "reverb": 0.1,
-      "room_rt60": 0.5,
+      "room_rt60": 0.45,
+      "breath_db": -24,
+      "room_tone_db": -64,
+      "seed": 5,
       "phoneme_fixes": {}
     }
   },
   "gaps": {
     "sentence": 0.42,
-    "short": 0.8,
-    "long": 1.2,
+    "short": 0.7,
+    "long": 1.1,
     "hold": 1.0
   },
-  "lead_in": 0.5,
-  "end_hold": 2.6,
+  "lead_in": 0.6,
+  "end_hold": 2.5,
   "script": [
     {
-      "id": "gentle",
-      "text": "A gentle reminder.",
-      "pause": "short"
+      "id": "hook",
+      "text": "If no one told you today..."
     },
     {
-      "id": "today",
-      "text": "You don't have to do everything today."
+      "id": "doing",
+      "text": "You're doing better than you think."
     },
     {
-      "id": "next",
-      "text": "Just the next small thing.",
-      "pause": "short"
+      "id": "list",
+      "text": "I know the list feels endless."
+    },
+    {
+      "id": "things",
+      "text": "The dishes, the emails, the texts you haven't answered."
+    },
+    {
+      "id": "tonight",
+      "text": "You don't have to finish it tonight."
+    },
+    {
+      "id": "small",
+      "text": "Just do one small thing."
     },
     {
       "id": "water",
-      "text": "Drink a glass of water."
+      "text": "Fill a glass of water."
     },
     {
       "id": "window",
-      "text": "Open the window."
+      "text": "Open the window for a minute."
     },
     {
-      "id": "breathe",
-      "text": "Breathe.",
-      "pause": "short"
+      "id": "breath",
+      "text": "Take one slow breath."
     },
     {
       "id": "rest",
-      "text": "Rest is not a reward."
+      "text": "Rest isn't something you earn."
     },
     {
-      "id": "work",
-      "text": "It's part of the work.",
-      "pause": "long"
+      "id": "going",
+      "text": "It's part of how you keep going."
     },
     {
-      "id": "kind",
-      "text": "Be kind to yourself today.",
-      "pause": "short"
+      "id": "gentle",
+      "text": "So be gentle with yourself today."
     },
     {
       "id": "cta",
       "text": "Follow for more gentle reminders."
     }
   ],
+  "_flow": "Breath groups: sentences in one group are spoken in one pass (natural intonation and joins). gap = pause after the group.",
+  "flow": [
+    {
+      "say": [
+        "hook",
+        "doing"
+      ],
+      "gap": 0.8
+    },
+    {
+      "say": [
+        "list",
+        "things"
+      ],
+      "gap": 0.75
+    },
+    {
+      "say": [
+        "tonight"
+      ],
+      "gap": 0.6
+    },
+    {
+      "say": [
+        "small"
+      ],
+      "gap": 0.95
+    },
+    {
+      "say": [
+        "water"
+      ],
+      "gap": 0.75,
+      "speed": 0.88
+    },
+    {
+      "say": [
+        "window"
+      ],
+      "gap": 0.75,
+      "speed": 0.88
+    },
+    {
+      "say": [
+        "breath"
+      ],
+      "gap": 1.7,
+      "speed": 0.84
+    },
+    {
+      "say": [
+        "rest",
+        "going"
+      ],
+      "gap": 0.95,
+      "speed": 0.88
+    },
+    {
+      "say": [
+        "gentle"
+      ],
+      "gap": 0.7,
+      "speed": 0.86
+    },
+    {
+      "say": [
+        "cta"
+      ]
+    }
+  ],
   "scenes": [
     {
-      "id": "open",
+      "id": "dawn",
       "at": 0
     },
     {
-      "id": "list",
-      "at": "today:0",
-      "lead": 0.3
-    },
-    {
-      "id": "actions",
-      "at": "water:0",
-      "lead": 0.3
-    },
-    {
-      "id": "rest",
-      "at": "rest:0",
+      "id": "pile",
+      "at": "list:0",
       "lead": 0.35
     },
     {
-      "id": "close",
-      "at": "kind:0",
+      "id": "dusk",
+      "at": "tonight:0",
+      "lead": 0.4
+    },
+    {
+      "id": "steps",
+      "at": "small:0",
+      "lead": 0.35
+    },
+    {
+      "id": "lamp",
+      "at": "rest:0",
       "lead": 0.45
+    },
+    {
+      "id": "close",
+      "at": "gentle:0",
+      "lead": 0.5
     }
   ],
   "cues": [
     {
       "sfx": "bloom",
-      "at": 0,
+      "at": 0.05,
       "gain": "bloom",
-      "_": "light opens"
+      "_": "the sun rises"
     },
     {
       "sfx": "chime",
-      "at": "gentle:1",
+      "at": "doing:2",
       "gain": "chime",
-      "_": "a gentle reminder"
+      "_": "better"
     },
     {
       "sfx": "air",
-      "at": "scene:list",
-      "offset": -0.45,
-      "gain": "air"
+      "at": "scene:pile",
+      "offset": -0.7,
+      "gain": "air",
+      "_": "sun -> badge match cut"
     },
     {
       "sfx": "pop",
-      "at": "today:0",
-      "offset": 0.1,
-      "repeat": {
-        "count": 4,
-        "every": 0.14
+      "at": "list:3",
+      "span": {
+        "to": "things:0",
+        "count": 5
       },
+      "offset": 0.3,
       "gain": "pop",
-      "_": "list items"
+      "_": "cards pile up"
     },
     {
-      "sfx": "pluck",
-      "at": "next:4",
-      "gain": "pluck",
-      "_": "check mark"
+      "sfx": "pop",
+      "at": "things:0",
+      "gain": "pop",
+      "mul": 1.2
+    },
+    {
+      "sfx": "pop",
+      "at": "things:2",
+      "gain": "pop",
+      "mul": 1.2
+    },
+    {
+      "sfx": "pop",
+      "at": "things:4",
+      "gain": "pop",
+      "mul": 1.2
+    },
+    {
+      "sfx": "wind",
+      "at": "scene:dusk",
+      "offset": -0.8,
+      "gain": "wind",
+      "_": "the list blows away"
+    },
+    {
+      "sfx": "twinkle",
+      "at": "scene:dusk",
+      "offset": 0.4,
+      "gain": "twinkle"
+    },
+    {
+      "sfx": "twinkle",
+      "at": "tonight:6",
+      "gain": "twinkle",
+      "mul": 0.8
     },
     {
       "sfx": "air",
-      "at": "scene:actions",
-      "offset": -0.45,
-      "gain": "air"
+      "at": "scene:steps",
+      "offset": -0.6,
+      "gain": "air",
+      "_": "light leak"
+    },
+    {
+      "sfx": "pluck",
+      "at": "small:2",
+      "gain": "pluck",
+      "_": "scribble circle"
+    },
+    {
+      "sfx": "air",
+      "at": "water:0",
+      "offset": -0.55,
+      "gain": "air",
+      "mul": 0.6,
+      "_": "camera glide"
     },
     {
       "sfx": "drop",
-      "at": "water:4",
+      "at": "water:0",
+      "offset": 0.77,
       "gain": "drop",
-      "_": "glass fills"
+      "_": "the light drops into the glass"
+    },
+    {
+      "sfx": "air",
+      "at": "window:0",
+      "offset": -0.55,
+      "gain": "air",
+      "mul": 0.6
     },
     {
       "sfx": "bloom",
       "at": "window:0",
       "gain": "bloom",
       "mul": 0.7,
-      "_": "window light"
+      "_": "window opens"
     },
     {
       "sfx": "air",
-      "at": "breathe:0",
+      "at": "breath:0",
+      "offset": -0.6,
       "gain": "air",
-      "mul": 0.8,
-      "_": "breath"
+      "mul": 0.6
     },
     {
-      "sfx": "air",
-      "at": "scene:rest",
-      "offset": -0.45,
-      "gain": "air"
+      "sfx": "bloom",
+      "at": "scene:lamp",
+      "offset": -0.6,
+      "gain": "bloom",
+      "_": "the breath blooms"
     },
     {
       "sfx": "chime",
-      "at": "work:4",
+      "at": "going:6",
       "gain": "chime",
       "mul": 0.7
     },
     {
+      "sfx": "air",
+      "at": "scene:close",
+      "offset": -0.8,
+      "gain": "air",
+      "_": "steam rises"
+    },
+    {
       "sfx": "bloom",
       "at": "scene:close",
-      "offset": -0.5,
-      "gain": "bloom"
+      "offset": -0.1,
+      "gain": "bloom",
+      "mul": 0.8,
+      "_": "sunrise"
     },
     {
       "sfx": "chime",
-      "at": "kind:3",
+      "at": "gentle:4",
       "gain": "chime",
-      "mul": 0.8
+      "mul": 0.8,
+      "_": "yourself"
     },
     {
       "sfx": "pluck",
@@ -202,12 +353,14 @@
   "sound": {
     "voice": 1.0,
     "drone": 0.08,
-    "air": 0.32,
+    "air": 0.3,
+    "wind": 0.34,
     "chime": 0.2,
+    "twinkle": 0.12,
     "page": 0.3,
     "drop": 0.35,
     "pluck": 0.22,
-    "pop": 0.2,
+    "pop": 0.18,
     "bloom": 0.22,
     "duck_sfx_db": -6,
     "duck_drone_db": -6

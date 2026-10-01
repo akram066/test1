@@ -31,55 +31,6 @@ def decode(path, sr, ch=1):
     return a
 
 
-def segments(a):
-    env = V.env_rms(a)
-    q = env < 0.03 * env.max()
-    segs, i = [], 0
-    while i < len(q):
-        if not q[i]:
-            j = i
-            while j < len(q) and not q[j]:
-                j += 1
-            segs.append([i * V.HOP, j * V.HOP])
-            i = j
-        else:
-            i += 1
-    merged = [segs[0]]
-    for s in segs[1:]:
-        if s[0] - merged[-1][1] < 0.06:
-            merged[-1][1] = s[1]
-        else:
-            merged.append(s)
-    return merged
-
-
-def group(segs, weights):
-    """DP: split segments into len(weights) consecutive groups."""
-    n, m = len(segs), len(weights)
-    speech = sum(e - s for s, e in segs)
-    exp = np.array(weights) / sum(weights) * speech
-    gap_after = [segs[i + 1][0] - segs[i][1] if i + 1 < n else 1.0 for i in range(n)]
-    INF = 1e18
-    cost = np.full((m + 1, n + 1), INF)
-    back = np.zeros((m + 1, n + 1), dtype=int)
-    cost[0][0] = 0
-    for k in range(1, m + 1):
-        for j in range(k, n + 1):
-            for i in range(k - 1, j):
-                if cost[k - 1][i] >= INF:
-                    continue
-                dur = sum(e - s for s, e in segs[i:j])
-                c = ((dur - exp[k - 1]) / exp[k - 1]) ** 2 - 1.5 * min(gap_after[j - 1], 1.2)
-                if cost[k - 1][i] + c < cost[k][j]:
-                    cost[k][j], back[k][j] = cost[k - 1][i] + c, i
-    bounds, j = [], n
-    for k in range(m, 0, -1):
-        i = back[k][j]
-        bounds.append((segs[i][0], segs[j - 1][1]))
-        j = i
-    return bounds[::-1]
-
-
 def main():
     from kokoro_onnx import Kokoro
 
@@ -89,7 +40,7 @@ def main():
     a = decode(src, SR)
     lang = v.get("lang", "en-us")
     weights = [V.phoneme_weights(k, s["text"].split(), lang).sum() for s in CFG["script"]]
-    spans = group(segments(a), weights)
+    spans = V.group(V.segments(a), weights)
     # pad the head so the first word lands at config lead_in (the opening blade needs a beat)
     pad = max(0.0, CFG.get("lead_in", 0.35) - spans[0][0])
     words = []

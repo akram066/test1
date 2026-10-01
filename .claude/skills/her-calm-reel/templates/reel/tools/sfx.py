@@ -4,6 +4,7 @@
   page    paper page turn                       drop    single water drop (water, calm)
   pluck   warm muted string pluck (ticks)       pop     tiny soft pop (items appearing)
   bloom   slow airy swell into a scene          drone   warm major-ish pad, seamless loop (bed)
+  wind    long soft gust that swirls across     twinkle tiny high glints (stars, light, a kind word)
 No hard impacts or sub hits: this page never slams.
 """
 import os
@@ -100,6 +101,26 @@ def bloom(d=1.8):
     return (bandish(noise(len(t)), 500, 4000) * 0.6 + tone * 0.5) * env
 
 
+def wind(d=1.9):
+    t = t_axis(d) / d
+    env = smooth(t / 0.35) * (1 - smooth((t - 0.45) / 0.55)) ** 1.2
+    n = len(t)
+    gust = 0.75 + 0.25 * np.sin(2 * np.pi * (2.1 * t * d + 0.3 * np.sin(2 * np.pi * 0.9 * t * d)))
+    l = (bandish(noise(n), 180, 1300) + 0.35 * bandish(noise(n), 1500, 4200)) * env * gust
+    r = (bandish(noise(n), 200, 1400) + 0.35 * bandish(noise(n), 1600, 4400)) * env * gust
+    pan = smooth(t)  # sweeps left -> right with the leaves
+    return l * (1.2 - pan), r * (0.2 + pan)
+
+
+def twinkle(d=1.6):
+    t = t_axis(d)
+    out = np.zeros(len(t))
+    for k, (f, at) in enumerate(((2093, 0.0), (2637, 0.09), (3136, 0.2), (2349, 0.33), (3520, 0.45))):
+        tt = np.clip(t - at, 0, None)
+        out += (0.8 - 0.1 * k) * np.sin(2 * np.pi * f * tt) * np.exp(-tt * 7) * (t >= at)
+    return out * np.minimum(1, t / 0.003)
+
+
 def drone(d=16):
     n = SR * d
     t = np.arange(n) / SR
@@ -121,6 +142,8 @@ def main():
     save("pluck", pluck())
     save("pop", pop())
     save("bloom", bloom())
+    save("wind", *wind())
+    save("twinkle", twinkle())
     save("drone", *drone())
 
 

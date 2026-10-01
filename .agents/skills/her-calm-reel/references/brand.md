@@ -30,9 +30,24 @@ small, practical step**. End with a kind reminder or a gentle question.
 **Don't:** harsh words, shaming, pressure, fear-based claims, comparing women to each other, putting down men.
 
 Example lines (the register to match):
-- "You don't have to do everything today. Just the next small thing."
-- "Rest is not a reward. It's part of the work."
+- "If no one told you today... you're doing better than you think."
+- "I know the list feels endless. The dishes, the emails, the texts you haven't answered."
+- "Rest isn't something you earn. It's part of how you keep going."
 - "Your glow starts with sleep, water and peace, not a 10-step routine."
+
+### Make it sound like a real person, not a poster
+
+Lines written like quotes ("Rest is not a reward.") sound read aloud. Lines written like something a friend says
+at the kitchen table sound real. Before showing a script, check every line against this list:
+- **Contractions always:** you're, don't, isn't, it's, haven't. "You do not have to" sounds like a robot.
+- **Name her real life with specifics:** "the dishes, the emails, the texts you haven't answered" beats
+  "everything". Three concrete things in a row, the last one the most personal.
+- **Show you've noticed first:** "I know...", "If no one told you today...", "It's okay if...". The "I" is the
+  older sister speaking; use it once or twice.
+- **Give the step a size she believes:** "for a minute", "one slow breath", "just one small thing".
+- **Let sentences lean on each other:** "So be gentle with yourself today." "It's part of how you keep going."
+  Small linking words (so, just, and) make the voice flow from line to line.
+- **Read it out loud.** If a line can't be said in one easy breath, split it or cut it.
 
 ## 3. Signature device: "A gentle reminder"
 
@@ -45,24 +60,28 @@ every reel, so it stays the page's recognizable voice without becoming wallpaper
 The voiceover drives the timing, scenes and captions, so write it first and show it to the user before
 building (unless they gave the script or said go ahead).
 
-**Length:** 40–70 words → 20–32 s with soft pauses. One feeling, one small step.
+**Length:** 50–80 words → 28–36 s with soft pauses. One feeling, one small step.
 
 **Arc (the starter reel's structure):**
 
 | Beat | Job | Example (starter reel) |
 | --- | --- | --- |
-| Opener (1 line) | the gentle device or a soft hook | "A gentle reminder." |
-| Validate (1–2 lines) | name the feeling, take the pressure off | "You don't have to do everything today. Just the next small thing." |
-| Small steps (2–4 very short lines) | tiny, physical, doable | "Drink a glass of water. Open the window. Breathe." |
-| Reframe (1–2 lines) | the line people save | "Rest is not a reward. It's part of the work." |
-| Kind close (1 line) | warmth or a gentle question | "Be kind to yourself today." |
+| Opener (1–2 lines) | the gentle device, then the kind thing nobody said | "If no one told you today... you're doing better than you think." |
+| Validate (2 lines) | name the feeling, then her real life in specifics | "I know the list feels endless. The dishes, the emails, the texts you haven't answered." |
+| Release (1 line) | take the pressure off | "You don't have to finish it tonight." |
+| Small steps (1 + 3 very short lines) | tiny, physical, doable, with a size | "Just do one small thing. Fill a glass of water. Open the window for a minute. Take one slow breath." |
+| Reframe (2 lines) | the line people save | "Rest isn't something you earn. It's part of how you keep going." |
+| Kind close (1 line) | warmth or a gentle question | "So be gentle with yourself today." |
 | CTA (1 line) | soft and consistent | "Follow for more gentle reminders." |
 
 **Rules for lines:**
-- One breath per line, 2–8 words. Each line becomes a scene or a beat.
+- One breath per line, 2–9 words. Each line becomes a scene or a beat.
+- Group the lines into **breath groups** (the config's `flow`): lines that belong together are spoken in one go
+  (opener + kind line; feeling + specifics; reframe + payoff). Each small step is its own group with a short
+  pause, and the breath step gets the longest pause of the reel (a real pause on screen).
 - Concrete, gentle nouns (water, window, tea, bed, journal, a walk) become the reel's objects.
 - Steps must be tiny and kind: things she can do in a minute, with no cost and no judgment.
-- Pauses: `short` after the opener and after each section, `long` before the reframe's payoff or the close.
+- Pauses live in `flow[].gap`: about 0.6–0.95 s between groups, 0.75 s between steps, 1.5–1.8 s after the breath.
 - Key words (3–5 per reel) appear in rose italic on screen: the comforting words.
 - CTA variants: "Follow for more gentle reminders." · "Save this for a hard day." · "Send this to a friend who needs it."
   Or a gentle question: "What's one small thing you can do for yourself today?"

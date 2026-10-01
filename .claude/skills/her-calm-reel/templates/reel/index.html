@@ -9,145 +9,325 @@
 @font-face{font-family:"Fraunces";font-style:normal;font-weight:300 700;font-display:block;src:url("assets/fonts/Fraunces-variable.woff2") format("woff2")}
 @font-face{font-family:"Fraunces";font-style:italic;font-weight:300 700;font-display:block;src:url("assets/fonts/Fraunces-italic-variable.woff2") format("woff2")}
 @font-face{font-family:"DM Sans";font-style:normal;font-weight:400 700;font-display:block;src:url("assets/fonts/DMSans-variable.woff2") format("woff2")}
+:root{--ink:#3A2B2E;--rose:#AE5550;--blush:#E8B9AE;--sage:#5E7F68;--honey:#D8B26E;--taupe:#8F7B74;--paper:#FFF9F3}
 *{box-sizing:border-box}
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8}
-#reel{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8;color:#3A2B2E}
-.serif{font-family:"Fraunces",serif;font-weight:500;line-height:1.02;letter-spacing:-.015em}
-.it{font-style:italic;font-weight:400;color:#B9605A}
+#reel{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8;color:var(--ink)}
+.serif{font-family:"Fraunces",serif;font-weight:500;line-height:1.02;letter-spacing:-.018em}
+.it{font-style:italic;font-weight:400;color:var(--rose)}
 .sans{font-family:"DM Sans",sans-serif;font-weight:500}
-.scene{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8}
 .abs{position:absolute}
-.w{display:inline-block}
-.light{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(232,185,174,.95) 0%,rgba(232,185,174,.55) 40%,rgba(232,185,174,0) 70%)}
-.honey{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(216,178,110,.55) 0%,rgba(216,178,110,0) 70%)}
-#s2,#s3,#s4,#s5{opacity:0}
+.w,.ch{display:inline-block}
+.nw{white-space:nowrap}
+.scene{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;z-index:10}
+.cam{position:absolute;inset:0;transform-origin:50% 45%}
+#s2,#s3,#s4,#s5,#s6{opacity:0}
+/* everything that enters with an explicit fromTo starts hidden */
+#s2 .card,#steam .st,#rings circle{opacity:0}
+/* hand-drawn highlighter under a key word */
+.mark{position:relative;display:inline-block}
+.mark .mk{position:absolute;left:-14px;right:-14px;bottom:.12em;height:.32em;border-radius:.2em;background:rgba(232,185,174,.75);z-index:-1}
+.mark.sg .mk{background:rgba(169,200,194,.7)}
 
-/* life layer */
-#dots{position:absolute;inset:0;z-index:40;pointer-events:none}
-#dots i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(216,178,110,.55),rgba(216,178,110,0) 70%)}
-#vignette{position:absolute;inset:-60px;z-index:41;pointer-events:none;background:radial-gradient(ellipse 75% 60% at 50% 46%,rgba(246,239,232,0) 55%,rgba(214,192,176,.55) 100%)}
-#grain{position:absolute;inset:0;z-index:42;pointer-events:none;opacity:.07;mix-blend-mode:multiply;background-size:256px 256px}
-#bar{position:absolute;left:90px;top:1786px;width:900px;height:3px;z-index:43;background:rgba(164,145,137,.3)}
-#bar i{position:absolute;inset:0;background:#B9605A;transform-origin:0 50%;transform:scaleX(0)}
-/* transition overlays */
-#bloom{position:absolute;left:240px;top:520px;width:600px;height:600px;z-index:30;border-radius:50%;opacity:0;background:radial-gradient(circle,#F3D9CF 0%,#F0D2C6 55%,rgba(240,210,198,0) 72%)}
-#sweep{position:absolute;left:-1400px;top:-300px;width:1100px;height:2520px;z-index:31;transform:rotate(14deg);opacity:0;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,244,228,1) 0%,rgba(250,230,205,.9) 45%,rgba(246,239,232,0) 72%)}
+/* ---------- the living background (shared by every scene) ---------- */
+.sky{position:absolute;inset:0;z-index:1}
+#bg-day{background:linear-gradient(180deg,#FAF2EA 0%,#F5E9E0 100%)}
+#bg-dawn{background:linear-gradient(180deg,#FBF0E6 0%,#F9E2D2 55%,#F5D3C0 100%)}
+#bg-pile{background:linear-gradient(180deg,#F1E8E2 0%,#E9DDD5 100%);opacity:0}
+#bg-dusk{background:linear-gradient(180deg,#E5DAEA 0%,#EEDDE4 52%,#F5E3DB 100%);opacity:0}
+#bg-lamp{background:radial-gradient(ellipse 80% 60% at 50% 60%,#FBE7CC 0%,#F3DDC8 50%,#EAD6C8 100%);opacity:0}
+#bg-rise{background:linear-gradient(180deg,#FCF3EA 0%,#FAE6D6 55%,#F6D7C4 100%);opacity:0}
+#blobs{position:absolute;inset:0;z-index:2}
+#blobs i{position:absolute;border-radius:50%}
+#b1{left:-260px;top:120px;width:820px;height:820px;background:radial-gradient(circle closest-side,rgba(240,190,170,.55),rgba(240,190,170,0))}
+#b2{left:520px;top:-180px;width:760px;height:760px;background:radial-gradient(circle closest-side,rgba(246,214,160,.5),rgba(246,214,160,0))}
+#b3{left:560px;top:980px;width:900px;height:900px;background:radial-gradient(circle closest-side,rgba(190,214,196,.42),rgba(190,214,196,0))}
+#b4{left:-300px;top:1240px;width:840px;height:840px;background:radial-gradient(circle closest-side,rgba(214,196,226,.45),rgba(214,196,226,0))}
+#b5{left:200px;top:640px;width:700px;height:700px;background:radial-gradient(circle closest-side,rgba(255,240,226,.6),rgba(255,240,226,0))}
 
-/* S1 open */
-#s1-light{left:240px;top:520px;width:600px;height:600px}
-#s1-title{left:0;width:1080px;top:830px;text-align:center;font-size:100px}
-#s1-line{left:0;top:0}
+/* ---------- the light: one orb that travels through the whole reel ---------- */
+#orb{position:absolute;left:-200px;top:-200px;width:400px;height:400px;z-index:5}
+#orb i{position:absolute;inset:0;border-radius:50%;opacity:0}
+#orb .o-honey{opacity:1;background:radial-gradient(circle closest-side,#FFF8E8 0%,#FCE5B8 30%,#F3C67F 48%,rgba(243,198,127,.45) 51%,rgba(243,198,127,.16) 72%,rgba(243,198,127,0) 100%)}
+#orb .o-rose{background:radial-gradient(circle closest-side,#EC9C93 0%,#C9665E 46%,rgba(201,102,94,.3) 50%,rgba(201,102,94,0) 80%)}
+#orb .o-moon{--mx:130%;background:radial-gradient(circle closest-side,#FFFEFA 0%,#FCF4E8 36%,#F2E3CE 49%,rgba(255,250,240,.55) 51%,rgba(255,250,240,.2) 72%,rgba(255,250,240,0) 100%);-webkit-mask-image:radial-gradient(circle 104px at var(--mx) 44%,transparent 86%,#000 100%);mask-image:radial-gradient(circle 104px at var(--mx) 44%,transparent 86%,#000 100%)}
+#orb .o-sage{background:radial-gradient(circle closest-side,#F6FAF3 0%,#D7E6D8 34%,rgba(158,189,167,.9) 49%,rgba(158,189,167,.4) 56%,rgba(158,189,167,.13) 76%,rgba(158,189,167,0) 100%)}
+#orb .o-amber{background:radial-gradient(circle closest-side,rgba(255,243,214,1) 0%,rgba(252,220,164,.92) 28%,rgba(247,198,130,.5) 56%,rgba(247,198,130,0) 100%)}
 
-/* S2 list */
-#s2-head{left:90px;top:300px;font-size:104px}
-#s2-head div{white-space:nowrap}
-#s2-card{left:170px;top:800px;width:740px;height:700px;background:#FFF9F3;border-radius:28px;box-shadow:0 30px 60px rgba(120,80,60,.14),0 4px 12px rgba(120,80,60,.08);transform:rotate(-2.5deg);padding:70px 64px}
-.item{display:flex;align-items:center;gap:28px;font-size:44px;height:92px;color:#3A2B2E}
-.box{width:44px;height:44px;border:4px solid #A49189;border-radius:10px;flex:none;position:relative}
-.item.next{color:#B9605A;font-family:"Fraunces",serif;font-style:italic;font-size:52px;margin-top:26px;white-space:nowrap}
-.item.next .box{border-color:#B9605A}
-#check{position:absolute;left:-2px;top:-14px;overflow:visible}
+/* ---------- overlays ---------- */
+#leak{position:absolute;left:-300px;top:-400px;width:1700px;height:2720px;z-index:30;opacity:0;background:linear-gradient(115deg,rgba(255,214,170,0) 22%,rgba(255,212,168,.85) 42%,rgba(255,240,222,.97) 50%,rgba(250,200,176,.8) 58%,rgba(255,214,170,0) 78%)}
+#wind{position:absolute;left:0;top:0;z-index:31;overflow:visible}
+#wind path{fill:none;stroke:rgba(255,255,255,.92);stroke-width:5;stroke-linecap:round}
+#fog{position:absolute;left:-360px;top:0;width:1800px;height:4200px;z-index:32;background:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(255,248,241,.95) 0%,rgba(255,248,241,.95) 72%,rgba(255,248,241,0) 100%)}
+#motes{position:absolute;left:0;top:0;z-index:40;pointer-events:none}
+#vignette{position:absolute;inset:-60px;z-index:41;pointer-events:none;background:radial-gradient(ellipse 78% 62% at 50% 46%,rgba(246,239,232,0) 58%,rgba(196,160,142,.38) 100%)}
+#grain{position:absolute;inset:0;z-index:42;pointer-events:none;opacity:.075;mix-blend-mode:multiply;background-size:256px 256px}
+#bar{position:absolute;left:90px;top:1786px;width:900px;height:3px;z-index:43;background:rgba(143,123,116,.25)}
+#bar i{position:absolute;inset:0;background:var(--rose);transform-origin:0 50%;transform:scaleX(0)}
 
-/* S3 actions */
-#s3-glass{left:150px;top:330px;width:210px;height:330px;overflow:visible}
-#s3-water{left:530px;top:380px;font-size:84px}
-#s3-window-light{left:600px;top:760px;width:380px;height:440px}
-#s3-window{left:620px;top:790px;width:320px;height:380px;perspective:1000px}
-#s3-window .pane{position:absolute;top:0;width:50%;height:100%;background:#EFE4DA;border:6px solid #3A2B2E}
-#s3-window .l{left:0;transform-origin:0 50%}
-#s3-window .r{right:0;transform-origin:100% 50%}
-#s3-open{left:90px;top:900px;font-size:88px}
-#s3-breath{left:330px;top:1240px;width:420px;height:420px;border-radius:50%;border:6px solid #7F9C86;background:radial-gradient(circle,rgba(127,156,134,.22),rgba(127,156,134,0) 70%)}
-#s3-breathe{left:0;width:1080px;top:1400px;text-align:center;font-size:96px}
+/* ---------- S1 dawn ---------- */
+.hills{position:absolute;left:0;width:1080px;height:640px;overflow:visible}
+#s1-hills{top:1290px}
+.rays{position:absolute;left:0;top:0;overflow:visible}
+.rays line{stroke:rgba(243,198,127,.55);stroke-width:5;stroke-linecap:round}
+#s1-hook{left:0;width:1080px;top:300px;text-align:center;font-size:62px;font-style:italic;font-weight:400;color:rgba(58,43,46,.78)}
+#s1-big{left:90px;top:440px;font-size:136px}
+#s1-big .ln{white-space:nowrap;height:138px}
 
-/* S4 rest */
-#s4-rest{left:0;width:1080px;top:270px;text-align:center;font-size:230px}
-#s4-not{left:0;width:1080px;top:540px;text-align:center;font-size:76px}
-#s4-cup{left:330px;top:820px;width:420px;height:470px;overflow:visible}
-#s4-work{right:90px;top:1430px;font-size:84px;position:absolute;text-align:right}
-#s4-under{right:90px;top:1540px;position:absolute;width:520px;height:6px;border-radius:3px;background:#E8B9AE;transform-origin:100% 50%}
+/* ---------- S2 the pile ---------- */
+#s2-head{left:90px;top:220px;font-size:102px}
+#s2-head .ln{white-space:nowrap;height:112px}
+.card{position:absolute;background:var(--paper);border-radius:26px;box-shadow:0 26px 50px rgba(110,72,58,.16),0 4px 10px rgba(110,72,58,.08)}
+.sticky{border-radius:6px 6px 22px 6px;box-shadow:0 22px 40px rgba(110,72,58,.17),0 3px 8px rgba(110,72,58,.08)}
+.sticky:before{content:"";position:absolute;left:50%;top:-22px;width:150px;height:44px;margin-left:-75px;background:rgba(255,255,255,.55);transform:rotate(-3deg);border-radius:4px}
+.decor{opacity:.86;font-family:"DM Sans",sans-serif;font-weight:500;font-size:36px;color:rgba(58,43,46,.62);padding:34px 36px}
+.decor b{display:block;width:150px;height:10px;border-radius:5px;background:rgba(143,123,116,.22);margin-top:20px}
+#c-todo{left:330px;top:540px;width:560px;height:190px;padding:34px 44px}
+#c-todo .t{font-family:"DM Sans",sans-serif;font-weight:700;font-size:44px}
+#c-todo .s{font-family:"DM Sans",sans-serif;font-size:30px;color:var(--taupe);margin-top:6px}
+#c-todo b{position:absolute;left:300px;height:10px;border-radius:5px;background:rgba(143,123,116,.22)}
+#badge{left:845px;top:525px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#D7766D,#B9564F);color:#fff;font-family:"DM Sans",sans-serif;font-weight:700;font-size:36px;line-height:80px;text-align:center;box-shadow:0 8px 18px rgba(185,86,79,.35);opacity:0}
+#d1{left:650px;top:790px;width:300px;height:250px;background:#F6D3CB}
+#d2{left:60px;top:770px;width:340px;height:150px}
+#d3{left:610px;top:1270px;width:340px;height:150px}
+#d4{left:80px;top:1560px;width:330px;height:150px}
+#d5{left:660px;top:1585px;width:330px;height:150px}
+#c-dishes{left:110px;top:880px;width:470px;height:300px;background:#F8E2A9;padding:64px 50px}
+#c-dishes .serif{font-size:84px;font-style:italic;font-weight:400}
+#c-mail{left:300px;top:1160px;width:700px;height:190px;padding:36px 40px 0 160px}
+#c-mail .ic{position:absolute;left:44px;top:50px;width:90px;height:90px;border-radius:22px;background:linear-gradient(160deg,#E9A79E,#C9665E)}
+#c-mail .ic:after{content:"";position:absolute;left:18px;top:26px;width:54px;height:38px;border:5px solid #fff;border-radius:6px;box-sizing:border-box}
+#c-mail .lbl{font-family:"DM Sans",sans-serif;font-size:28px;color:var(--taupe)}
+#c-mail .txt{font-family:"DM Sans",sans-serif;font-weight:700;font-size:62px;margin-top:4px}
+#c-text{left:80px;top:1420px;width:780px;height:250px;background:#E2ECE4;border-radius:44px 44px 44px 10px;padding:40px 50px}
+#c-text .txt{font-family:"DM Sans",sans-serif;font-weight:700;font-size:60px;line-height:1.1;color:#2F3B33}
+#dots3{position:absolute;left:50px;top:52px}
+#dots3 i{display:inline-block;width:22px;height:22px;border-radius:50%;background:#8FA996;margin-right:12px}
 
-/* S5 close */
-#s5-sun{left:290px;top:500px;width:500px;height:500px}
-#s5-kind{left:0;width:1080px;top:640px;text-align:center;font-size:124px}
-#s5-emblem{left:500px;top:1150px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#E8B9AE 0%,#E8B9AE 45%,rgba(232,185,174,0) 72%)}
-#s5-follow{left:0;width:1080px;top:1270px;text-align:center;font-size:40px;letter-spacing:.1em;color:rgba(58,43,46,.8)}
-#s5-name{left:0;width:1080px;top:1346px;text-align:center;font-size:46px;letter-spacing:.34em;font-weight:700;color:#B9605A}
+/* ---------- S3 dusk ---------- */
+#s3-stars{position:absolute;left:0;top:0;overflow:visible}
+#s3-l1{left:90px;top:760px;font-size:76px}
+#s3-l2{left:90px;top:858px;font-size:150px}
+#s3-l3{left:84px;top:1010px;font-size:212px}
+.cloud{position:absolute;overflow:visible}
+
+/* ---------- S4 the small steps (a tall world the camera glides through) ---------- */
+#world{position:absolute;left:0;top:0;width:2160px;height:5760px}
+.scr{position:absolute;left:0;width:1080px;height:1920px}
+/* glide 1 goes down (a drop falls), glide 2 sideways (a bubble drifts up and over), glide 3 down (the light settles) */
+#w0{top:0}#w1{top:1920px}#w2{left:1080px;top:1920px}#w3{left:1080px;top:3840px}
+#w0-a{left:0;width:1080px;top:600px;text-align:center;font-size:100px}
+#w0-b{left:0;width:1080px;top:712px;text-align:center;font-size:132px}
+#scribble{position:absolute;left:0;top:0;overflow:visible}
+#w1-t{left:90px;top:380px;font-size:112px}
+#w1-t .ln{white-space:nowrap;height:120px}
+#glass{position:absolute;left:390px;top:1010px;width:300px;height:440px;overflow:visible}
+#w2-a{left:0;width:1080px;top:1215px;text-align:center;font-size:88px}
+#w2-b{left:0;width:1080px;top:1305px;text-align:center;font-size:164px}
+#w2-c{left:0;width:1080px;top:1490px;text-align:center;font-size:80px}
+#win{position:absolute;left:300px;top:500px;width:480px;height:600px;perspective:1600px}
+#win .sky{position:absolute;inset:14px;background:linear-gradient(180deg,rgba(255,238,210,.35),rgba(250,214,190,.22));z-index:0}
+#win .pane{position:absolute;top:14px;width:226px;height:572px;border:9px solid #8C6F66;background:linear-gradient(160deg,rgba(255,252,247,.84),rgba(243,231,221,.8));z-index:2}
+#win .pane:after{content:"";position:absolute;left:0;right:0;top:48%;height:8px;background:#8C6F66}
+#win .pl{left:14px;transform-origin:0 50%}
+#win .pr{right:14px;transform-origin:100% 50%}
+#win .frame{position:absolute;inset:0;border:14px solid #8C6F66;border-radius:10px;z-index:3}
+#win .sill{position:absolute;left:-40px;right:-40px;bottom:-26px;height:26px;border-radius:8px;background:#A88C82;z-index:3}
+#beam{position:absolute;left:250px;top:1100px;width:580px;height:820px;clip-path:polygon(14% 0,86% 0,100% 100%,0 100%);background:linear-gradient(180deg,rgba(255,226,170,.55),rgba(255,226,170,0));opacity:0}
+.curtain{position:absolute;top:470px;width:170px;height:720px;overflow:visible;transform-origin:50% 0}
+#cur-l{left:150px}#cur-r{left:760px}
+#rod{position:absolute;left:130px;top:462px;width:820px;height:12px;border-radius:6px;background:#8C6F66}
+#w3-a{left:0;width:1080px;top:360px;text-align:center;font-size:100px}
+#w3-b{left:0;width:1080px;top:470px;text-align:center;font-size:132px}
+#rings{position:absolute;left:0;top:0;overflow:visible}
+#rings circle{fill:none;stroke:rgba(94,127,104,.55);stroke-width:4}
+
+/* ---------- S5 lamp ---------- */
+#s5-rest{left:72px;top:190px;font-size:256px}
+#s5-l1{left:96px;top:500px;font-size:80px}
+#s5-l2{left:96px;top:592px;font-size:80px}
+#cup{position:absolute;left:280px;top:960px;width:520px;height:440px;overflow:visible}
+#s5-l3{right:90px;top:1460px;font-size:80px;text-align:right}
+#s5-l4{right:90px;top:1556px;font-size:98px;text-align:right}
+
+/* ---------- S6 sunrise close ---------- */
+#s6-hills{top:1250px}
+#s6-l1{left:0;width:1080px;top:360px;text-align:center;font-size:108px}
+#s6-l2{left:0;width:1080px;top:480px;text-align:center;font-size:108px}
+#s6-l3{left:0;width:1080px;top:600px;text-align:center;font-size:108px}
+#s6-cta{left:0;width:1080px;top:850px;text-align:center;font-size:34px;letter-spacing:.14em;color:rgba(58,43,46,.82)}
+#s6-name{left:0;width:1080px;top:915px;text-align:center;font-size:46px;letter-spacing:.32em;font-weight:700;color:var(--rose);padding-left:.32em}
 </style>
 </head>
 <body>
 <div id="reel" data-composition-id="reel" data-start="0" data-duration="20" data-width="1080" data-height="1920">
 <audio id="mix" data-start="0" data-duration="20" data-track-index="0" src="assets/mix.wav" data-volume="1"></audio>
 
-<!-- ============ S1 · A GENTLE REMINDER (the light opens) ============ -->
-<div id="s1" class="scene">
-  <div id="s1-light" class="light"></div>
-  <div id="s1-title" class="abs serif"><span class="w" data-w="gentle:0">A</span> <span class="w it" data-w="gentle:1">gentle</span> <span class="w" data-w="gentle:2">reminder.</span></div>
-  <svg id="s1-line" class="abs" width="1080" height="1920"><path id="s1-stroke" d="M 300 975 C 420 995, 640 990, 790 968" fill="none" stroke="#B9605A" stroke-width="7" stroke-linecap="round"/></svg>
-</div>
+<!-- the living background: soft sky tints that cross-fade per scene, drifting colour blooms -->
+<div id="bg-day" class="sky"></div>
+<div id="bg-dawn" class="sky"></div>
+<div id="bg-pile" class="sky"></div>
+<div id="bg-dusk" class="sky"></div>
+<div id="bg-lamp" class="sky"></div>
+<div id="bg-rise" class="sky"></div>
+<div id="blobs"><i id="b1"></i><i id="b2"></i><i id="b3"></i><i id="b4"></i><i id="b5"></i></div>
 
-<!-- ============ S2 · YOU DON'T HAVE TO DO EVERYTHING TODAY (let the list go) ============ -->
-<div id="s2" class="scene">
+<!-- the light motif: sun -> badge -> moon -> the one small thing -> a drop -> sun in the window -> breath -> lamp -> sunrise -->
+<div id="orb"><i class="o-honey"></i><i class="o-rose"></i><i class="o-moon"></i><i class="o-sage"></i><i class="o-amber"></i></div>
+
+<!-- ============ S1 · IF NO ONE TOLD YOU TODAY (dawn) ============ -->
+<div id="s1" class="scene"><div id="s1-cam" class="cam">
+  <svg id="s1-rays" class="rays" width="1080" height="1920"></svg>
+  <svg id="s1-hills" class="hills" viewBox="0 0 1080 640">
+    <defs>
+      <linearGradient id="gh3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2DCD0"/><stop offset="1" stop-color="#EBCFC2"/></linearGradient>
+      <linearGradient id="gh2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBC7B9"/><stop offset="1" stop-color="#E2B7A8"/></linearGradient>
+      <linearGradient id="gh1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DFAE9F"/><stop offset="1" stop-color="#D49E8F"/></linearGradient>
+    </defs>
+    <path class="h3" fill="url(#gh3)" d="M0 250 C 180 160, 360 150, 520 205 C 700 270, 880 140, 1080 185 L1080 700 L0 700 Z"/>
+    <path class="h2" fill="url(#gh2)" d="M0 360 C 200 270, 420 300, 600 350 C 780 400, 920 300, 1080 320 L1080 700 L0 700 Z"/>
+    <path class="h1" fill="url(#gh1)" d="M0 470 C 240 400, 460 430, 640 470 C 820 510, 960 440, 1080 450 L1080 700 L0 700 Z"/>
+  </svg>
+  <div id="s1-hook" class="abs serif"><span class="w" data-w="hook:0">If</span> <span class="w" data-w="hook:1">no</span> <span class="w" data-w="hook:2">one</span> <span class="w" data-w="hook:3">told</span> <span class="w" data-w="hook:4">you</span> <span class="w" data-w="hook:5">today…</span></div>
+  <div id="s1-big" class="abs serif">
+    <div class="ln"><span class="w" data-w="doing:0">You're</span> <span class="w" data-w="doing:1">doing</span></div>
+    <div class="ln"><span class="mark"><i class="mk"></i><span class="w it" data-w="doing:2">better</span></span> <span class="w" data-w="doing:3">than</span></div>
+    <div class="ln"><span class="w" data-w="doing:4">you</span> <span class="w" data-w="doing:5">think.</span></div>
+  </div>
+</div></div>
+
+<!-- ============ S2 · THE LIST FEELS ENDLESS (it piles up) ============ -->
+<div id="s2" class="scene"><div id="s2-cam" class="cam">
   <div id="s2-head" class="abs serif">
-    <div><span class="w" data-w="today:0">You</span> <span class="w" data-w="today:1">don't</span> <span class="w" data-w="today:2">have</span> <span class="w" data-w="today:3">to</span></div>
-    <div><span class="w" data-w="today:4">do</span> <span class="w it" data-w="today:5">everything</span></div>
-    <div><span class="w" data-w="today:6">today.</span></div>
+    <div class="ln"><span class="w" data-w="list:0">I</span> <span class="w" data-w="list:1">know</span> <span class="w" data-w="list:2">the</span> <span class="w" data-w="list:3">list</span></div>
+    <div class="ln"><span class="w" data-w="list:4">feels</span> <span class="w it" data-w="list:5">endless.</span></div>
   </div>
-  <div id="s2-card" class="abs sans">
-    <div class="item i1"><span class="box"></span>Answer every message</div>
-    <div class="item i2"><span class="box"></span>Clean the whole house</div>
-    <div class="item i3"><span class="box"></span>Fix every problem</div>
-    <div class="item i4"><span class="box"></span>Be perfect for everyone</div>
-    <div class="item next"><span class="box"><svg id="check" width="60" height="60" viewBox="0 0 60 60"><path id="check-path" d="M 8 30 L 22 44 L 52 8" fill="none" stroke="#B9605A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><span class="w" data-w="next:0">Just</span> <span class="w" data-w="next:1">the</span> <span class="w" data-w="next:2">next</span> <span class="w" data-w="next:3">small</span> <span class="w" data-w="next:4">thing.</span></span></div>
+  <div id="d2" class="card decor">groceries<b></b></div>
+  <div id="d1" class="card sticky decor">laundry<b></b></div>
+  <div id="d4" class="card decor">pay the bill<b></b></div>
+  <div id="d5" class="card decor">school forms<b></b></div>
+  <div id="d3" class="card decor">call back<b></b></div>
+  <div id="c-todo" class="card"><div class="t">To do</div><div class="s">today</div><b style="top:62px;width:180px"></b><b style="top:100px;width:120px"></b><b style="top:138px;width:150px"></b></div>
+  <div id="c-dishes" class="card sticky"><div class="serif"><span class="w" data-w="things:0">The</span> <span class="w" data-w="things:1">dishes,</span></div></div>
+  <div id="c-mail" class="card"><i class="ic"></i><div class="lbl">Mail · now</div><div class="txt"><span class="w" data-w="things:2">the</span> <span class="w" data-w="things:3">emails,</span></div></div>
+  <div id="c-text" class="card"><div id="dots3"><i></i><i></i><i></i></div><div class="txt"><span class="w" data-w="things:4">the</span> <span class="w" data-w="things:5">texts</span> <span class="w" data-w="things:6">you</span><br><span class="w" data-w="things:7">haven't</span> <span class="w" data-w="things:8">answered.</span></div></div>
+  <div id="badge" class="abs"><span id="badge-n">3</span></div>
+</div></div>
+
+<!-- ============ S3 · YOU DON'T HAVE TO FINISH IT TONIGHT (dusk) ============ -->
+<div id="s3" class="scene"><div id="s3-cam" class="cam">
+  <svg id="s3-stars" width="1080" height="1920"></svg>
+  <svg class="cloud" id="cl1" style="left:-120px;top:1430px" width="620" height="220" viewBox="0 0 620 220"><path fill="rgba(255,248,246,.9)" d="M40 200 C 0 200, 0 140, 50 135 C 50 80, 130 60, 170 100 C 200 30, 320 20, 350 95 C 390 60, 470 70, 480 130 C 560 120, 600 200, 540 200 Z"/></svg>
+  <svg class="cloud" id="cl2" style="left:560px;top:1560px" width="560" height="200" viewBox="0 0 620 220"><path fill="rgba(255,246,244,.82)" d="M40 200 C 0 200, 0 140, 50 135 C 50 80, 130 60, 170 100 C 200 30, 320 20, 350 95 C 390 60, 470 70, 480 130 C 560 120, 600 200, 540 200 Z"/></svg>
+  <svg class="cloud" id="cl3" style="left:180px;top:1700px" width="760" height="260" viewBox="0 0 620 220"><path fill="rgba(255,250,248,.95)" d="M40 200 C 0 200, 0 140, 50 135 C 50 80, 130 60, 170 100 C 200 30, 320 20, 350 95 C 390 60, 470 70, 480 130 C 560 120, 600 200, 540 200 Z"/></svg>
+  <div id="s3-l1" class="abs serif nw"><span class="w" data-w="tonight:0">You</span> <span class="w" data-w="tonight:1">don't</span> <span class="w" data-w="tonight:2">have</span> <span class="w" data-w="tonight:3">to</span></div>
+  <div id="s3-l2" class="abs serif nw"><span class="w" data-w="tonight:4">finish</span> <span class="w" data-w="tonight:5">it</span></div>
+  <div id="s3-l3" class="abs serif nw"><span class="w it" data-w="tonight:6">tonight.</span></div>
+</div></div>
+
+<!-- ============ S4 · ONE SMALL THING: water · window · breath (the camera glides down a tall world) ============ -->
+<div id="s4" class="scene"><div id="world">
+  <div id="w0" class="scr">
+    <div id="w0-a" class="abs serif nw"><span class="w" data-w="small:0">Just</span> <span class="w" data-w="small:1">do</span> <span class="w" data-w="small:2">one</span></div>
+    <div id="w0-b" class="abs serif nw"><span class="w it" data-w="small:3">small</span> <span class="w" data-w="small:4">thing.</span></div>
+    <svg id="scribble" width="1080" height="1920"><path id="scrib" d="M 640 1080 C 700 1150, 650 1260, 540 1262 C 420 1264, 380 1170, 410 1100 C 440 1020, 560 990, 630 1040 C 660 1062, 668 1090, 662 1112" fill="none" stroke="#AE5550" stroke-width="7" stroke-linecap="round"/></svg>
   </div>
-</div>
+  <div id="w1" class="scr">
+    <div id="w1-t" class="abs serif">
+      <div class="ln"><span class="w" data-w="water:0">Fill</span> <span class="w" data-w="water:1">a</span> <span class="w" data-w="water:2">glass</span></div>
+      <div class="ln"><span class="w" data-w="water:3">of</span> <span class="mark sg"><i class="mk"></i><span class="w it" data-w="water:4" style="color:#5E7F68">water.</span></span></div>
+    </div>
+    <svg id="glass" viewBox="0 0 300 440">
+      <defs>
+        <clipPath id="glass-in"><path d="M 24 14 L 276 14 L 248 420 Q 246 428 238 428 L 62 428 Q 54 428 52 420 Z"/></clipPath>
+        <linearGradient id="gw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D7E9E5" stop-opacity=".92"/><stop offset="1" stop-color="#A8C9C2" stop-opacity=".95"/></linearGradient>
+      </defs>
+      <ellipse cx="150" cy="446" rx="150" ry="16" fill="rgba(110,72,58,.12)"/>
+      <path d="M 24 14 L 276 14 L 248 420 Q 246 428 238 428 L 62 428 Q 54 428 52 420 Z" fill="rgba(255,255,255,.28)"/>
+      <g clip-path="url(#glass-in)">
+        <g id="water" transform="translate(0,440)">
+          <path id="wave" fill="url(#gw)" d="M -300 0 Q -225 -16 -150 0 T 0 0 T 150 0 T 300 0 T 450 0 T 600 0 L 600 470 L -300 470 Z"/>
+          <circle class="bub" cx="100" cy="300" r="7" fill="rgba(255,255,255,.75)"/>
+          <circle class="bub" cx="170" cy="340" r="5" fill="rgba(255,255,255,.75)"/>
+          <circle class="bub" cx="210" cy="280" r="6" fill="rgba(255,255,255,.75)"/>
+          <circle class="bub" cx="130" cy="380" r="4" fill="rgba(255,255,255,.75)"/>
+        </g>
+        <ellipse id="ripple" cx="150" cy="420" rx="40" ry="8" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="4" opacity="0"/>
+      </g>
+      <path d="M 24 14 L 276 14 L 248 420 Q 246 428 238 428 L 62 428 Q 54 428 52 420 Z" fill="none" stroke="#8C6F66" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M 54 50 L 72 370" stroke="rgba(255,255,255,.85)" stroke-width="10" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div id="w2" class="scr">
+    <div id="beam"></div>
+    <div id="rod"></div>
+    <div id="win"><div class="sky"></div><div class="pane pl"></div><div class="pane pr"></div><div class="frame"></div><div class="sill"></div></div>
+    <svg id="cur-l" class="curtain" viewBox="0 0 170 720"><path fill="#EBB9AD" d="M 0 0 L 170 0 C 150 200, 120 420, 150 720 L 0 720 Z"/><path d="M 50 20 C 40 260, 60 480, 40 700 M 105 20 C 95 260, 110 480, 98 700" stroke="rgba(174,85,80,.25)" stroke-width="6" fill="none"/></svg>
+    <svg id="cur-r" class="curtain" viewBox="0 0 170 720"><path fill="#EBB9AD" d="M 170 0 L 0 0 C 20 200, 50 420, 20 720 L 170 720 Z"/><path d="M 120 20 C 130 260, 110 480, 130 700 M 65 20 C 75 260, 60 480, 72 700" stroke="rgba(174,85,80,.25)" stroke-width="6" fill="none"/></svg>
+    <div id="w2-a" class="abs serif nw"><span class="w" data-w="window:0">Open</span> <span class="w" data-w="window:1">the</span></div>
+    <div id="w2-b" class="abs serif nw"><span class="w it" data-w="window:2">window</span></div>
+    <div id="w2-c" class="abs serif nw"><span class="w" data-w="window:3">for</span> <span class="w" data-w="window:4">a</span> <span class="w" data-w="window:5">minute.</span></div>
+  </div>
+  <div id="w3" class="scr">
+    <div id="w3-a" class="abs serif nw"><span class="w" data-w="breath:0">Take</span> <span class="w" data-w="breath:1">one</span></div>
+    <div id="w3-b" class="abs serif nw"><span class="w it" data-w="breath:2">slow</span> <span class="w" data-w="breath:3">breath.</span></div>
+    <svg id="rings" width="1080" height="1920"><circle cx="540" cy="1180" r="140"/><circle cx="540" cy="1180" r="140"/><circle cx="540" cy="1180" r="140"/></svg>
+  </div>
+</div></div>
 
-<!-- ============ S3 · WATER · WINDOW · BREATHE (diagonal cascade) ============ -->
-<div id="s3" class="scene">
-  <svg id="s3-glass" class="abs" viewBox="0 0 210 330">
-    <defs><clipPath id="glass-in"><path d="M 22 12 L 188 12 L 168 316 L 42 316 Z"/></clipPath></defs>
-    <g clip-path="url(#glass-in)"><rect id="water-fill" x="0" y="330" width="210" height="330" fill="#A9C4C0"/></g>
-    <path d="M 22 12 L 188 12 L 168 316 L 42 316 Z" fill="none" stroke="#3A2B2E" stroke-width="7" stroke-linejoin="round"/>
-  </svg>
-  <div id="s3-water" class="abs serif"><div><span class="w" data-w="water:0">Drink</span> <span class="w" data-w="water:1">a</span> <span class="w" data-w="water:2">glass</span></div><div><span class="w" data-w="water:3">of</span> <span class="w it" data-w="water:4">water.</span></div></div>
-  <div id="s3-window-light" class="honey"></div>
-  <div id="s3-window" class="abs"><div class="pane l"></div><div class="pane r"></div></div>
-  <div id="s3-open" class="abs serif"><div><span class="w" data-w="window:0">Open</span> <span class="w" data-w="window:1">the</span></div><div><span class="w it" data-w="window:2">window.</span></div></div>
-  <div id="s3-breath" class="abs"></div>
-  <div id="s3-breathe" class="abs serif"><span class="w it" data-w="breathe:0">Breathe.</span></div>
-</div>
-
-<!-- ============ S4 · REST IS NOT A REWARD (the teacup) ============ -->
-<div id="s4" class="scene">
-  <div id="s4-rest" class="abs serif"><span class="w it" data-w="rest:0">Rest</span></div>
-  <div id="s4-not" class="abs serif"><span class="w" data-w="rest:1">is</span> <span class="w" data-w="rest:2">not</span> <span class="w" data-w="rest:3">a</span> <span class="w" data-w="rest:4">reward.</span></div>
-  <svg id="s4-cup" class="abs" viewBox="0 0 420 470">
-    <g fill="none" stroke="#7F9C86" stroke-width="7" stroke-linecap="round">
-      <path class="steam" d="M 150 190 C 120 150, 180 120, 150 70 C 130 40, 160 20, 150 0"/>
-      <path class="steam" d="M 210 200 C 180 160, 240 130, 210 80 C 190 50, 220 30, 210 6"/>
-      <path class="steam" d="M 270 190 C 240 150, 300 120, 270 70 C 250 40, 280 20, 270 0"/>
+<!-- ============ S5 · REST ISN'T SOMETHING YOU EARN (the lamp and the tea) ============ -->
+<div id="s5" class="scene"><div id="s5-cam" class="cam">
+  <div id="s5-rest" class="abs serif"><span class="w it" data-w="rest:0">Rest</span></div>
+  <div id="s5-l1" class="abs serif nw"><span class="w" data-w="rest:1">isn't</span> <span class="w" data-w="rest:2">something</span></div>
+  <div id="s5-l2" class="abs serif nw"><span class="w" data-w="rest:3">you</span> <span class="w" data-w="rest:4">earn.</span></div>
+  <svg id="cup" viewBox="0 0 520 440">
+    <defs>
+      <linearGradient id="gcup" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D7CE"/><stop offset="1" stop-color="#DFA295"/></linearGradient>
+      <radialGradient id="gtea" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#B07A5E"/><stop offset="1" stop-color="#7C4E3C"/></radialGradient>
+    </defs>
+    <g id="steam" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="14" stroke-linecap="round">
+      <path class="st" d="M 200 170 C 170 120, 230 80, 200 30 C 175 -10, 215 -50, 195 -100"/>
+      <path class="st" d="M 262 160 C 232 110, 292 70, 262 20 C 237 -20, 277 -60, 257 -120"/>
+      <path class="st" d="M 324 170 C 294 120, 354 80, 324 30 C 299 -10, 339 -50, 319 -100"/>
     </g>
-    <path d="M 70 230 L 350 230 C 345 330, 300 390, 210 390 C 120 390, 75 330, 70 230 Z" fill="#E8B9AE" stroke="#3A2B2E" stroke-width="7" stroke-linejoin="round"/>
-    <path d="M 348 262 C 400 262, 405 330, 340 332" fill="none" stroke="#3A2B2E" stroke-width="7" stroke-linecap="round"/>
-    <path d="M 30 420 C 120 446, 300 446, 390 420" fill="none" stroke="#3A2B2E" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="260" cy="404" rx="236" ry="32" fill="#F0DCD3"/>
+    <ellipse cx="260" cy="398" rx="150" ry="16" fill="rgba(140,111,102,.18)"/>
+    <path d="M 430 236 C 505 236, 508 330, 418 336" fill="none" stroke="#E3A99C" stroke-width="24" stroke-linecap="round"/>
+    <path d="M 88 200 L 432 200 C 427 322, 362 388, 260 388 C 158 388, 93 322, 88 200 Z" fill="url(#gcup)"/>
+    <ellipse cx="260" cy="200" rx="172" ry="28" fill="#FBEDE8"/>
+    <ellipse cx="260" cy="203" rx="152" ry="20" fill="url(#gtea)"/>
+    <path d="M 120 236 C 126 290, 150 330, 186 352" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="12" stroke-linecap="round"/>
+    <g id="tag"><path d="M 360 196 L 404 290" stroke="#B9A196" stroke-width="3"/><rect x="386" y="288" width="40" height="48" rx="6" fill="#B9605A"/></g>
   </svg>
-  <div id="s4-work" class="serif"><span class="w" data-w="work:0">It's</span> <span class="w" data-w="work:1">part</span> <span class="w" data-w="work:2">of</span> <span class="w" data-w="work:3">the</span> <span class="w it" data-w="work:4">work.</span></div>
-  <div id="s4-under"></div>
-</div>
+  <div id="s5-l3" class="abs serif nw"><span class="w" data-w="going:0">It's</span> <span class="w" data-w="going:1">part</span> <span class="w" data-w="going:2">of</span> <span class="w" data-w="going:3">how</span></div>
+  <div id="s5-l4" class="abs serif nw"><span class="w" data-w="going:4">you</span> <span class="mark"><i class="mk"></i><span class="w" data-w="going:5">keep</span> <span class="w it" data-w="going:6">going.</span></span></div>
+</div></div>
 
-<!-- ============ S5 · BE KIND TO YOURSELF TODAY (final card) ============ -->
-<div id="s5" class="scene">
-  <div id="s5-sun" class="honey"></div>
-  <div id="s5-kind" class="abs serif"><div><span class="w" data-w="kind:0">Be</span> <span class="w" data-w="kind:1">kind</span> <span class="w" data-w="kind:2">to</span></div><div><span class="w it" data-w="kind:3">yourself</span> <span class="w" data-w="kind:4">today.</span></div></div>
-  <div id="s5-emblem" class="abs"></div>
-  <div id="s5-follow" class="abs sans"><span class="w" data-w="cta:0">FOLLOW</span> <span class="w" data-w="cta:1">FOR</span> <span class="w" data-w="cta:2">MORE</span> <span class="w" data-w="cta:3">GENTLE</span> <span class="w" data-w="cta:4">REMINDERS</span></div>
-  <div id="s5-name" class="abs sans">HER CALM CORNER</div>
-</div>
+<!-- ============ S6 · SO BE GENTLE WITH YOURSELF TODAY (sunrise, final card) ============ -->
+<div id="s6" class="scene"><div id="s6-cam" class="cam">
+  <svg id="s6-rays" class="rays" width="1080" height="1920"></svg>
+  <svg id="s6-hills" class="hills" viewBox="0 0 1080 640">
+    <path class="h3" fill="url(#gh3)" d="M0 220 C 200 130, 380 170, 560 215 C 740 260, 900 150, 1080 175 L1080 700 L0 700 Z"/>
+    <path class="h2" fill="url(#gh2)" d="M0 330 C 220 260, 440 300, 620 345 C 800 390, 930 300, 1080 310 L1080 700 L0 700 Z"/>
+    <path class="h1" fill="url(#gh1)" d="M0 450 C 260 390, 470 420, 660 460 C 830 500, 960 430, 1080 440 L1080 700 L0 700 Z"/>
+  </svg>
+  <div id="s6-l1" class="abs serif nw"><span class="w" data-w="gentle:0">So</span> <span class="w" data-w="gentle:1">be</span> <span class="w" data-w="gentle:2">gentle</span></div>
+  <div id="s6-l2" class="abs serif nw"><span class="w" data-w="gentle:3">with</span> <span class="mark"><i class="mk"></i><span class="w it" data-w="gentle:4">yourself</span></span></div>
+  <div id="s6-l3" class="abs serif nw"><span class="w" data-w="gentle:5">today.</span></div>
+  <div id="s6-cta" class="abs sans"><span class="w" data-w="cta:0">FOLLOW</span> <span class="w" data-w="cta:1">FOR</span> <span class="w" data-w="cta:2">MORE</span> <span class="w" data-w="cta:3">GENTLE</span> <span class="w" data-w="cta:4">REMINDERS</span></div>
+  <div id="s6-name" class="abs sans">HER CALM CORNER</div>
+</div></div>
 
-<!-- ============ life layer + overlays ============ -->
-<div id="bloom"></div>
-<div id="sweep"></div>
-<div id="dots"></div>
+<!-- ============ overlays + life layer ============ -->
+<div id="leak"></div>
+<svg id="wind" width="1080" height="1920">
+  <path d="M -80 520 C 200 470, 380 600, 560 520 C 700 460, 760 380, 690 350 C 620 330, 620 440, 720 470 C 860 510, 1000 440, 1180 420"/>
+  <path d="M -80 900 C 240 860, 420 960, 640 890 C 820 840, 980 900, 1180 860"/>
+  <path d="M -80 1240 C 160 1200, 300 1300, 470 1250 C 590 1215, 640 1130, 570 1110 C 500 1095, 510 1200, 610 1220 C 800 1260, 960 1180, 1180 1190"/>
+  <path d="M -80 1560 C 220 1520, 460 1620, 700 1560 C 860 1520, 1000 1560, 1180 1530"/>
+</svg>
+<div id="fog"></div>
+<canvas id="motes" width="1080" height="1920"></canvas>
 <div id="vignette"></div>
 <div id="grain"></div>
 <div id="bar"><i id="bar-fill"></i></div>
@@ -163,108 +343,271 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#F6EFE8
   var ws = function (s, i) { return byS[s][i].start; };
   var we = function (s, i) { return byS[s][i].end; };
   var el = function (s, i) { return q('[data-w="' + s + ':' + i + '"]'); };
-  var LEAD = 0.1;   // words float in a touch earlier than the men's page: softer, never late
+  var LEAD = 0.1;   // words float in a touch early: soft, never late
   function prng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  var clamp = function (x) { return Math.max(0, Math.min(1, x)); };
 
   // ---------- static prep ----------
   q('#grain').style.backgroundImage = 'url("data:image/svg+xml;utf8,' + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>") + '")';
-  var dr = prng(7), dots = q('#dots');
-  for (var i = 0; i < 7; i++) { var d = document.createElement('i'); var s = 40 + dr() * 90; d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (dr() * 1000) + 'px;top:' + (200 + dr() * 1500) + 'px;opacity:' + (0.25 + dr() * 0.35); d.id = 'dot' + i; dots.appendChild(d); }
+  var NS = 'http://www.w3.org/2000/svg';
+  function rays(svg, cx, cy) {
+    for (var k = 0; k < 16; k++) {
+      var a = k / 16 * Math.PI * 2, l = document.createElementNS(NS, 'line');
+      l.setAttribute('x1', cx + Math.cos(a) * 170); l.setAttribute('y1', cy + Math.sin(a) * 170);
+      l.setAttribute('x2', cx + Math.cos(a) * (k % 2 ? 250 : 300)); l.setAttribute('y2', cy + Math.sin(a) * (k % 2 ? 250 : 300));
+      svg.appendChild(l);
+    }
+    svg.style.transformOrigin = cx + 'px ' + cy + 'px';
+  }
+  rays(q('#s1-rays'), 540, 1250); rays(q('#s6-rays'), 540, 1400);
+  var sr = prng(21), stars = q('#s3-stars');
+  for (var k = 0; k < 18; k++) {
+    var x = 70 + sr() * 940, y = 110 + sr() * 600;
+    if (x > 620 && y < 600) { x -= 520; }                       // keep clear of the moon
+    var s = 8 + sr() * 16, p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', 'M ' + x + ' ' + (y - s) + ' Q ' + x + ' ' + y + ' ' + (x + s) + ' ' + y + ' Q ' + x + ' ' + y + ' ' + x + ' ' + (y + s) + ' Q ' + x + ' ' + y + ' ' + (x - s) + ' ' + y + ' Q ' + x + ' ' + y + ' ' + x + ' ' + (y - s) + ' Z');
+    p.setAttribute('fill', '#FFFAF0'); p.setAttribute('class', 'star'); p.style.opacity = 0;
+    stars.appendChild(p);
+  }
+  // key italic words are written letter by letter (split once, statically)
+  function split(node) {
+    var t = node.textContent; node.textContent = '';
+    for (var i = 0; i < t.length; i++) { var c = document.createElement('span'); c.className = 'ch'; c.textContent = t[i]; node.appendChild(c); }
+    return node.querySelectorAll('.ch');
+  }
   function dash(sel, len) { qa(sel).forEach(function (p) { p.setAttribute('stroke-dasharray', len); p.setAttribute('stroke-dashoffset', len); }); }
-  dash('#s1-stroke', 520); dash('#check-path', 80); dash('#s4-cup .steam', 240);
+  dash('#scrib', 900); dash('#wind path', 1700);
+  gsap.set('#orb', { x: 540, y: 1640, scale: 0.85 });
+  gsap.set('#fog', { y: 1920 });
+  gsap.set(['#rings circle', '#s3-stars .star'], { transformOrigin: '50% 50%' });   // SVG: GSAP owns the origin
+  gsap.set('.mark .mk', { rotation: -1.5, scaleX: 0, transformOrigin: '0% 50%' });
 
   var tl = gsap.timeline({ paused: true });
   function show(id, t) { tl.set(id, { opacity: 1 }, t); }
   function hide(id, t) { tl.set(id, { opacity: 0 }, t); }
-  // soft word entrance: fade up with a little blur; never a slam
+  function fadeIn(id, t, d) { tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: d || 0.5, ease: 'sine.inOut', immediateRender: false }, t); }
+  function fadeOut(id, t, d) { tl.to(id, { opacity: 0, duration: d || 0.5, ease: 'sine.inOut' }, t); }
+  // soft word entrance: fade up out of a blur
   function floatIn(s, i, extra) {
     tl.from(el(s, i), Object.assign({ opacity: 0, y: 26, filter: 'blur(8px)', duration: 0.7, ease: 'power2.out' }, extra || {}), ws(s, i) - LEAD);
   }
-  // primary transition: the light motif blooms to fill the frame, then dissolves over the next scene
-  function lightBloom(t, from, dur) {
-    dur = dur || 0.45;
-    tl.set('#bloom', { opacity: 1, left: from[0] - 300, top: from[1] - 300, scale: 0.4 }, t - dur);
-    tl.to('#bloom', { scale: 7, duration: dur, ease: 'power2.in' }, t - dur);
-    tl.to('#bloom', { opacity: 0, duration: 0.7, ease: 'sine.inOut' }, t);
+  // the comforting word writes itself in, letter by letter
+  function writeIn(s, i, extra) {
+    var chs = split(el(s, i)), d = Math.max(0.35, we(s, i) - ws(s, i));
+    tl.from(chs, Object.assign({ opacity: 0, y: 34, rotation: 8, filter: 'blur(6px)', duration: 0.6, ease: 'sine.out', stagger: d * 0.85 / chs.length }, extra || {}), ws(s, i) - LEAD);
   }
-  // accent: a warm band of light sweeps across while the scenes cross-dissolve under it
-  function lightSweep(t) {
-    tl.set('#sweep', { opacity: 1, x: 0 }, t - 0.5);
-    tl.to('#sweep', { x: 3000, duration: 1.0, ease: 'sine.inOut' }, t - 0.5);
-    tl.set('#sweep', { opacity: 0 }, t + 0.55);
+  function words(s, from, to, extra) { for (var i = from; i <= to; i++) floatIn(s, i, extra); }
+  function markIn(sel, t, d) { tl.to(sel, { scaleX: 1, duration: d || 0.55, ease: 'power2.out' }, t); }
+  // the light motif moves, scales and changes colour; one call per move so tweens never overlap
+  var LAY = ['honey', 'rose', 'moon', 'sage', 'amber'];
+  function orb(t, o) {
+    var d = o.dur || 1, v = { duration: d, ease: o.ease || 'power3.inOut' };
+    ['x', 'y', 'scale', 'opacity'].forEach(function (k) { if (o[k] != null) v[k] = o[k]; });
+    tl.to('#orb', v, t);
+    if (o.lay) LAY.forEach(function (L) { tl.to('#orb .o-' + L, { opacity: L === o.lay ? 1 : 0, duration: o.layDur || d * 0.8, ease: 'sine.inOut' }, t + (o.layAt || 0)); });
   }
+  function sky(id, t, d) { tl.to('#bg-' + id, { opacity: 1, duration: d || 1, ease: 'sine.inOut' }, t); }
+  function unsky(id, t, d) { tl.to('#bg-' + id, { opacity: 0, duration: d || 1, ease: 'sine.inOut' }, t); }
+  var MO = { a: 0.7 };   // dust-mote intensity, read in render()
+  function motes(t, a, d) { tl.to(MO, { a: a, duration: d || 1, ease: 'sine.inOut' }, t); }
 
   // ---------- life layer ----------
   tl.to('#bar-fill', { scaleX: 1, duration: D, ease: 'none' }, 0);
-  qa('#dots i').forEach(function (d, n) { tl.fromTo(d, { y: 0, x: 0 }, { y: -60 - n * 12, x: (n % 2 ? 1 : -1) * 30, duration: D, ease: 'sine.inOut', immediateRender: false }, 0); });
+  [['#b1', 70, 50], ['#b2', -60, 70], ['#b3', -80, -60], ['#b4', 60, -50], ['#b5', 40, 60]].forEach(function (b, n) {
+    var per = 5 + n * 0.9, reps = Math.max(1, Math.floor(D / per) - 1);
+    tl.fromTo(b[0], { x: 0, y: 0, scale: 1 }, { x: b[1], y: b[2], scale: 1.12, duration: per, ease: 'sine.inOut', repeat: reps, yoyo: true, immediateRender: false }, 0);
+  });
   tl.fromTo('#vignette', { scale: 1 }, { scale: 1.05, duration: D / 4, ease: 'sine.inOut', repeat: 3, yoyo: true }, 0);
 
-  // =============== S1 A GENTLE REMINDER ===============
-  tl.from('#s1-light', { scale: 0.3, opacity: 0, duration: 1.4, ease: 'sine.out' }, 0.05);
-  tl.to('#s1-light', { scale: 1.08, duration: 1.6, ease: 'sine.inOut', repeat: 1, yoyo: true }, 1.5);
-  floatIn('gentle', 0); floatIn('gentle', 1, { ease: 'sine.out', duration: 0.9 }); floatIn('gentle', 2);
-  tl.to('#s1-stroke', { attr: { 'stroke-dashoffset': 0 }, duration: 0.8, ease: 'power2.inOut' }, we('gentle', 2) - 0.2);
-  lightBloom(C.list, [540, 820], 0.4);
-  hide('#s1', C.list); show('#s2', C.list);
+  // =============== S1 · DAWN: if no one told you today… you're doing better than you think ===============
+  var P = C.pile;
+  tl.from('#s1-hills .h3', { y: 160, duration: 1.8, ease: 'power3.out' }, 0);
+  tl.from('#s1-hills .h2', { y: 220, duration: 1.8, ease: 'power3.out' }, 0.1);
+  tl.from('#s1-hills .h1', { y: 280, duration: 1.8, ease: 'power3.out' }, 0.2);
+  orb(0.05, { y: 1250, scale: 1.05, dur: 2.2, ease: 'sine.out' });                 // the sun rises behind the hills
+  tl.from('#s1-rays', { opacity: 0, scale: 0.7, duration: 1.6, ease: 'sine.out' }, 0.9);
+  tl.to('#s1-rays', { rotation: 14, duration: P, ease: 'none' }, 0);
+  tl.to('#s1-cam', { scale: 1.04, duration: P, ease: 'sine.inOut' }, 0);
+  words('hook', 0, 5, { y: 18 });
+  words('doing', 0, 1); writeIn('doing', 2); words('doing', 3, 5);
+  markIn('#s1-big .mk', we('doing', 2) - 0.15);
+  motes(0, 0.85, 0.5);
 
-  // =============== S2 YOU DON'T HAVE TO DO EVERYTHING TODAY ===============
-  [0, 1, 2, 3, 4, 5, 6].forEach(function (i) { floatIn('today', i, i === 5 ? { ease: 'sine.out', duration: 0.9 } : null); });
-  tl.from('#s2-card', { y: 120, opacity: 0, rotation: -6, duration: 0.9, ease: 'power2.out' }, C.list + 0.2);
-  ['.i1', '.i2', '.i3', '.i4'].forEach(function (c, n) { tl.from('#s2-card ' + c, { opacity: 0, x: -24, duration: 0.45, ease: 'back.out(1.3)' }, ws('today', 0) + 0.1 + n * 0.14); });
-  // let the list go: everything but the next small thing softens and fades
-  tl.to(['#s2-card .i1', '#s2-card .i2', '#s2-card .i3', '#s2-card .i4'], { opacity: 0.22, filter: 'blur(3px)', duration: 0.9, stagger: 0.08, ease: 'sine.inOut' }, ws('next', 0) - 0.2);
-  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('next', i, { y: 14 }); });
-  tl.from('#s2-card .item.next .box', { scale: 0, duration: 0.4, ease: 'back.out(1.6)', transformOrigin: '50% 50%' }, ws('next', 0) - 0.1);
-  tl.to('#check-path', { attr: { 'stroke-dashoffset': 0 }, duration: 0.35, ease: 'power2.out' }, ws('next', 4));
-  tl.to('#s2-card', { rotation: 0, duration: 1.4, ease: 'sine.inOut' }, ws('next', 0));
-  lightSweep(C.actions);
-  tl.to('#s2', { opacity: 0, duration: 0.5, ease: 'sine.inOut' }, C.actions - 0.15);
-  // reveal with an explicit fromTo: a from() that starts before the scene is shown would record the
-  // hidden opacity as its target and the scene would never appear in a sequential render
-  tl.fromTo('#s3', { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'sine.inOut', immediateRender: false }, C.actions - 0.15);
+  // match cut: the sun shrinks into the red badge on the to-do card; the hills sink, the day gets heavier
+  orb(P - 0.75, { x: 885, y: 565, scale: 0.4, lay: 'rose', dur: 0.85, ease: 'power3.inOut' });
+  tl.to('#s1-hills', { y: 520, duration: 0.8, ease: 'power2.in' }, P - 0.75);
+  tl.to(['#s1-hook', '#s1-big', '#s1-rays'], { opacity: 0, y: -40, filter: 'blur(10px)', duration: 0.42, ease: 'sine.in', stagger: 0.04 }, P - 0.85);
+  sky('pile', P - 0.7, 1.1); unsky('dawn', P - 0.7, 1.1);
+  motes(P - 0.7, 0.3, 1);
+  hide('#s1', P + 0.15); show('#s2', P - 0.45);
 
-  // =============== S3 WATER · WINDOW · BREATHE ===============
-  tl.from('#s3-glass', { opacity: 0, y: 30, duration: 0.6, ease: 'power2.out' }, C.actions);
-  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('water', i); });
-  tl.to('#water-fill', { attr: { y: 90 }, duration: 1.4, ease: 'sine.inOut' }, ws('water', 0));
-  tl.from('#s3-window', { opacity: 0, scale: 0.9, duration: 0.6, ease: 'power2.out' }, ws('window', 0) - 0.4);
-  tl.to('#s3-window .l', { rotationY: -70, duration: 0.9, ease: 'power2.inOut' }, ws('window', 0));
-  tl.to('#s3-window .r', { rotationY: 70, duration: 0.9, ease: 'power2.inOut' }, ws('window', 0));
-  tl.from('#s3-window-light', { opacity: 0, scale: 0.6, duration: 1.2, ease: 'sine.out' }, ws('window', 0) + 0.1);
-  [0, 1, 2].forEach(function (i) { floatIn('window', i, { x: -20, y: 0 }); });
-  tl.from('#s3-breath', { opacity: 0, scale: 0.6, duration: 0.6, ease: 'power2.out' }, ws('breathe', 0) - 0.5);
-  tl.to('#s3-breath', { scale: 1.2, duration: 1.1, ease: 'sine.inOut', repeat: 1, yoyo: true }, ws('breathe', 0) - 0.1);
-  floatIn('breathe', 0, { duration: 1.0, ease: 'sine.out' });
-  lightBloom(C.rest, [540, 1450], 0.5);
-  hide('#s3', C.rest); show('#s4', C.rest);
-
-  // =============== S4 REST IS NOT A REWARD ===============
-  floatIn('rest', 0, { duration: 1.0, ease: 'sine.out', y: 40 });
-  [1, 2, 3, 4].forEach(function (i) { floatIn('rest', i, { y: 16 }); });
-  tl.from('#s4-cup', { opacity: 0, y: 50, duration: 0.9, ease: 'power2.out' }, C.rest + 0.15);
-  qa('#s4-cup .steam').forEach(function (p, n) {
-    tl.to(p, { attr: { 'stroke-dashoffset': 0 }, duration: 1.2, ease: 'sine.inOut' }, C.rest + 0.5 + n * 0.25);
-    tl.fromTo(p, { y: 0, opacity: 1 }, { y: -18, opacity: 0.5, duration: 1.4, repeat: 2, yoyo: true, ease: 'sine.inOut', immediateRender: false }, C.rest + 1.7 + n * 0.2);
+  // =============== S2 · THE PILE: the list feels endless ===============
+  var DUSK = C.dusk, W = DUSK - 0.75;
+  tl.fromTo('#c-todo', { opacity: 0, y: 240, rotation: 9 }, { opacity: 1, y: 0, rotation: 3, duration: 0.5, ease: 'power3.out', immediateRender: false }, P - 0.35);
+  tl.set('#orb', { opacity: 0 }, P + 0.1);                                          // hand-off: orb -> badge
+  tl.fromTo('#badge', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(2)', immediateRender: false }, P + 0.08);
+  words('list', 0, 4); writeIn('list', 5);
+  tl.to('#s2-cam', { scale: 1.06, duration: W - P, ease: 'sine.inOut' }, P);
+  var decor = ['#d2', '#d1', '#d4', '#d5', '#d3'], t0 = ws('list', 3), t1 = ws('things', 0), dr = prng(5);
+  decor.forEach(function (id, k) {
+    var side = k % 2 ? 1 : -1, rot = (dr() - 0.5) * 16;
+    tl.fromTo(id, { opacity: 0, x: side * 700, y: 260, rotation: rot + side * 30 },
+      { opacity: 0.86, x: 0, y: 0, rotation: rot, duration: 0.6, ease: 'power3.out', immediateRender: false }, t0 + (t1 - t0) * k / 5);
   });
-  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('work', i, { y: 18 }); });
-  tl.from('#s4-under', { scaleX: 0, duration: 0.7, ease: 'power2.out' }, we('work', 4) - 0.1);
-  // accent: blur dissolve into the final card
-  tl.to('#s4', { opacity: 0, filter: 'blur(14px)', duration: 0.6, ease: 'sine.inOut' }, C.close - 0.3);
-  tl.fromTo('#s5', { opacity: 0, filter: 'blur(14px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.7, ease: 'sine.inOut', immediateRender: false }, C.close - 0.3);
+  tl.fromTo('#c-dishes', { opacity: 0, x: -700, rotation: -30 }, { opacity: 1, x: 0, rotation: -5, duration: 0.6, ease: 'power3.out', immediateRender: false }, ws('things', 0) - 0.3);
+  words('things', 0, 1, { y: 14 });
+  tl.fromTo('#c-mail', { opacity: 0, x: 700, rotation: 24 }, { opacity: 1, x: 0, rotation: 3, duration: 0.6, ease: 'power3.out', immediateRender: false }, ws('things', 2) - 0.3);
+  words('things', 2, 3, { y: 14 });
+  var tb = ws('things', 4) - 0.3;
+  tl.fromTo('#c-text', { opacity: 0, y: 500, rotation: -8 }, { opacity: 1, y: 0, rotation: -2, duration: 0.6, ease: 'power3.out', immediateRender: false }, tb);
+  qa('#dots3 i').forEach(function (d, n) { tl.fromTo(d, { y: 0 }, { y: -12, duration: 0.18, ease: 'sine.inOut', repeat: 1, yoyo: true, immediateRender: false }, tb + 0.15 + n * 0.09); });
+  tl.to('#dots3', { opacity: 0, duration: 0.15 }, ws('things', 4) - LEAD - 0.05);
+  words('things', 4, 8, { y: 14 });
 
-  // =============== S5 BE KIND TO YOURSELF TODAY ===============
-  tl.from('#s5-sun', { opacity: 0, scale: 0.5, y: 120, duration: 1.6, ease: 'sine.out' }, C.close);
-  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('kind', i, i === 3 ? { duration: 1.0, ease: 'sine.out' } : null); });
-  tl.from('#s5-emblem', { opacity: 0, scale: 0.4, duration: 0.8, ease: 'back.out(1.3)' }, ws('cta', 0) - 0.4);
-  [0, 1, 2, 3, 4].forEach(function (i) { floatIn('cta', i, { y: 12, filter: 'blur(4px)' }); });
-  tl.from('#s5-name', { opacity: 0, y: 14, duration: 0.9, ease: 'power2.out' }, we('cta', 4) + 0.15);
-  tl.fromTo('#s5-kind', { scale: 1 }, { scale: 1.025, duration: Math.max(0.5, D - C.close - 0.5), ease: 'sine.inOut', immediateRender: false }, C.close + 0.5);
+  // wind: the whole pile lifts away like leaves; the badge lets go and floats up to become the moon
+  qa('#wind path').forEach(function (p, n) {
+    tl.to(p, { attr: { 'stroke-dashoffset': 0 }, duration: 0.6, ease: 'sine.inOut' }, W + n * 0.08);
+    tl.to(p, { attr: { 'stroke-dashoffset': -1700 }, duration: 0.6, ease: 'sine.in' }, W + 0.55 + n * 0.08);
+  });
+  var leaves = ['#s2-head', '#d2', '#d1', '#c-todo', '#d4', '#d5', '#d3', '#c-dishes', '#c-mail', '#c-text'], lr = prng(9);
+  leaves.forEach(function (id, n) {
+    tl.to(id, { x: 1300 + lr() * 500, y: -(200 + lr() * 700), rotation: (lr() > 0.5 ? 1 : -1) * (60 + lr() * 100), opacity: 0, filter: 'blur(4px)', duration: 1.0, ease: 'power2.in' }, W + n * 0.06);
+  });
+  tl.to('#badge', { x: 900, y: -500, rotation: 90, opacity: 0, duration: 0.9, ease: 'power2.in' }, W + 0.05);
+  tl.set('#orb', { opacity: 1 }, W + 0.05);
+  orb(W + 0.05, { x: 800, y: 370, scale: 1.1, lay: 'moon', dur: 1.3, ease: 'power2.inOut' });
+  sky('dusk', W, 1.2); unsky('pile', W, 1.2);
+  motes(W, 1.0, 1.2);
+  fadeIn('#s3', DUSK - 0.35, 0.5); hide('#s2', DUSK + 0.9);
 
-  // ---------- per-frame: grain ----------
-  var gr = q('#grain');
+  // =============== S3 · DUSK: you don't have to finish it tonight ===============
+  var ST = C.steps;
+  tl.to('#orb .o-moon', { '--mx': '66%', duration: 1.4, ease: 'sine.inOut' }, DUSK);   // the full moon wanes to a crescent
+  qa('#s3-stars .star').forEach(function (p, n) {
+    tl.fromTo(p, { opacity: 0, scale: 0.2 }, { opacity: 0.95, scale: 1, duration: 0.5, ease: 'back.out(2)', immediateRender: false }, DUSK - 0.1 + n * 0.05);
+    tl.to(p, { opacity: 0.35, scale: 0.7, duration: 0.5 + (n % 3) * 0.2, ease: 'sine.inOut', repeat: 3, yoyo: true }, DUSK + 1.0 + n * 0.04);
+  });
+  tl.fromTo('#cl1', { x: -200 }, { x: 60, duration: 3.5, ease: 'sine.out', immediateRender: false }, DUSK - 0.4);
+  tl.fromTo('#cl2', { x: 260 }, { x: -40, duration: 3.5, ease: 'sine.out', immediateRender: false }, DUSK - 0.4);
+  tl.fromTo('#cl3', { y: 200 }, { y: 0, duration: 2.5, ease: 'sine.out', immediateRender: false }, DUSK - 0.3);
+  words('tonight', 0, 3, { y: 18 }); words('tonight', 4, 5, { y: 24 }); writeIn('tonight', 6, { duration: 0.8 });
+  tl.to('#s3-cam', { scale: 1.035, duration: ST - DUSK + 0.5, ease: 'sine.inOut' }, DUSK - 0.35);
+
+  // light leak: a warm band of light washes over; the moon sinks and shrinks into one small glowing dot
+  tl.fromTo('#leak', { x: -1500, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'sine.in', immediateRender: false }, ST - 0.7);
+  tl.to('#leak', { x: 1500, opacity: 0, duration: 0.8, ease: 'sine.out' }, ST);
+  orb(ST - 0.6, { x: 540, y: 1120, scale: 0.17, lay: 'honey', dur: 1.2, ease: 'power3.inOut' });
+  tl.to('#orb .o-moon', { '--mx': '130%', duration: 0.4, ease: 'sine.in' }, ST - 0.25);   // the moon stays a crescent until the leak covers it
+  unsky('dusk', ST - 0.5, 1.0);
+  fadeOut('#s3', ST - 0.3, 0.35); fadeIn('#s4', ST - 0.15, 0.45);
+  motes(ST, 0.55, 1);
+
+  // =============== S4 · THE SMALL STEPS (camera glides from screen to screen) ===============
+  var G1 = ws('water', 0) - 0.6, G2 = ws('window', 0) - 0.55, G3 = ws('breath', 0) - 0.6, LAMP = C.lamp;
+  words('small', 0, 2); writeIn('small', 3); floatIn('small', 4);
+  tl.to('#scrib', { attr: { 'stroke-dashoffset': 0 }, duration: 0.75, ease: 'power2.inOut' }, ws('small', 2));
+  tl.to('#orb', { scale: 0.22, duration: 0.5, ease: 'sine.inOut', repeat: 1, yoyo: true }, ws('small', 3));   // the small thing glows
+  // glide 1: the dot falls like a drop; the camera follows it down into a glass
+  tl.to('#world', { y: -1920, duration: 0.95, ease: 'power3.inOut' }, G1);
+  orb(G1, { y: 760, scale: 0.12, dur: 0.95 });
+  var LAND = G1 + 1.37;
+  orb(G1 + 0.95, { y: 1390, dur: 0.42, ease: 'power2.in' });
+  tl.to('#orb', { opacity: 0, duration: 0.2 }, LAND);
+  tl.fromTo('#ripple', { attr: { rx: 10, ry: 3 }, opacity: 1 }, { attr: { rx: 120, ry: 20 }, opacity: 0, duration: 0.7, ease: 'sine.out', immediateRender: false }, LAND);
+  tl.to('#water', { attr: { transform: 'translate(0,150)' }, duration: 1.1, ease: 'sine.inOut' }, LAND);
+  tl.to('#wave', { x: 300, duration: 1.4, ease: 'none', repeat: Math.ceil((G2 + 1 - LAND) / 1.4), immediateRender: false }, LAND - 0.2);
+  qa('#glass .bub').forEach(function (b, n) { tl.fromTo(b, { y: 0, opacity: 0.9 }, { y: -170, opacity: 0, duration: 1.0, ease: 'sine.in', repeat: 1, immediateRender: false }, LAND + 0.2 + n * 0.18); });
+  words('water', 0, 3); writeIn('water', 4);
+  markIn('#w1-t .mk', we('water', 4) - 0.1);
+  // glide 2: a bubble of light rises out of the water, drifts over and becomes the sun outside a window
+  tl.set('#orb', { x: 540, y: 1330, scale: 0.07 }, G2 - 0.75);
+  tl.to('#orb', { opacity: 1, duration: 0.15 }, G2 - 0.75);
+  orb(G2 - 0.75, { y: 930, scale: 0.1, dur: 0.75, ease: 'sine.inOut' });
+  tl.to('#world', { x: -1080, duration: 0.95, ease: 'power3.inOut' }, G2);
+  orb(G2, { x: 600, y: 760, scale: 0.6, dur: 1.2, ease: 'sine.inOut' });
+  tl.from('#cur-l', { x: -60, opacity: 0, duration: 0.8, ease: 'power2.out' }, G2 + 0.4);
+  tl.from('#cur-r', { x: 60, opacity: 0, duration: 0.8, ease: 'power2.out' }, G2 + 0.4);
+  var WO = ws('window', 0);
+  tl.to('#win .pl', { rotationY: -76, duration: 1.1, ease: 'power2.inOut' }, WO);
+  tl.to('#win .pr', { rotationY: 76, duration: 1.1, ease: 'power2.inOut' }, WO);
+  tl.to('#beam', { opacity: 1, duration: 1.2, ease: 'sine.out' }, WO + 0.3);
+  tl.to('#cur-l', { skewX: -7, rotation: 2, duration: 0.9, ease: 'sine.inOut', repeat: 2, yoyo: true }, WO + 0.2);
+  tl.to('#cur-r', { skewX: 7, rotation: -2, duration: 1.0, ease: 'sine.inOut', repeat: 2, yoyo: true }, WO + 0.25);
+  motes(WO, 1.3, 1);
+  words('window', 0, 1); writeIn('window', 2); words('window', 3, 5, { y: 18 });
+  // glide 3: the sun drifts down and becomes the breath
+  tl.to('#world', { y: -3840, duration: 1.0, ease: 'power3.inOut' }, G3);
+  orb(G3, { x: 540, y: 1180, scale: 1.15, lay: 'sage', dur: 1.2, ease: 'power3.inOut' });
+  motes(G3, 0.6, 1);
+  words('breath', 0, 1); writeIn('breath', 2, { duration: 0.9 }); floatIn('breath', 3, { duration: 0.9, ease: 'sine.out' });
+  var IN = Math.max(ws('breath', 0) + 0.15, G3 + 1.2), OUT_END = LAMP - 0.65, inh = (OUT_END - IN) * 0.6;
+  orb(IN, { scale: 1.5, dur: inh, ease: 'sine.inOut' });                       // inhale
+  orb(IN + inh, { scale: 1.22, dur: OUT_END - IN - inh, ease: 'sine.inOut' }); // exhale
+  qa('#rings circle').forEach(function (c, n) {
+    tl.fromTo(c, { scale: 1, opacity: 0.8 }, { scale: 2.5, opacity: 0, duration: 1.8, ease: 'sine.out', repeat: 1, immediateRender: false }, G3 + 0.9 + n * 0.6);
+  });
+
+  // the breath blooms: the orb grows to fill the frame and turns into warm lamp light
+  orb(LAMP - 0.65, { scale: 11, lay: 'amber', dur: 0.7, ease: 'power2.in' });
+  fadeOut('#s4', LAMP - 0.5, 0.4);
+  sky('lamp', LAMP - 0.3, 0.6);
+  fadeIn('#s5', LAMP - 0.05, 0.6);
+  orb(LAMP + 0.05, { x: 540, y: 1150, scale: 2.2, dur: 1.2, ease: 'power3.out' });
+
+  // =============== S5 · THE LAMP: rest isn't something you earn ===============
+  var CL = C.close;
+  writeIn('rest', 0, { duration: 0.9 }); words('rest', 1, 4, { y: 18 });
+  tl.from('#cup', { y: 90, opacity: 0, duration: 1.0, ease: 'power3.out' }, LAMP + 0.25);
+  qa('#steam .st').forEach(function (p, n) {
+    tl.fromTo(p, { opacity: 0, y: 30 }, { opacity: 0.85, y: 0, duration: 1.0, ease: 'sine.out', immediateRender: false }, LAMP + 0.8 + n * 0.2);
+    tl.to(p, { x: (n - 1) * 10 + 8, scaleY: 1.08, duration: 1.3, ease: 'sine.inOut', repeat: 1, yoyo: true }, LAMP + 1.8 + n * 0.15);
+  });
+  tl.fromTo('#tag', { rotation: 0 }, { rotation: 6, duration: 1.2, ease: 'sine.inOut', repeat: 2, yoyo: true, transformOrigin: '360px 196px', immediateRender: false }, LAMP + 1.2);
+  words('going', 0, 5, { y: 18 }); writeIn('going', 6);
+  markIn('#s5-l4 .mk', we('going', 6) - 0.1, 0.7);
+  tl.to('#s5-cam', { scale: 1.03, duration: CL - LAMP, ease: 'sine.inOut' }, LAMP);
+  motes(LAMP, 0.9, 1);
+
+  // steam rises and fills the frame like morning mist; behind it, the sun comes up
+  tl.to('#steam .st', { y: -260, scaleY: 1.8, opacity: 0, duration: 1.2, ease: 'sine.in', stagger: 0.08 }, CL - 1.1);
+  tl.to('#fog', { y: -1140, duration: 0.7, ease: 'power2.out' }, CL - 0.7);
+  tl.to('#fog', { y: -4300, duration: 0.85, ease: 'power2.inOut' }, CL - 0.05);
+  hide('#s5', CL); show('#s6', CL);
+  sky('rise', CL - 0.3, 0.4);
+  tl.set('#bg-lamp', { opacity: 0 }, CL + 0.1);
+  orb(CL - 0.6, { x: 540, y: 1700, scale: 0.95, lay: 'honey', dur: 0.6, ease: 'sine.inOut' });
+
+  // =============== S6 · SUNRISE: so be gentle with yourself today ===============
+  orb(CL + 0.1, { y: 1400, dur: 2.4, ease: 'sine.out' });
+  tl.from('#s6-hills .h3', { y: 120, duration: 1.6, ease: 'power3.out' }, CL);
+  tl.from('#s6-hills .h2', { y: 170, duration: 1.6, ease: 'power3.out' }, CL + 0.08);
+  tl.from('#s6-hills .h1', { y: 220, duration: 1.6, ease: 'power3.out' }, CL + 0.16);
+  tl.from('#s6-rays', { opacity: 0, scale: 0.6, duration: 1.8, ease: 'sine.out' }, CL + 0.8);
+  tl.to('#s6-rays', { rotation: 18, duration: D - CL, ease: 'none' }, CL);
+  words('gentle', 0, 3); writeIn('gentle', 4, { duration: 0.8 }); floatIn('gentle', 5);
+  markIn('#s6-l2 .mk', we('gentle', 4) - 0.1, 0.7);
+  words('cta', 0, 4, { y: 12, filter: 'blur(4px)' });
+  tl.from('#s6-name', { opacity: 0, y: 14, duration: 0.9, ease: 'power2.out' }, we('cta', 4) + 0.15);
+  tl.to('#s6-cam', { scale: 1.025, duration: D - CL, ease: 'sine.inOut' }, CL);
+  motes(CL, 0.8, 1);
+
+  // ---------- per-frame: grain, dust motes, badge counter ----------
+  var gr = q('#grain'), cv = q('#motes'), cx = cv.getContext('2d'), mr = prng(33), M = [];
+  for (var m = 0; m < 38; m++) M.push({ x: mr() * 1080, y: mr() * 1920, r: 2 + mr() * 5, sp: 12 + mr() * 34, ph: mr() * 6.28, a: 0.25 + mr() * 0.55 });
+  var bn = q('#badge-n'), cnt0 = P + 0.2, cnt1 = ws('things', 0) + 0.4;
   function render() {
-    var f = Math.round(tl.time() * 30), g = prng(f * 7919 + 1);
+    var t = tl.time(), f = Math.round(t * 30), g = prng(f * 7919 + 1);
     gr.style.backgroundPosition = Math.floor(g() * 256) + 'px ' + Math.floor(g() * 256) + 'px';
+    cx.clearRect(0, 0, 1080, 1920);
+    for (var i = 0; i < M.length; i++) {
+      var p = M[i], y = ((p.y - t * p.sp) % 1920 + 1920) % 1920, x = p.x + Math.sin(t * 0.55 + p.ph) * 34;
+      var a = p.a * MO.a * (0.6 + 0.4 * Math.sin(t * 1.3 + p.ph * 2));
+      var gd = cx.createRadialGradient(x, y, 0, x, y, p.r * 3);
+      gd.addColorStop(0, 'rgba(255,246,226,' + Math.min(1, a).toFixed(3) + ')'); gd.addColorStop(1, 'rgba(255,246,226,0)');
+      cx.fillStyle = gd; cx.beginPath(); cx.arc(x, y, p.r * 3, 0, 6.2832); cx.fill();
+    }
+    var k = clamp((t - cnt0) / (cnt1 - cnt0));
+    bn.textContent = String(Math.round(3 + 44 * (1 - Math.pow(1 - k, 2))));
   }
   tl.eventCallback('onUpdate', render);
   render();

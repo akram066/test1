@@ -31,7 +31,7 @@
   timing.js           generated: words, scenes, cuts, cues (index.html reads it synchronously)
   transcript.json     generated: [{text, start, end, sentence, index}]
   tools/build.py      timing + cues + mix + data-duration sync
-  tools/voice.py      Kokoro TTS + word timings
+  tools/voice.py      Kokoro TTS in breath groups (breaths, room tone) + word timings
   tools/align_external.py  word timings for any external voice file (ElevenLabs, recording)
   tools/sfx.py        soft procedural SFX kit (no samples, no licences)
   tools/check_voice.py     offline clarity check (WER) per sentence
@@ -47,25 +47,35 @@
     "engine": "file",                       // "file" (ElevenLabs/recording) or "kokoro"
     "file": "assets/voiceover.source.mp3",  // used when engine = file
     "lang": "en-us", "peak_db": -3,
-    "kokoro": { "blend": {"af_sarah": 0.7, "af_heart": 0.3}, "speed": 0.86, "pitch_semitones": 0,
-                "eq": "female", "reverb": 0.1, "room_rt60": 0.5, "phoneme_fixes": {} }
+    "kokoro": { "blend": {"af_heart": 0.6, "af_sarah": 0.4}, "speed": 0.9, "pitch_semitones": 0,
+                "eq": "female", "reverb": 0.1, "room_rt60": 0.45,
+                "breath_db": -24,        // soft inhale before each group, dB under speech (null = off)
+                "room_tone_db": -64,     // quiet room under everything, dBFS (null = off)
+                "seed": 5, "phoneme_fixes": {} }
   },
-  "gaps": {"sentence": 0.42, "short": 0.8, "long": 1.2, "hold": 1.0},   // Kokoro only
-  "lead_in": 0.5, "end_hold": 2.6,
-  "script": [ {"id": "gentle", "text": "A gentle reminder.", "pause": "short"}, ... ],
-  "scenes": [ {"id": "open", "at": 0}, {"id": "list", "at": "today:0", "lead": 0.3}, ... ],
-  "cues":   [ {"sfx": "chime", "at": "gentle:1", "gain": "chime"}, ... ],
+  "gaps": {"sentence": 0.42, "short": 0.7, "long": 1.1, "hold": 1.0},   // fallback pauses (Kokoro only)
+  "lead_in": 0.6, "end_hold": 2.5,
+  "script": [ {"id": "hook", "text": "If no one told you today..."}, {"id": "doing", "text": "You're doing ..."}, ... ],
+  "flow":   [ {"say": ["hook", "doing"], "gap": 0.8}, {"say": ["water"], "gap": 0.75, "speed": 0.88}, ... ],
+  "scenes": [ {"id": "dawn", "at": 0}, {"id": "pile", "at": "list:0", "lead": 0.35}, ... ],
+  "cues":   [ {"sfx": "chime", "at": "doing:2", "gain": "chime"}, ... ],
   "sound":  {"voice": 1, "drone": 0.08, "air": 0.32, "chime": 0.2, ..., "duck_sfx_db": -6, "duck_drone_db": -6}
 }
 ```
 
-**Refs** (used by scenes and cues): `"today:3"` is the start of word 3 (0-based) in sentence `today`;
-`"today:3:end"` is its end; `"scene:list"` is the moment that scene cuts in; `"end"` is the reel's end;
+**flow** (Kokoro): the breath groups, in script order, every script id exactly once. Sentences in one group are
+synthesised in one pass; `gap` is the pause after the group (a small seeded jitter is added), `speed` overrides
+the voice speed for that group. Without `flow`, every sentence is its own group and `pause` keys on script
+lines pick from `gaps`.
+
+**Refs** (used by scenes and cues): `"things:3"` is the start of word 3 (0-based) in sentence `things`;
+`"things:3:end"` is its end; `"scene:pile"` is the moment that scene cuts in; `"end"` is the reel's end;
 a plain number is absolute seconds. Cue extras: `offset`, `gain` (a number or a `sound` key), `mul`,
 `repeat {count, every}`, `span {to, count, end_offset}`, `typing [refs]` (one tick per letter, the same
 schedule as `typingFor()` in index.html). Keys starting with `_` are comments.
 
-SFX available from the soft kit in `tools/sfx.py`: air, chime, page, drop, pluck, pop, bloom, drone (warm pad).
+SFX available from the soft kit in `tools/sfx.py`: air, wind, chime, twinkle, page, drop, pluck, pop, bloom,
+drone (warm pad).
 There are no impacts or sub hits on this page. To add a sound, write a function and a `save()` call there.
 
 ## 4. Voice
@@ -81,8 +91,9 @@ Use the ElevenLabs connector tools when they are available:
    sister, not a meditation app or an ad. Note the chosen voice_id in `reel.config.json → voice.source` so the series
    keeps one voice.
 2. `creative_create_flow`, then `creative_generate_speech` with model `eleven_multilingual_v2`, the **whole script in one
-   prompt** and soft SSML breaks: `A gentle reminder. <break time="0.8s" /> You don't have to ...`. Use 0.8 s after
-   sections and 1.2 s before the close.
+   prompt** and soft SSML breaks between breath groups only (sentences inside a group just follow each other):
+   `If no one told you today... you're doing better than you think. <break time="0.8s" /> I know the list ...`.
+   About 0.7–0.9 s between groups, 0.75 s between steps and 1.6 s after the breath line.
 3. Run it with `estimate_only: true` first and tell the user the credit cost; 2 takes are usually enough. Never re-call to retry.
 4. Poll `creative_get_flow_run_status`, then download each `master_url` with curl right away (signed URLs expire in about
    2 h) into `assets/voiceover.source.mp3`.
@@ -94,10 +105,21 @@ If that error appears, stop, keep the finished takes, tell the user, and use B.
 
 ### B. Kokoro fallback (local, free)
 
-Set `voice.engine = "kokoro"`. Tested defaults: blend 70% `af_sarah` + 30% `af_heart`, speed 0.86, no pitch shift,
-`eq: "female"` (gentle warmth, tamed sibilance), a short room (reverb 0.1). `af_sarah` was the clearest female
-voice in testing (offline WER about 9% against 18–25% for the others) and `af_heart` adds warmth. Avoid `bf_emma`
-(WER 59%). Each sentence is synthesised whole and level-matched, with soft edges, for smooth joins.
+Set `voice.engine = "kokoro"`. Tested defaults: blend 60% `af_heart` + 40% `af_sarah` (warmth from heart,
+clarity from sarah), speed 0.9 with 0.84–0.88 on the steps and the close, no pitch shift, `eq: "female"`, a
+short room (reverb 0.1, rt60 0.45). Avoid `bf_emma` (WER 59%).
+
+What makes it sound like one person instead of a sentence reader (all in `tools/voice.py`):
+- **Breath groups** (`flow`): related sentences are spoken in one pass, so the intonation runs on and the model
+  makes its own natural pause at the full stop (about 0.35–0.45 s). One-sentence-per-call sounds like a list.
+- **Varied pauses** between groups, set per group plus a ±8% seeded jitter.
+- **Soft inhales** (`breath_db`, default −24 dB under speech, about −40 dBFS) before each group that follows a
+  real pause. They go in after the compressor and before the room, so they sit in the same space.
+- **Room tone** (`room_tone_db`, −64 dBFS) so silences are never digital zero.
+- **Per-group speed**: a speaker slows down a little for the steps and the kind ending.
+Word timings: each group is split into sentences by voiced segments (DP on phoneme weights), then words are
+aligned inside each sentence. Read the printed spans; they must match what you hear. The starter measured about
+16% WER with pocketsphinx (offline ASR misses soft words; it is a regression check, not a score).
 
 ### C. The user's own recording
 
@@ -117,9 +139,18 @@ Start from the template and replace scene content; keep the machinery. HyperFram
   `tl.set` at their cut. Every element enters with an animation; nothing exits before its transition.
 - Words: `<span class="w" data-w="sentence:index">WORD</span>`, animated from `ws(sentence, i) - LEAD`.
   If the script changes, update these spans.
-- Helpers already in the template: `ws/we/el`, `floatIn(sentence, i, extra)` (the soft word entrance),
-  `lightBloom(t, [x, y], dur)`, `lightSweep(t)`, `dash()` for drawn strokes, `show/hide`, `prng(seed)`, and
-  `render()` on `onUpdate` (grain). HyperFrames seeks with events on, so `onUpdate` runs on every captured frame.
+- Layers, bottom to top: sky tints (`#bg-*`, cross-faded with `sky()/unsky()`), drifting blooms (`#blobs`),
+  the orb (`#orb`), transparent scenes, overlays (`#leak`, `#wind`, `#fog`), dust motes (canvas), vignette,
+  grain, progress bar. The orb sits *under* the scenes, so hills, glasses, windows and cups can be in front of
+  it; when it must sit on top of something (the badge on a card), hand off to an in-scene copy at the same spot.
+- Helpers already in the template: `ws/we/el`; `floatIn(s, i, extra)` (soft word entrance); `writeIn(s, i)`
+  (letter-by-letter key word); `words(s, from, to)`; `markIn(sel, t)` (highlighter); `orb(t, {x, y, scale,
+  opacity, lay, dur, ease})` (one call per move; never overlap two moves on the same property);
+  `sky(id, t)`, `motes(t, amount)`, `fadeIn/fadeOut`, `show/hide`, `dash()` for drawn strokes, `prng(seed)`,
+  and `render()` on `onUpdate` (grain, dust motes, badge counter). HyperFrames seeks with events on, so
+  `onUpdate` runs on every captured frame.
+- The steps scene is a tall `#world` (screens `.scr`) moved with `tl.to('#world', {x | y})`; the orb is
+  global, so tween it in screen coordinates alongside the glide.
 - Text inside 90 px side and 120 px top/bottom margins; statements ≥ 64 px, labels ≥ 38 px; contrast 4.5:1 on the light canvas.
 - Fonts: local `@font-face` only. Download woff2 from Google Fonts CSS with a browser user agent.
 
@@ -153,8 +184,14 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - An inline caret needs `height` and `vertical-align: top`, or it sits below the baseline.
 - Derive every beat from word times, then check collisions: a calendar replay once overlapped the page-tear
   transition. Print the times (`node -e` with timing.js) and compare.
-- The light bloom must not cover the opener's words while they are still being read: start it after the last word ends.
-- Size objects that contain words (the breathing circle) for their largest scale, so the word never crosses the line.
+- Elements that enter with `fromTo(..., {immediateRender: false})` are visible at their end state until the tween
+  starts. Hide them first in CSS (`#s2 .card, #steam .st, #rings circle {opacity: 0}`, stars via `style.opacity`).
+- SVG children ignore `style.transformOrigin` under GSAP; set `gsap.set(el, {transformOrigin: '50% 50%'})`.
+- GSAP can tween CSS variables (`'--mx': '66%'`): the moon's crescent is a mask whose centre is a variable.
+- Copying `index.html` over a built project resets `data-duration` to the template's value (the render comes out
+  short). Re-run `python3 tools/build.py` after replacing it.
+- When the camera glides, mind which way objects travel: a bubble that rises while the world scrolls up looks
+  like it drops out of the glass. Glide sideways (or up) for rising things.
 - HyperFrames AAC-encodes audio twice. Plosive spikes overshoot to clipping. The tools de-spike the voice and
   soft-limit the mix; always check `max_volume` on the final MP4.
 - A one-off "FFmpeg cannot start" from `hyperframes render` after a restart is transient: re-run it.

@@ -4,7 +4,7 @@
   python3 <skill>/scripts/new_reel.py <slug> [--dest DIR]
 
 Default destination: ./video-projects/<slug> when ./video-projects exists, else ./<slug>.
-The template is the Her Calm Corner starter reel ("A gentle reminder"): it builds and renders
+The template is the Her Calm Corner starter reel ("If no one told you today"): it builds and renders
 as-is, so you start from a working composition and replace the script, scenes and objects.
 """
 import argparse, json, os, re, shutil, sys
