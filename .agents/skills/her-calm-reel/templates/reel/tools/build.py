@@ -37,7 +37,8 @@ FPS = CFG.get("fps", 30)
 
 if "--voice" in sys.argv or not os.path.exists(os.path.join(ROOT, "transcript.json")):
     engine = CFG["voice"].get("engine", "kokoro")
-    script = "align_external.py" if engine == "file" else "voice.py"
+    aligner = CFG["voice"].get("aligner", "energy")
+    script = ("align_sphinx.py" if aligner == "sphinx" else "align_external.py") if engine == "file" else "voice.py"
     subprocess.run([sys.executable, os.path.join(ROOT, "tools", script)], check=True)
 if "--sfx" in sys.argv or not os.path.exists(os.path.join(ROOT, "assets", "sfx", "drone.wav")):
     subprocess.run([sys.executable, os.path.join(ROOT, "tools", "sfx.py")], check=True)

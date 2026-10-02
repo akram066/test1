@@ -45,6 +45,8 @@
 {
   "voice": {
     "engine": "file",                       // "file" (ElevenLabs/recording) or "kokoro"
+    "aligner": "sphinx",                    // engine=file: "sphinx" (forced alignment, preferred) or "energy"
+    "pronounce": {"skincare": "S K IH N K EH R"},   // sphinx: words missing from the CMU dictionary (ARPABET)
     "file": "assets/voiceover.source.mp3",  // used when engine = file
     "lang": "en-us", "peak_db": -3,
     "kokoro": { "blend": {"af_heart": 0.6, "af_sarah": 0.4}, "speed": 0.9, "pitch_semitones": 0,
@@ -75,7 +77,8 @@ a plain number is absolute seconds. Cue extras: `offset`, `gain` (a number or a 
 schedule as `typingFor()` in index.html). Keys starting with `_` are comments.
 
 SFX available from the soft kit in `tools/sfx.py`: air, wind, chime, twinkle, page, drop, pluck, pop, bloom,
-drone (warm pad).
+drone (warm pad), pour (water into a glass), click (a muffled lamp switch), ripple (a drop meeting still
+water, then a widening swell), bubbles (soft rising bubbles).
 There are no impacts or sub hits on this page. To add a sound, write a function and a `save()` call there.
 
 ## 4. Voice
@@ -98,7 +101,11 @@ Use the ElevenLabs connector tools when they are available:
 4. Poll `creative_get_flow_run_status`, then download each `master_url` with curl right away (signed URLs expire in about
    2 h) into `assets/voiceover.source.mp3`.
 5. Pick the take that sounds unhurried and warm with every pause honoured, and check it with `tools/check_voice.py`.
-   Set `voice.engine = "file"` and run `python3 tools/build.py --voice`.
+   Set `voice.engine = "file"`, `voice.aligner = "sphinx"` and run `python3 tools/build.py --voice`.
+   `tools/align_sphinx.py` force-aligns the script against the audio with pocketsphinx (free, offline, measured per
+   word) and stops if the alignment does not match the script. Words missing from its dictionary (brand-new or
+   compound words such as "skincare") go in `voice.pronounce` as ARPABET phones. Two different voices, one take
+   each, cost the same as two takes of one voice and give a real choice.
 
 ElevenLabs may disable a free-tier account for "unusual activity" when traffic comes through a proxy or VPN.
 If that error appears, stop, keep the finished takes, tell the user, and use B.
@@ -195,5 +202,9 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - HyperFrames AAC-encodes audio twice. Plosive spikes overshoot to clipping. The tools de-spike the voice and
   soft-limit the mix; always check `max_volume` on the final MP4.
 - A one-off "FFmpeg cannot start" from `hyperframes render` after a restart is transient: re-run it.
+- Move global glows (the orb, a moon) with x/y transforms, never left/top: lint rejects left/top motion because it
+  snaps to whole pixels and stutters under frame-by-frame capture.
+- Text inside an object that is "written in the fog" must sit above the fog layer in the DOM, or it reads as a smudge.
+- Don't hide a scene while its leaving particles (bubbles, leaves) are still in flight: hide it after they exit.
 - In sandboxes, Chrome may reject the proxy's TLS certificate; local fonts avoid that. Add the proxy CA
   to the NSS store (`certutil -A -d sql:$HOME/.pki/nssdb -t C,, ...`) if pages must fetch remote assets.

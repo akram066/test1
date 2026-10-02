@@ -1,6 +1,7 @@
 """Word timestamps for an external voiceover by forced alignment (pocketsphinx), fully offline.
 
-Config: voice.engine = "file", voice.aligner = "sphinx", voice.file = the audio (e.g. an ElevenLabs mp3).
+Config: voice.engine = "file", voice.aligner = "sphinx", voice.file = the audio (e.g. an ElevenLabs mp3),
+optional voice.pronounce = {"word": "ARPABET PHONES"} for words missing from the CMU dictionary.
 
 Unlike align_external.py (which spreads words by phoneme count inside detected sentences), this aligns
 the known script against the audio with the acoustic model, so every word gets its own measured start
@@ -34,6 +35,9 @@ def main():
     tokens = [(item["id"], w) for item in CFG["script"] for w in item["text"].split()]
     norm = lambda w: re.sub(r"[^a-z']", "", w.lower())
     d = Decoder(lm=None, bestpath=False, samprate=16000, logfn=os.devnull)
+    # words missing from the CMU dictionary: voice.pronounce = {"skincare": "S K IH N K EH R"}
+    for w, ph in v.get("pronounce", {}).items():
+        d.add_word(w.lower(), ph, True)
     d.set_align_text(" ".join(norm(w) for _, w in tokens))
     d.start_utt(); d.process_raw(pcm, full_utt=True); d.end_utt()
     d.set_alignment()

@@ -132,6 +132,49 @@ def drone(d=16):
     return l, r
 
 
+def pour(d=1.3):
+    """Water into a glass: a bubbly trickle whose pitch rises as the glass fills."""
+    t = t_axis(d) / d
+    env = smooth(t / 0.12) * (1 - smooth((t - 0.75) / 0.25))
+    out = bandish(noise(len(t)), 900, 3800) * env * 0.6
+    for k in range(18):
+        at = int((0.05 + 0.85 * k / 18 + 0.02 * rng.random()) * d * SR)
+        f = 900 + 900 * k / 18 + 200 * rng.random()
+        tt = np.arange(int(0.05 * SR)) / SR
+        b = np.sin(2 * np.pi * (f + 3000 * tt) * tt) * np.exp(-tt * 70)
+        out[at:at + len(b)] += 0.35 * b[: len(out) - at]
+    return out
+
+
+def click(d=0.3):
+    """A soft, muffled lamp switch (felt, not heard): no transient bite."""
+    t = t_axis(d)
+    a = onepole_lp(noise(len(t)), 1400) * np.exp(-t * 90)
+    b = np.sin(2 * np.pi * 180 * t) * np.exp(-t * 45) * 0.5
+    return (a + b) * np.minimum(1, t / 0.004)
+
+
+def ripple(d=2.2):
+    """A drop meeting still water, then a slow widening swell."""
+    t = t_axis(d)
+    tone = sum(a * np.sin(2 * np.pi * f * t) * np.exp(-t * k) for f, a, k in ((523.3, 0.6, 2.2), (659.3, 0.4, 2.6), (784, 0.25, 3.2)))
+    sw = bandish(noise(len(t)), 250, 1800) * smooth(t / 0.6) * (1 - smooth((t - 0.9) / 1.3)) * 0.5
+    return drop(d) * 0.8 + tone * np.minimum(1, t / 0.05) * 0.5 + sw
+
+
+def bubbles(d=1.4):
+    """Soft rising bubbles: the products letting go."""
+    t = t_axis(d)
+    out = np.zeros(len(t))
+    for k in range(9):
+        at = int((0.05 + 0.1 * k + 0.04 * rng.random()) * SR)
+        tt = np.arange(int(0.16 * SR)) / SR
+        f = 380 + 120 * k + 900 * tt / 0.16
+        b = np.sin(np.cumsum(2 * np.pi * f / SR)) * np.sin(np.pi * tt / 0.16) ** 2
+        out[at:at + len(b)] += (0.9 - 0.06 * k) * b[: len(out) - at]
+    return out
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -145,6 +188,10 @@ def main():
     save("wind", *wind())
     save("twinkle", twinkle())
     save("drone", *drone())
+    save("pour", pour())
+    save("click", click())
+    save("ripple", ripple())
+    save("bubbles", bubbles())
 
 
 if __name__ == "__main__":
