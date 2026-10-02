@@ -38,10 +38,11 @@ Then edit `reel.config.json`: the `script`, the `scenes` (cut points as word ref
 refs). Update `DESIGN.md` if the palette or symbols change.
 
 ### 4. Voice
-Follow `references/pipeline.md` §4. Preferred: an ElevenLabs deep, wise male narrator (approved: "Bill Adams",
-`V2bPluzT7MuirpucVAKH`), the whole script in one take with `<break>` pauses. Estimate the cost first, make 2
-takes, download, pick the best, then `engine: "file"`. Fallback: Kokoro (`engine: "kokoro"`, tested settings in
-the template). Then:
+Follow `references/pipeline.md` §4. The page's standing voice for every reel is the ElevenLabs library voice
+"Bill Adams - Wise and Motivational American Storyteller" (`V2bPluzT7MuirpucVAKH`, model `eleven_multilingual_v2`):
+the whole script in one take with `<break>` pauses, 2 takes, download, pick the clearer, then `engine: "file"`.
+Check the aligned word times against the audio energy (it can drop a word into a `<break>`) and fix them in
+`transcript.json`. Use Kokoro only if ElevenLabs is unavailable, and tell the user first. Then:
 ```bash
 python3 tools/build.py --voice --sfx
 ```

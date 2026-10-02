@@ -49,8 +49,10 @@ Script (55-80 words, US spelling, simple UK/US English, always original)
 - Weak man first, strong man last. No medical or financial claims.
 
 Voice and sound
-- A deep, wise, masculine narrator (ElevenLabs if available, estimate the cost first; otherwise the
-  local voice), whole script in one take with pauses for weight.
+- Always the ElevenLabs voice "Bill Adams - Wise and Motivational American Storyteller"
+  (voice ID V2bPluzT7MuirpucVAKH), model eleven_multilingual_v2, the whole script in one take with
+  <break> pauses for weight. Make 2 takes and pick the clearer one. Only if ElevenLabs is unavailable,
+  tell me before falling back to the local voice.
 - Sound design built for this concept: transition sounds on every cut, impacts on the hard moments,
   a low hit under the biggest weak-side line and under the rule, a low bed, all ducked under the voice.
 
