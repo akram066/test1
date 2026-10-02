@@ -93,3 +93,51 @@ Deliver
   or unreadable text, and give me a high-quality MP4, a share copy under 30 MB and a thumbnail, with
   the scene timings.
 ```
+
+---
+
+## Add-on: image posts
+
+Paste this part (instead of, or after, the reel prompt) when you want image posts. Attach your profile picture.
+
+```text
+IMAGE POSTS for my men's page "The Strong Man Code".
+
+TOPIC: [the idea for the post or posts]
+HOW MANY: [1 / 3 / 5]
+FORMAT: [text card / weak vs strong dialogue / photo + headline / you choose the best fit]
+MY PROFILE PICTURE: attached     HANDLE: [@yourhandle]
+
+Act like a senior social media designer. Make each post an original 1080x1350 PNG (4:5), designed
+by you (HTML/CSS rendered to an image, self-hosted fonts), and check it at phone size before you
+give it to me.
+
+Formats
+1. Text card: looks like a native social post. Black background (#070405), my profile picture as a
+   perfect circle top-left, page name in bold white with my handle in grey under it, then the post
+   in a clean sans (white, 40-46 px, left-aligned), short lines with a blank line between ideas.
+   An optional first line in caps as the headline. 8-14 short lines at most.
+2. Weak vs strong dialogue: the same card style written as an exchange, 3-5 rounds:
+   WEAK MAN: "..." / STRONG MAN: "...", ending with one hard closing line.
+   Labels in red (#E3141C), weak lines in grey, strong lines in white.
+3. Photo + headline: a dark, cinematic photo with a red tint fills the top 60-65% (objects,
+   places, or a man seen from behind, never a face). Below it, a thin white line with my small
+   round profile picture and handle in the middle, then a bold condensed headline in 3-4 lines:
+   white words with the key words in red. Make the photo with an image tool (not ElevenLabs) or
+   use a photo I give you.
+
+Writing (the same voice as the reels)
+- A wise, direct older man. One idea per post.
+- Open with a hook that stops the scroll: a hard truth, a number, or a short real-life story.
+- Concrete details from real life (prices, ages, everyday situations); end with a rule or one
+  sharp last line.
+- No jokes, slang, emojis in the image, begging for likes, or putting down women or any group.
+- No medical or financial claims or guarantees, no invented statistics, no fake quotes or fake
+  screenshots of real people, and no verified badge unless my page is verified.
+
+Caption (the text above the image)
+- A first line that stops mid-thought so people tap "See more", then 3-6 short lines that expand
+  the idea, then one question that invites comments. 0-3 hashtags.
+
+Keep the colours, fonts and layout the same across posts so the feed looks like one brand.
+```

@@ -100,3 +100,52 @@ Deliver
   or unreadable text, and give me a high-quality MP4, a share copy under 30 MB and a thumbnail, with
   the scene timings.
 ```
+
+---
+
+## Add-on: image posts
+
+Paste this part (instead of, or after, the reel prompt) when you want image posts. Attach your profile picture.
+
+```text
+IMAGE POSTS for my women's page "Her Calm Corner".
+
+TOPIC: [the idea for the post or posts]
+HOW MANY: [1 / 3 / 5]
+FORMAT: [text card / then vs now / photo + headline / you choose the best fit]
+MY PROFILE PICTURE: attached     HANDLE: [@yourhandle]
+
+Act like a senior social media designer. Make each post an original 1080x1350 PNG (4:5), designed
+by you (HTML/CSS rendered to an image, self-hosted fonts), and check it at phone size before you
+give it to me.
+
+Formats
+1. Text card: looks like a native social post. Warm cream background (#F6EFE8) with a very soft
+   blush glow, my profile picture as a perfect circle top-left, page name in bold cocoa (#3A2B2E)
+   with my handle in a soft grey under it, then the post in a clean, friendly sans (cocoa, 40-46 px,
+   left-aligned), short lines with a blank line between ideas. The one comforting phrase in rose
+   italic serif (#AE5550). 8-14 short lines at most.
+2. Then vs now: the same card style written as a gentle contrast, 3-5 rounds:
+   WHAT I USED TO THINK: "..." / WHAT I KNOW NOW: "...", ending with one kind reminder.
+   Labels in rose, the old thoughts in soft taupe, the new ones in cocoa.
+3. Photo + headline: a soft, warm, natural-light photo fills the top 60-65% (a window, tea, a
+   journal, flowers, a calm room, or hands and objects, never a face). Below it, on a cream band,
+   a thin rose line with my small round profile picture and handle in the middle, then an elegant
+   serif headline in 3-4 lines: cocoa words with the key words in rose italic. Make the photo with
+   an image tool (not ElevenLabs) or use a photo I give you.
+
+Writing (the same voice as the reels)
+- A kind, calm older sister. One idea per post. Validate first, then one small step.
+- Sound said, not written: contractions, her real-life specifics, "I know..." when it fits.
+- Open with a line that feels like it was written for her ("If no one told you today...", "It's okay
+  if..."); end with a gentle reminder or a soft question.
+- No shame, pressure, fear, comparing women or putting down men.
+- No medical, diet or money claims, no invented statistics, no fake quotes or fake screenshots of
+  real people, and no verified badge unless my page is verified.
+
+Caption (the text above the image)
+- A first line that stops mid-thought so people tap "See more", then 3-6 short, warm lines, then one
+  gentle question that invites comments. 0-3 hashtags.
+
+Keep the colours, fonts and layout the same across posts so the feed looks like one brand.
+```
