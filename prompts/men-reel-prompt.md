@@ -94,6 +94,8 @@ Deliver
 - Then build, check every scene and transition in stills and in the rendered MP4, fix any overlaps
   or unreadable text, and give me a high-quality MP4, a share copy under 30 MB and a thumbnail, with
   the scene timings.
+- Name every file you give me after the post title only, never the page name (for example
+  "Where your money really goes.mp4"), so they don't get mixed up in my Drive.
 ```
 
 ---
@@ -142,4 +144,5 @@ Caption (the text above the image)
   the idea, then one question that invites comments. 0-3 hashtags.
 
 Keep the colours, fonts and layout the same across posts so the feed looks like one brand.
+Name each image file after the post title only, never the page name.
 ```

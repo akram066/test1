@@ -66,6 +66,10 @@ last-frame thumbnail. Confirm `max_volume` < 0 dB on the final file. Write VERIF
 was fixed; say plainly that the audio was checked by numbers if you could not listen). Send the share copy and
 thumbnail, and give a short summary: scene timings and how to change the script.
 
+Name every file you send after the post title only, never the page name (for example
+`Where your money really goes.mp4`, `Where your money really goes - thumbnail.png`), so the files sort
+cleanly in the user's Drive.
+
 ## What never changes
 Faceless (no people, faces or photos); every word on screen as it is spoken; objects carry the meaning; a
 different layout each scene; one accent on black; the weak side greyed out; the ending holds on the rule, an

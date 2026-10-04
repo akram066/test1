@@ -64,6 +64,10 @@ top/bottom) and readability. Run `tools/check_voice.py` for a new voice.
 last-frame thumbnail. Check that `max_volume` is below 0 dB. Write VERIFY.md (say plainly if the audio was checked
 by numbers only). Send the share copy and thumbnail with a short summary and how to change the script.
 
+Name every file you send after the post title only, never the page name (for example
+`Where your money really goes.mp4`, `Where your money really goes - thumbnail.png`), so the files sort
+cleanly in the user's Drive.
+
 ## What never changes
 Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;
 illustrated objects carry the meaning; a different layout each scene; a light, living pastel background with
