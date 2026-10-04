@@ -61,13 +61,13 @@ margins (90 px sides, 120 px top/bottom), readability and beat collisions, then 
 `tools/check_voice.py` if the voice is new.
 
 ### 7. Render and deliver
-`npx hyperframes render --quality high`, then a CRF 18 master, a CRF 20 share copy (under 30 MB) and a
-last-frame thumbnail. Confirm `max_volume` < 0 dB on the final file. Write VERIFY.md (what was checked and what
-was fixed; say plainly that the audio was checked by numbers if you could not listen). Send the share copy and
-thumbnail, and give a short summary: scene timings and how to change the script.
+`npx hyperframes render --quality high`, then the CRF 18 master (the HQ file). Confirm `max_volume` < 0 dB on
+that file. Write VERIFY.md (what was checked and what was fixed; say plainly that the audio was checked by numbers
+if you could not listen). Send only the HQ master (no share copy, no thumbnail unless asked), and give a short
+summary: scene timings and how to change the script.
 
 Name every file you send after the post title only, never the page name (for example
-`Where your money really goes.mp4`, `Where your money really goes - thumbnail.png`), so the files sort
+`Where your money really goes.mp4`), so the files sort
 cleanly in the user's Drive.
 
 ## What never changes

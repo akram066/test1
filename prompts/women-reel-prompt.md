@@ -97,8 +97,8 @@ Deliver
   motif and what it becomes in each scene, the palette, the transitions and why they fit the topic)
   and the scene table (line -> motif / object -> text layout -> transition -> sound).
 - Then build, check every scene and transition in stills and in the rendered MP4, fix any overlaps
-  or unreadable text, and give me a high-quality MP4, a share copy under 30 MB and a thumbnail, with
-  the scene timings.
+  or unreadable text, and give me only the HQ MP4 (the CRF 18 master: no share copy, no
+  thumbnail), with the scene timings.
 - Name every file you give me after the post title only, never the page name (for example
   "Where your money really goes.mp4"), so they don't get mixed up in my Drive.
 ```
