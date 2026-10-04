@@ -222,3 +222,8 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   next one in its lead-in window, or it jumps ahead and disappears.
 - In sandboxes, Chrome may reject the proxy's TLS certificate; local fonts avoid that. Add the proxy CA
   to the NSS store (`certutil -A -d sql:$HOME/.pki/nssdb -t C,, ...`) if pages must fetch remote assets.
+- Rotating or scaling an SVG child (`<g>`, `<circle>`, `<ellipse>`): set `svgOrigin: 'x y'` in the SVG's own units.
+  A `transformOrigin` in px is read relative to the element's bounding box, so clock hands and rings swing around the wrong point.
+- A slow camera push-in (scale ~1.05) moves left-aligned text outward by ~20 px: set its `left` to ~112 px so it
+  never crosses the 90 px margin at full zoom. Measure the ink in frames from the final MP4.
+- An element revealed later with `fromTo(..., immediateRender:false)` needs `opacity:0` in CSS, or it shows before its tween.

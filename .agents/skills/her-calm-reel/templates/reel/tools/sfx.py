@@ -5,6 +5,9 @@
   pluck   warm muted string pluck (ticks)       pop     tiny soft pop (items appearing)
   bloom   slow airy swell into a scene          drone   warm major-ish pad, seamless loop (bed)
   wind    long soft gust that swirls across     twinkle tiny high glints (stars, light, a kind word)
+  bell    soft little-bell alarm (never harsh)  tick    tiny soft tick (counting)
+  cloth   fabric slide (blankets, curtains)     birds   distant morning chirps
+  riser   slow airy swell with a rising tone    clink   spoon on a ceramic bowl
 No hard impacts or sub hits: this page never slams.
 """
 import os
@@ -175,6 +178,68 @@ def bubbles(d=1.4):
     return out
 
 
+def bell(d=2.2):
+    """a soft, rounded alarm: three quick small-bell taps that fade (never a harsh ring)"""
+    t = t_axis(d)
+    out = np.zeros(len(t))
+    for k, at in enumerate((0.0, 0.16, 0.32, 0.48)):
+        tt = np.clip(t - at, 0, None)
+        g = (1 - 0.18 * k) * (t >= at)
+        for f, a, dec in ((1568, 1.0, 5.5), (2350, 0.35, 8.0), (3136, 0.12, 11.0)):
+            out += g * a * np.sin(2 * np.pi * f * tt) * np.exp(-tt * dec) * np.minimum(1, tt / 0.003)
+    return onepole_lp(out, 5200)
+
+
+def tick(d=0.12):
+    t = t_axis(d)
+    return bandish(noise(len(t)), 1800, 5200) * np.exp(-t * 70) * np.minimum(1, t / 0.001)
+
+
+def cloth(d=1.0):
+    """fabric slide: filtered noise with a slow swell and a soft grain"""
+    t = t_axis(d) / d
+    env = smooth(t / 0.35) * (1 - smooth((t - 0.45) / 0.55))
+    n = len(t)
+    grain = 0.6 + 0.4 * np.abs(np.sin(2 * np.pi * 23 * t * d + 3 * np.sin(2 * np.pi * 3 * t * d)))
+    l = bandish(noise(n), 500, 3800) * env * grain
+    r = bandish(noise(n), 520, 4000) * env * grain
+    return l, r
+
+
+def birds(d=2.4):
+    """two or three distant morning chirps"""
+    t = t_axis(d)
+    out = np.zeros(len(t))
+    for at, f0, f1, ln in ((0.10, 3600, 4400, 0.09), (0.24, 3900, 4700, 0.07), (0.95, 3300, 4300, 0.11), (1.12, 3500, 4600, 0.08), (1.9, 3800, 4500, 0.08)):
+        m = (t >= at) & (t < at + ln)
+        tt = t[m] - at
+        f = f0 + (f1 - f0) * np.sin(np.pi * tt / ln)
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        out[m] += np.sin(ph) * np.sin(np.pi * tt / ln) ** 2
+    return onepole_lp(out, 6000)
+
+
+def riser(d=2.6):
+    """a long, slow airy swell with a soft rising tone (the stretch)"""
+    t = t_axis(d)
+    u = t / d
+    env = smooth(u / 0.7) * (1 - smooth((u - 0.75) / 0.25))
+    n = len(t)
+    air_ = (bandish(noise(n), 400, 2400) * (1 - u) + bandish(noise(n), 1300, 5000) * u) * 0.8
+    f = 330 + 110 * u
+    tone = 0.25 * np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.12 * np.sin(2 * np.pi * np.cumsum(f * 1.5) / SR)
+    return (air_ + tone) * env
+
+
+def clink(d=1.2):
+    """a spoon touching a ceramic bowl, very soft"""
+    t = t_axis(d)
+    out = np.zeros(len(t))
+    for f, a, dec in ((2790, 1.0, 9.0), (4180, 0.45, 13.0), (6120, 0.15, 18.0), (1530, 0.3, 7.0)):
+        out += a * np.sin(2 * np.pi * f * t) * np.exp(-t * dec)
+    return onepole_lp(out * np.minimum(1, t / 0.002), 7000)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -192,6 +257,12 @@ def main():
     save("click", click())
     save("ripple", ripple())
     save("bubbles", bubbles())
+    save("bell", bell())
+    save("tick", tick())
+    save("cloth", *cloth())
+    save("birds", birds())
+    save("riser", riser())
+    save("clink", clink())
 
 
 if __name__ == "__main__":
