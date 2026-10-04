@@ -63,6 +63,9 @@ top/bottom) and readability. Run `tools/check_voice.py` for a new voice.
 `npx hyperframes render --quality high`, then the CRF 18 master (the HQ file). Check that `max_volume` is below
 0 dB on that file. Write VERIFY.md (say plainly if the audio was checked by numbers only). Send only the HQ master
 (no share copy, no thumbnail unless asked) with a short summary and how to change the script.
+The chat only accepts files up to 30 MiB. If the master is larger, send instead the highest-quality copy
+that fits: two-pass x264 (`-preset slower -tune animation`, AAC 192k) with the bitrate set so the file
+lands at about 29 MiB, and report its SSIM against the master. Never fall back to a small share copy.
 
 Name every file you send after the post title only, never the page name (for example
 `Where your money really goes.mp4`), so the files sort

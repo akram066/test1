@@ -93,7 +93,8 @@ Deliver
   (line -> object -> text layout -> transition -> sound).
 - Then build, check every scene and transition in stills and in the rendered MP4, fix any overlaps
   or unreadable text, and give me only the HQ MP4 (the CRF 18 master: no share copy, no
-  thumbnail), with the scene timings.
+  thumbnail), with the scene timings. If it is over the 30 MB chat limit, give me the
+  best-quality copy that fits just under it, never a small share copy.
 - Name every file you give me after the post title only, never the page name (for example
   "Where your money really goes.mp4"), so they don't get mixed up in my Drive.
 ```

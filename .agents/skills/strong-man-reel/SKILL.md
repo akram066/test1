@@ -65,6 +65,9 @@ margins (90 px sides, 120 px top/bottom), readability and beat collisions, then 
 that file. Write VERIFY.md (what was checked and what was fixed; say plainly that the audio was checked by numbers
 if you could not listen). Send only the HQ master (no share copy, no thumbnail unless asked), and give a short
 summary: scene timings and how to change the script.
+The chat only accepts files up to 30 MiB. If the master is larger, send instead the highest-quality copy
+that fits: two-pass x264 (`-preset slower -tune animation`, AAC 192k) with the bitrate set so the file
+lands at about 29 MiB, and report its SSIM against the master. Never fall back to a small share copy.
 
 Name every file you send after the post title only, never the page name (for example
 `Where your money really goes.mp4`), so the files sort
