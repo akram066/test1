@@ -38,9 +38,9 @@ Edit `reel.config.json`: the `script`, the breath groups (`flow`), the `scenes` 
 Update `DESIGN.md` if the palette changes.
 
 ### 4. Voice
-Follow `references/pipeline.md` §4. Preferred: an ElevenLabs warm, calm female narrator (not whispery, sultry
-or hyped), the whole script in one take with `<break>` pauses between breath groups. Estimate the cost first and
-make 2 takes, then `engine: "file"`. Fallback: Kokoro in breath groups with soft breaths and room tone
+Follow `references/pipeline.md` §4. The house voice is ElevenLabs **Lily Wolff** (`qBDvhofpxp92JgXJxDjB`), chosen
+by the page owner: use her unless the user asks for another. The whole script in one take with `<break>` pauses
+between breath groups. Estimate the cost first, make 1 take, then `engine: "file"`. Fallback: Kokoro in breath groups with soft breaths and room tone
 (`af_heart` 60% + `af_sarah` 40%, already in the template). Then:
 ```bash
 python3 tools/build.py --voice --sfx

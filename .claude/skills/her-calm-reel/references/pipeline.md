@@ -87,8 +87,12 @@ The voice decides every timestamp, so lock it before polishing the visuals.
 
 ### A. ElevenLabs (preferred: a warm, calm, gentle female narrator)
 
+**House voice: Lily Wolff, "Expressive, Clear, Youthful, Calming" (voice_id `qBDvhofpxp92JgXJxDjB`).** The page owner
+chose her after rejecting Desiree, Olivia, Alexandra and Matilda as not feminine enough. Use Lily for every new reel
+and skip the voice search unless the user asks for a different voice. One take is enough.
+
 Use the ElevenLabs connector tools when they are available:
-1. `creative_list_voices` with gender `female`, languages `["en"]`, descriptives such as `["calm"]`, `["soft"]` or
+1. Only when the user asks for another voice: `creative_list_voices` with gender `female`, languages `["en"]`, descriptives such as `["calm"]`, `["soft"]` or
    `["gentle"]`, and use cases `narrative_story` or `informative_educational`. Look for "warm", "soothing", "kind" and
    "conversational" in the description. Avoid breathy ASMR, whispery, sultry or hyped voices: the page is a calm older
    sister, not a meditation app or an ad. Note the chosen voice_id in `reel.config.json → voice.source` so the series
@@ -106,6 +110,10 @@ Use the ElevenLabs connector tools when they are available:
    word) and stops if the alignment does not match the script. Words missing from its dictionary (brand-new or
    compound words such as "skincare") go in `voice.pronounce` as ARPABET phones. Each word is then snapped to its
    voiced audio, because the aligner sometimes hands a pause to the following word (a word would appear early).
+   Check anyway: a one-letter word after a long pause (the "A" of "A little") can still be placed right after the
+   previous word. If a word starts a sentence but sits >0.5 s before the next word, patch its start in
+   `transcript.json` from the voiced frames and rebuild with `python3 tools/build.py` (no `--voice`, which would
+   re-align and undo the patch).
    To fit a take into the length limit, shorten long pauses from their middle (keep the breath step's pause). Two different voices, one take
    each, cost the same as two takes of one voice and give a real choice.
 
