@@ -7,8 +7,10 @@
   },
   "fps": 30,
   "voice": {
-    "engine": "kokoro",
+    "engine": "file",
+    "aligner": "sphinx",
     "file": "assets/voiceover.source.mp3",
+    "source": "ElevenLabs eleven_multilingual_v2, Lily Wolff - Expressive, Clear, Youthful, Calming (qBDvhofpxp92JgXJxDjB): the house voice. Set engine to kokoro only as the offline fallback.",
     "lang": "en-us",
     "peak_db": -3,
     "kokoro": {
