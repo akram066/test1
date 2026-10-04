@@ -5,7 +5,8 @@ optional voice.pronounce = {"word": "ARPABET PHONES"} for words missing from the
 
 Unlike align_external.py (which spreads words by phoneme count inside detected sentences), this aligns
 the known script against the audio with the acoustic model, so every word gets its own measured start
-and end. Sentence boundaries come from the script. A word's end is clipped to the next word's start.
+and end. Sentence boundaries come from the script. A word's end is clipped to the next word's start, and
+each word is then snapped to its voiced frames (the aligner sometimes gives a pause to the following word).
 
 The audio itself is only de-spiked and peak-normalised (voice.peak_db); no pitch or EQ changes.
 Output: assets/voiceover.wav and transcript.json. Needs: pip install pocketsphinx
@@ -50,11 +51,23 @@ def main():
     env = np.convolve(np.abs(a16), np.ones(320) / 320, "same")
     first = np.argmax(env > 0.05 * env.max()) / 16000
     pad = max(0.0, CFG.get("lead_in", 0.35) - first)
+    # the aligner sometimes hands a pause to the next word: snap each word to its voiced part
+    # (start = first 10 ms frame above 2.5% of the loudest frame, end = last such frame)
+    hop = 160
+    fr = np.sqrt(np.convolve(a16 ** 2, np.ones(hop) / hop, "same")[::hop])
+    voiced = fr > 0.025 * fr.max()
+    def snap(s, e):
+        i0, i1 = int(s * 100), max(int(s * 100) + 1, int(e * 100))
+        idx = np.where(voiced[i0:i1])[0]
+        if len(idx) == 0:
+            return s, e
+        return (i0 + idx[0]) / 100, max((i0 + idx[-1] + 1) / 100, (i0 + idx[0]) / 100 + 0.06)
     words = []
     for i, ((sid, text), (_, s, e)) in enumerate(zip(tokens, segs)):
         s = max(s, first)
         if i + 1 < len(segs):
             e = min(e, segs[i + 1][1])
+        s, e = snap(s, e)
         words.append({"text": text, "start": round(pad + s, 3), "end": round(pad + e, 3), "sentence": sid, "index": i})
     for item in CFG["script"]:
         ws = [w for w in words if w["sentence"] == item["id"]]

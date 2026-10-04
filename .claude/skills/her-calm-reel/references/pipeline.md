@@ -104,7 +104,9 @@ Use the ElevenLabs connector tools when they are available:
    Set `voice.engine = "file"`, `voice.aligner = "sphinx"` and run `python3 tools/build.py --voice`.
    `tools/align_sphinx.py` force-aligns the script against the audio with pocketsphinx (free, offline, measured per
    word) and stops if the alignment does not match the script. Words missing from its dictionary (brand-new or
-   compound words such as "skincare") go in `voice.pronounce` as ARPABET phones. Two different voices, one take
+   compound words such as "skincare") go in `voice.pronounce` as ARPABET phones. Each word is then snapped to its
+   voiced audio, because the aligner sometimes hands a pause to the following word (a word would appear early).
+   To fit a take into the length limit, shorten long pauses from their middle (keep the breath step's pause). Two different voices, one take
    each, cost the same as two takes of one voice and give a real choice.
 
 ElevenLabs may disable a free-tier account for "unusual activity" when traffic comes through a proxy or VPN.
@@ -206,5 +208,9 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   snaps to whole pixels and stutters under frame-by-frame capture.
 - Text inside an object that is "written in the fog" must sit above the fog layer in the DOM, or it reads as a smudge.
 - Don't hide a scene while its leaving particles (bubbles, leaves) are still in flight: hide it after they exit.
+- CSS beats SVG presentation attributes: a path styled by a class ignores `attr: {stroke, 'stroke-width'}` tweens.
+  Tween the CSS properties (`stroke`, `strokeWidth`) instead.
+- A sprite that follows drawn strokes (a pencil, a needle) must follow the stroke being drawn right now, not the
+  next one in its lead-in window, or it jumps ahead and disappears.
 - In sandboxes, Chrome may reject the proxy's TLS certificate; local fonts avoid that. Add the proxy CA
   to the NSS store (`certutil -A -d sql:$HOME/.pki/nssdb -t C,, ...`) if pages must fetch remote assets.
