@@ -60,9 +60,10 @@ margins (90 px sides, 120 px top/bottom), readability and beat collisions, then 
 `tools/check_voice.py` if the voice is new.
 
 ### 7. Render and deliver
-`npx hyperframes render --quality high`, then a CRF 18 master, a CRF 20 share copy (under 30 MB) and a
-last-frame thumbnail. Confirm `max_volume` < 0 dB on the final file. Write VERIFY.md (what was checked and what
-was fixed; say plainly that the audio was checked by numbers if you could not listen). Send the share copy and
+`npx hyperframes render --quality high`, then a CRF 18 master (the HQ file) and a last-frame thumbnail.
+The page owner wants **only the HQ video** delivered: no share copy. If the HQ file is over 30 MB (too big to
+send), re-encode it at CRF 19-21 until it fits and say so. Confirm `max_volume` < 0 dB on the final file. Write VERIFY.md (what was checked and what
+was fixed; say plainly that the audio was checked by numbers if you could not listen). Send the HQ video and
 thumbnail, and give a short summary: scene timings and how to change the script.
 
 ## What never changes

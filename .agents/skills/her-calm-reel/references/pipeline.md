@@ -179,8 +179,7 @@ npx hyperframes lint && npx hyperframes validate # 0 errors; contrast passes
 npx hyperframes snapshot --at <hero + transition times> --no-end -o snapshots
 python3 tools/contact_sheet.py review.png snapshots/frame-*.png    # look at it; fix overlaps or margins
 npx hyperframes render --quality high -o renders/<slug>.mp4
-ffmpeg -i renders/<slug>.mp4 -c:v libx264 -crf 18 -preset slow -pix_fmt yuv420p -movflags +faststart -c:a copy renders/<slug>_reel.mp4
-ffmpeg -i renders/<slug>.mp4 -c:v libx264 -crf 20 -preset slow -pix_fmt yuv420p -movflags +faststart -c:a copy renders/<slug>_share.mp4   # < 30 MB
+ffmpeg -i renders/<slug>.mp4 -c:v libx264 -crf 18 -preset slow -pix_fmt yuv420p -movflags +faststart -c:a copy renders/<slug>_reel.mp4   # the HQ deliverable; keep it under 30 MB
 ffmpeg -sseof -0.05 -i renders/<slug>.mp4 -frames:v 1 -update 1 renders/<slug>_thumbnail.png
 ffmpeg -i renders/<slug>_reel.mp4 -vn -af volumedetect -f null -   # max_volume must stay below 0 dB
 ```

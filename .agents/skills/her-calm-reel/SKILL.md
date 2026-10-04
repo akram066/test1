@@ -60,9 +60,10 @@ frames from the MP4**, because some bugs only show in a real render. Fix overlap
 top/bottom) and readability. Run `tools/check_voice.py` for a new voice.
 
 ### 7. Render and deliver
-`npx hyperframes render --quality high`, then a CRF 18 master, a CRF 20 share copy (under 30 MB) and a
-last-frame thumbnail. Check that `max_volume` is below 0 dB. Write VERIFY.md (say plainly if the audio was checked
-by numbers only). Send the share copy and thumbnail with a short summary and how to change the script.
+`npx hyperframes render --quality high`, then a CRF 18 master (the HQ file) and a last-frame thumbnail.
+The page owner wants **only the HQ video** delivered: no share copy. If the HQ file is over 30 MB (too big to
+send), re-encode it at CRF 19-21 until it fits and say so. Check that `max_volume` is below 0 dB. Write VERIFY.md (say plainly if the audio was checked
+by numbers only). Send the HQ video and thumbnail with a short summary and how to change the script.
 
 ## What never changes
 Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;
