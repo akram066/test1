@@ -84,12 +84,12 @@ Use the ElevenLabs connector tools when they are available:
    **whole script in one prompt** (consistent delivery, natural joins) and SSML breaks for the pauses:
    `The habit no man talks about. <break time="0.7s" /> A weak man ...`. Use 0.7 s after sections,
    1.2 s before the rule and 1.0 s after it.
-3. Run it with `estimate_only: true` first and tell the user the credit cost. Two takes are usually
-   enough (`generations_count: 2`). Never re-call to retry: each call charges again.
+3. Run it with `estimate_only: true` first and tell the user the credit cost. Make **one take**
+   (`generations_count: 1`): the user asks for a redo if they hear a problem. Never re-call to retry: each call charges again.
 4. Poll `creative_get_flow_run_status` until done, then download each `master_url` with curl right away
    (signed URLs expire after about 2 hours) into `assets/voiceover.source.mp3` (keep the other takes too).
-5. Pick the take: deeper median pitch, every pause honoured, fewer misses in
-   `python3 tools/check_voice.py <take>` (after a first alignment). Then set `voice.engine = "file"` and run
+5. Check the take: every pause honoured and few misses in `python3 tools/check_voice.py <take>` (after a
+   first alignment); report any problem to the user instead of silently generating another take. Then set `voice.engine = "file"` and run
    `python3 tools/build.py --voice`.
 
 ElevenLabs may disable a free-tier account for "unusual activity" when traffic comes through a proxy or

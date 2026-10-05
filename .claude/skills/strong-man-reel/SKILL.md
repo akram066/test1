@@ -40,7 +40,8 @@ refs). Update `DESIGN.md` if the palette or symbols change.
 ### 4. Voice
 Follow `references/pipeline.md` §4. The page's standing voice for every reel is the ElevenLabs library voice
 "Bill Adams - Wise and Motivational American Storyteller" (`V2bPluzT7MuirpucVAKH`, model `eleven_multilingual_v2`):
-the whole script in one take with `<break>` pauses, 2 takes, download, pick the clearer, then `engine: "file"`.
+the whole script in one take with `<break>` pauses, **1 take only** (`generations_count: 1`; the user asks for a redo
+if they hear a problem), download, then `engine: "file"`.
 Check the aligned word times against the audio energy (it can drop a word into a `<break>`) and fix them in
 `transcript.json`. Use Kokoro only if ElevenLabs is unavailable, and tell the user first. Then:
 ```bash
