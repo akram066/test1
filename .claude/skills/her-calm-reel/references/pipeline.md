@@ -114,7 +114,9 @@ Use the ElevenLabs connector tools when they are available:
    previous word. If a word starts a sentence but sits >0.5 s before the next word, patch its start in
    `transcript.json` from the voiced frames and rebuild with `python3 tools/build.py` (no `--voice`, which would
    re-align and undo the patch).
-   To fit a take into the length limit, shorten long pauses from their middle (keep the breath step's pause). Two different voices, one take
+   To fit a take into the length limit, shorten long pauses from their middle with
+   `python3 tools/tighten.py assets/voiceover.lily.mp3 <alignment.json> assets/voiceover.source.lily.wav`
+   (keeps 75% of each long pause and the longest one at 1.3 s, the real pause on screen). Two different voices, one take
    each, cost the same as two takes of one voice and give a real choice.
 
 ElevenLabs may disable a free-tier account for "unusual activity" when traffic comes through a proxy or VPN.
@@ -226,3 +228,5 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - A slow camera push-in (scale ~1.05) moves left-aligned text outward by ~20 px: set its `left` to ~112 px so it
   never crosses the 90 px margin at full zoom. Measure the ink in frames from the final MP4.
 - An element revealed later with `fromTo(..., immediateRender:false)` needs `opacity:0` in CSS, or it shows before its tween.
+- `hyperframes snapshot` can miss elements whose entrance is a `fromTo` started mid-scene (they stay at the from
+  state). If a still looks wrong, check with a direct `tl.seek()` screenshot or frames from a draft MP4 before changing code.

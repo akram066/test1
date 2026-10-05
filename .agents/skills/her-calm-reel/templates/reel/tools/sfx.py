@@ -240,6 +240,14 @@ def clink(d=1.2):
     return onepole_lp(out * np.minimum(1, t / 0.002), 7000)
 
 
+def twist(d=0.7):
+    """a jar lid turning: a short soft friction with a little rise"""
+    t = t_axis(d) / d
+    env = smooth(t / 0.2) * (1 - smooth((t - 0.55) / 0.45))
+    grain = 0.5 + 0.5 * np.abs(np.sin(2 * np.pi * 38 * t * d))
+    return bandish(noise(len(t)), 1400, 6000) * env * grain
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -263,6 +271,7 @@ def main():
     save("birds", birds())
     save("riser", riser())
     save("clink", clink())
+    save("twist", twist())
 
 
 if __name__ == "__main__":
