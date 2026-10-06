@@ -8,6 +8,7 @@
   bell    soft little-bell alarm (never harsh)  tick    tiny soft tick (counting)
   cloth   fabric slide (blankets, curtains)     birds   distant morning chirps
   riser   slow airy swell with a rising tone    clink   spoon on a ceramic bowl
+  roll    small coin rolling on a table         spin    coin spinning down on its edge
 No hard impacts or sub hits: this page never slams.
 """
 import os
@@ -258,6 +259,24 @@ def rustle(d=1.1):
     return body * env
 
 
+def roll(d=1.4):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.15) * (1 - smooth((u - 0.5) / 0.5))
+    wob = 0.6 + 0.4 * np.sin(2 * np.pi * (14 - 8 * u) * t)
+    tone = np.sin(2 * np.pi * 2350 * t) * 0.25 + np.sin(2 * np.pi * 3520 * t) * 0.12
+    grit = bandish(noise(len(t)), 600, 2600) * 0.5
+    return onepole_lp((tone + grit) * env * wob, 6000)
+
+
+def spin(d=1.6):
+    t = t_axis(d); u = t / d
+    rate = 10 + 30 * u * u
+    env = smooth(u / 0.2) * (1 - smooth((u - 0.7) / 0.3))
+    am = 0.5 + 0.5 * np.sin(2 * np.pi * np.cumsum(rate) / SR)
+    tone = np.sin(2 * np.pi * 3100 * t) * 0.3 + np.sin(2 * np.pi * 4650 * t) * 0.12
+    return onepole_lp(tone * am * env, 7000)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -283,6 +302,8 @@ def main():
     save("clink", clink())
     save("twist", twist())
     save("rustle", rustle())
+    save("roll", roll())
+    save("spin", spin())
 
 
 if __name__ == "__main__":
