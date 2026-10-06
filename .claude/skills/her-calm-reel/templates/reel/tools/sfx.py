@@ -248,6 +248,16 @@ def twist(d=0.7):
     return bandish(noise(len(t)), 1400, 6000) * env * grain
 
 
+def rustle(d=1.1):
+    """a dry leaf turning over: soft crackle in a short swell"""
+    t = t_axis(d) / d
+    env = smooth(t / 0.3) * (1 - smooth((t - 0.4) / 0.6))
+    n = len(t)
+    crackle = (rng.uniform(0, 1, n) > 0.985) * rng.uniform(-1, 1, n)
+    body = bandish(noise(n), 900, 5200) * 0.5 + onepole_lp(crackle, 6000) * 3.0
+    return body * env
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -272,6 +282,7 @@ def main():
     save("riser", riser())
     save("clink", clink())
     save("twist", twist())
+    save("rustle", rustle())
 
 
 if __name__ == "__main__":
