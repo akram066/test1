@@ -51,15 +51,24 @@ def save(name, left, right=None):
     print(f"  sfx/{name}.wav {len(left) / SR:.2f}s")
 
 
-def whoosh(d=0.75, peak=0.55):
+def softpass(d=0.9, f_lo=220, f_hi=1100, tone=(110, 165), peak=0.5, pan=(0.35, 0.65)):
+    """House transition sound: low-passed air that opens and closes, a faint pad tone under it, a gentle pan.
+    Dark (energy around 500-900 Hz), never hissy. Shape it per concept with f_hi, tone and peak."""
     t = t_axis(d) / d
-    up = smooth(np.clip(t / peak, 0, 1))
-    down = smooth(np.clip((t - peak) / (1 - peak), 0, 1))
-    env = np.where(t < peak, up ** 2, (1 - down) ** 1.6)
-    f = np.where(t < peak, 250 + 2800 * up, 3050 - 2400 * down)
-    pan = 0.5 + 0.4 * np.sin(np.pi * (t - 0.5))
-    n = len(t)
-    return biquad(noise(n), "bp", f, 1.3) * env * (1 - pan), biquad(noise(n), "bp", f * 1.04, 1.3) * env * pan
+    env = np.sin(np.pi * t) ** 2
+    rise = np.where(t < peak, smooth(np.clip(t / peak, 0, 1)), 1 - smooth(np.clip((t - peak) / (1 - peak), 0, 1)))
+    cut = f_lo + (f_hi - f_lo) * rise
+    air = biquad(biquad(noise(len(t)), "lp", cut, 0.7), "lp", cut * 1.2, 0.7)
+    tt = t_axis(d)
+    pad = sum(np.sin(2 * np.pi * f * (1 + 0.015 * (t - 0.5)) * tt + k) for k, f in enumerate(tone)) / len(tone)
+    x = air * env + 0.18 * pad * env
+    p = pan[0] + (pan[1] - pan[0]) * smooth(t)
+    return x * np.sqrt(1 - p), x * np.sqrt(p)
+
+
+def whoosh(d=0.8, peak=0.55):
+    """The cut sound. Smooth on purpose: the user rejected bright band-passed noise whooshes as harsh."""
+    return softpass(d, 200, 1000, (110, 165), peak, (0.4, 0.6))
 
 
 def thump(d=0.7, f0=95, f1=40, decay=7, click=0.5):
@@ -70,10 +79,11 @@ def thump(d=0.7, f0=95, f1=40, decay=7, click=0.5):
     return body + c
 
 
-def sub(d=2.6):
+def sub(d=1.3):
+    """A felt low hit: short, nearly steady pitch. A long pitch-sliding sub rings into a "moo" in the pauses."""
     t = t_axis(d)
-    ph = np.cumsum(2 * np.pi * (30 + 34 * np.exp(-t * 3.2)) / SR)
-    return (np.sin(ph) + 0.35 * np.sin(2 * ph)) * np.minimum(1, t / 0.008) * np.exp(-t * 1.6)
+    ph = np.cumsum(2 * np.pi * (40 + 8 * np.exp(-t * 12)) / SR)
+    return (np.sin(ph) + 0.25 * np.sin(2 * ph)) * np.minimum(1, t / 0.006) * np.exp(-t * 3.6)
 
 
 def crack(d=0.9):
@@ -112,9 +122,10 @@ def snap(d=0.5):
 
 
 def riser(d=1.4):
+    """A soft low-passed rise (no bright band-pass sweep)."""
     t = t_axis(d) / d
-    env = smooth(t) ** 2 * (1 - smooth(np.clip((t - 0.93) / 0.07, 0, 1)))
-    return biquad(noise(len(t)), "bp", 400 + 5000 * t ** 2, 2.2) * env + 0.3 * np.sin(2 * np.pi * (90 + 200 * t ** 2) * t * d) * env
+    env = smooth(t) ** 2 * (1 - smooth(np.clip((t - 0.9) / 0.1, 0, 1)))
+    return biquad(noise(len(t)), "lp", 300 + 1200 * t ** 2, 0.7) * env
 
 
 def tick(d=0.04):

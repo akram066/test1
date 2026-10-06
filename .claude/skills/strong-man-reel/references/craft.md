@@ -125,9 +125,7 @@ the final scene animates out, and in this format it holds instead.
 heavy rises and `sine.inOut` for calm. At least 3 different eases per scene. Ambient drift on ghost words,
 glows and the vignette so no frame is static. Camera shake lasts 3 frames, seeded (deterministic).
 
-**Sound** (procedural, `tools/sfx.py`): whoosh on every cut, stamp or impact on slams, sub under the biggest
-weak-side line and under the rule, crack, flips, riser before a topic change, slam and click for doors
-and locks, snap for cut strings, and a low drone throughout. The SFX duck 6 dB and the drone 8 dB under the voice.
+**Sound** (procedural, `tools/sfx.py`): a soft air pass (`whoosh()` / `softpass()`) on every cut, stamp or impact on slams, the short `sub()` under the biggest weak-side line and under the rule, and a low drone throughout; design new sounds per concept in the same smooth style (low-passed, a faint tone, gentle pan). Levels come from `sound.targets` relative to the voice (transitions about -31 dB, impacts about -23 dB); the SFX also duck 6 dB and the drone 8 dB under the voice. transition sounds are soft, dark air passes (`softpass()` in `tools/sfx.py`, energy around 500-900 Hz, gentle pan), never bright band-passed noise; low hits use the short steady `sub()` (no long pitch slide, which rings into a "moo").
 
 **Colour:** black canvas `#070405`, one accent, bone text `#F1E8E4`, ash `#8D7F81` for weak. Palette bank
 (one accent per video or series):

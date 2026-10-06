@@ -85,7 +85,35 @@ for i, sid in enumerate(ids):
 S = CFG["sound"]
 
 
+# House levels: with "targets" in `sound`, every SFX is set so its loudest 50 ms sits that many dB relative to
+# the voice's speech level (whatever the file's own loudness). Transitions about -31, impacts about -23.
+TARGETS = S.get("targets")
+_vdb, _loud = None, {}
+
+
+def voice_db():
+    global _vdb
+    if _vdb is None:
+        a, _ = sf.read(os.path.join(ROOT, "assets", "voiceover.wav"))
+        a = a.mean(1) if a.ndim > 1 else a
+        sp = a[np.abs(a) > 0.02]
+        _vdb = 20 * np.log10(np.sqrt((sp ** 2).mean()) + 1e-9)
+    return _vdb
+
+
+def loudest(name):
+    if name not in _loud:
+        a, sr_ = sf.read(os.path.join(ROOT, "assets", "sfx", name + ".wav"))
+        a = a.mean(1) if a.ndim > 1 else a
+        w = min(int(0.05 * sr_), len(a))
+        _loud[name] = max(np.sqrt((a[i:i + w] ** 2).mean()) for i in range(0, len(a) - w + 1, max(1, w // 2)))
+    return _loud[name]
+
+
 def gain_of(c):
+    if TARGETS is not None:
+        tdb = TARGETS.get(c["sfx"], TARGETS.get("default", -28))
+        return 10 ** ((voice_db() + tdb) / 20) / (loudest(c["sfx"]) + 1e-9) * c.get("mul", 1.0)
     g = c.get("gain", 1.0)
     g = S[g] if isinstance(g, str) else g
     return g * c.get("mul", 1.0)
@@ -184,6 +212,17 @@ mix[over] = np.sign(mix[over]) * (knee + (ceil - knee) * np.tanh((np.abs(mix[ove
 sf.write(os.path.join(ROOT, "assets", "mix.wav"), mix.astype(np.float32), SR, subtype="PCM_16")
 
 print(f"timing.js: {len(ids)} scenes, {len(cues)} cues, duration {duration:.2f}s")
+vdb = voice_db()
+print("SFX levels (loudest 50 ms vs voice speech level; brightness = spectral centre):")
+for name in sorted({c["sfx"] for c in cues}):
+    a, sr_ = sf.read(os.path.join(ROOT, "assets", "sfx", name + ".wav"))
+    a = a.mean(1) if a.ndim > 1 else a
+    g = max(c["gain"] for c in cues if c["sfx"] == name)
+    lv = 20 * np.log10(loudest(name) * g + 1e-9) - vdb
+    spec = np.abs(np.fft.rfft(a)); fr = np.fft.rfftfreq(len(a), 1 / sr_)
+    br = (spec * fr).sum() / (spec.sum() + 1e-9)
+    flag = "  <- louder than the house limit" if lv > -6 else ("  <- bright/hissy for a cut sound" if br > 2500 and lv > -30 else "")
+    print(f"  {name:10s} {lv:+6.1f} dB  {br:5.0f} Hz{flag}")
 print(f"mix.wav peak {20 * np.log10(np.abs(mix).max()):.2f} dBFS")
 for sid in ids:
     print(f"  {sid:10s} {scenes[sid]['start']:6.2f} -> {scenes[sid]['end']:6.2f}")

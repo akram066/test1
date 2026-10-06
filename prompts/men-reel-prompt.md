@@ -55,6 +55,8 @@ Voice and sound
   tell me before falling back to the local voice.
 - Sound design built for this concept: transition sounds on every cut, impacts on the hard moments,
   a low hit under the biggest weak-side line and under the rule, a low bed, all ducked under the voice.
+  Keep it smooth: soft, dark transition sounds (never harsh or hissy whooshes), short low hits with no
+  ringing tail, and every effect well under the voice.
 
 Look (new every reel, same mood)
 - Dark, high-contrast canvas with ONE strong accent colour chosen for this topic (change it between

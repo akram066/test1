@@ -21,7 +21,7 @@
       "reverb": 0.07,
       "room_rt60": 0.4,
       "phoneme_fixes": {
-        "ˈɜːdʒ": "ˈɜɹdʒ"
+        "\u02c8\u025c\u02d0d\u0292": "\u02c8\u025c\u0279d\u0292"
       }
     }
   },
@@ -404,6 +404,20 @@
     "string": 0.4,
     "riser": 0.3,
     "duck_sfx_db": -6,
-    "duck_drone_db": -8
+    "duck_drone_db": -8,
+    "targets": {
+      "default": -28,
+      "whoosh": -31,
+      "riser": -33,
+      "impact": -23,
+      "stamp": -23,
+      "slam": -22,
+      "sub": -23,
+      "crack": -30,
+      "click": -32,
+      "tick": -34,
+      "flip": -32,
+      "snap": -31
+    }
   }
 }

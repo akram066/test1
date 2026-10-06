@@ -55,8 +55,8 @@
   "script": [ {"id": "hook", "text": "The habit no man talks about.", "pause": "short"}, ... ],
   "scenes": [ {"id": "hook", "at": 0}, {"id": "weak", "at": "weak:0", "lead": 0.15}, ... ],
   "cues":   [ {"sfx": "stamp", "at": "hook:1", "offset": -0.02, "gain": "impact"}, ... ],
-  "sound":  {"voice": 1, "drone": 0.14, "whoosh": 0.42, "impact": 0.55, "sub": 0.62, ...,
-             "duck_sfx_db": -6, "duck_drone_db": -8}
+  "sound":  {"voice": 1, "drone": 0.14, "duck_sfx_db": -6, "duck_drone_db": -8,
+             "targets": {"default": -28, "whoosh": -31, "impact": -23, "sub": -23, ...}}
 }
 ```
 
@@ -66,8 +66,14 @@ a plain number is absolute seconds. Cue extras: `offset`, `gain` (a number or a 
 `repeat {count, every}`, `span {to, count, end_offset}`, `typing [refs]` (one tick per letter, the same
 schedule as `typingFor()` in index.html). Keys starting with `_` are comments.
 
-SFX available from `tools/sfx.py`: whoosh, impact, stamp, sub, crack, click, flip, snap, riser, tick,
-slam, drone. To add a sound, write a function and a `save()` call there.
+SFX available from `tools/sfx.py`: whoosh (a soft air pass built on `softpass()`), impact, stamp, sub (short, steady),
+crack, click, flip, snap, riser (soft), tick, slam, drone. To add a sound, write a function and a `save()` call there,
+in the same smooth style.
+
+Levels: `sound.targets` sets each SFX's loudest 50 ms in dB relative to the voice's speech level, so a new sound is
+automatically placed right whatever its raw loudness (a cue's `mul` still scales it; `default` covers unlisted
+sounds). Without `targets`, the old absolute `gain` numbers apply. After the mix, `build.py` prints every SFX's
+level and brightness and flags anything louder than -6 dB or bright and hissy (centre above 2.5 kHz) for a cut sound.
 
 ## 4. Voice
 

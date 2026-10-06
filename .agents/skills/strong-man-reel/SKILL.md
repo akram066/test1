@@ -49,6 +49,8 @@ python3 tools/build.py --voice --sfx
 ```
 Read the printed sentence spans and scene windows: they must match what you hear and what the storyboard says.
 
+Sound must be smooth (the user's standing rule): transition sounds are soft, dark air passes (`softpass()` in `tools/sfx.py`, energy around 500-900 Hz, gentle pan), never bright band-passed noise; low hits use the short steady `sub()` (no long pitch slide, which rings into a "moo"). Set levels with `sound.targets` (dB relative to the voice): transitions about -31, impacts and subs about -23, small details -32 to -34. `build.py` prints every SFX's level and brightness and flags anything louder than -6 dB or hissy; fix flags before rendering.
+
 ### 5. Compose
 Rewrite the scenes in `index.html` from the storyboard, reusing the template's patterns and helpers
 (word spans `data-w="sentence:index"` entering at `ws() - LEAD`, `slash()`, `show/hide`, beats in `B`,
