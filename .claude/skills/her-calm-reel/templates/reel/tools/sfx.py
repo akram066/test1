@@ -9,6 +9,9 @@
   cloth   fabric slide (blankets, curtains)     birds   distant morning chirps
   riser   slow airy swell with a rising tone    clink   spoon on a ceramic bowl
   roll    small coin rolling on a table         spin    coin spinning down on its edge
+  thrum   soft hum of a taut wool strand        tug     a knot pulled tight (fabric creak)
+  unravel woolly slide of a knot loosening      swell   warm chord swell (a release)
+  exhale  a long airy breath out
 No hard impacts or sub hits: this page never slams.
 """
 import os
@@ -277,6 +280,50 @@ def spin(d=1.6):
     return onepole_lp(tone * am * env, 7000)
 
 
+def thrum(d=1.8):
+    t = t_axis(d); u = t / d
+    env = smooth(t / 0.06) * np.exp(-2.2 * t)
+    vib = 1 + 0.004 * np.sin(2 * np.pi * 5.5 * t)
+    f = 196.0
+    tone = sum(a * np.sin(2 * np.pi * f * k * vib * t) for k, a in ((1, 0.5), (2, 0.3), (3, 0.14), (4, 0.06)))
+    fuzz = bandish(noise(len(t)), 400, 3000) * 0.05 * np.exp(-6 * t)
+    return onepole_lp((tone + fuzz) * env, 2600)
+
+
+def tug(d=0.55):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.35) * (1 - smooth((u - 0.45) / 0.55))
+    stick = 0.5 + 0.5 * np.sign(np.sin(2 * np.pi * (38 + 30 * u) * t))
+    grit = bandish(noise(len(t)), 250, 1800) * (0.35 + 0.65 * stick)
+    body = np.sin(2 * np.pi * 150 * t) * 0.25
+    return onepole_lp((grit + body) * env, 2200)
+
+
+def unravel(d=1.1):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.25) * (1 - smooth((u - 0.4) / 0.6))
+    am = 0.55 + 0.45 * np.abs(np.sin(2 * np.pi * (9 - 4 * u) * t))
+    fuzz = bandish(noise(len(t)), 500, 3800) * am
+    return onepole_lp(fuzz * env, 4500)
+
+
+def swell(d=2.4):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.55) * (1 - smooth((u - 0.6) / 0.4))
+    tone = sum(a * np.sin(2 * np.pi * f * t) for f, a in ((220, 0.35), (277.2, 0.25), (329.6, 0.22), (440, 0.08)))
+    air_ = bandish(noise(len(t)), 600, 4000) * 0.08
+    return onepole_lp((tone + air_) * env, 1800)
+
+
+def exhale(d=3.0):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.12) * (1 - smooth((u - 0.15) / 0.85)) ** 1.4
+    n = noise(len(t))
+    bright, dark = bandish(n, 300, 2400), bandish(n, 150, 900)
+    mix = bright * (1 - u) + dark * u * 1.6
+    return onepole_lp(mix * env, 3000)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -304,6 +351,11 @@ def main():
     save("rustle", rustle())
     save("roll", roll())
     save("spin", spin())
+    save("thrum", thrum())
+    save("tug", tug())
+    save("unravel", unravel())
+    save("swell", swell())
+    save("exhale", exhale())
 
 
 if __name__ == "__main__":
