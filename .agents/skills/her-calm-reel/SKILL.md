@@ -64,6 +64,9 @@ top/bottom) and readability. Run `tools/check_voice.py` for a new voice.
 The page owner wants **only the HQ video** delivered: no share copy. If the HQ file is over 30 MB (too big to
 send), re-encode it at CRF 19-21 until it fits and say so. Check that `max_volume` is below 0 dB. Write VERIFY.md (say plainly if the audio was checked
 by numbers only). Send the HQ video and thumbnail with a short summary and how to change the script.
+Name the delivered files by the reel's **title only**, with no page name, number or `_HQ` in front of it, e.g.
+`A-Small-Savings-Habit-That-Sticks.mp4` and `A-Small-Savings-Habit-That-Sticks_thumbnail.png`. Do not re-send
+earlier reels.
 
 ## What never changes
 Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;

@@ -65,6 +65,9 @@ The page owner wants **only the HQ video** delivered: no share copy. If the HQ f
 send), re-encode it at CRF 19-21 until it fits and say so. Confirm `max_volume` < 0 dB on the final file. Write VERIFY.md (what was checked and what
 was fixed; say plainly that the audio was checked by numbers if you could not listen). Send the HQ video and
 thumbnail, and give a short summary: scene timings and how to change the script.
+Name the delivered files by the reel's **title only**, with no page name, number or `_HQ` in front of it, e.g.
+`A-Small-Savings-Habit-That-Sticks.mp4` and `A-Small-Savings-Habit-That-Sticks_thumbnail.png`. Do not re-send
+earlier reels.
 
 ## What never changes
 Faceless (no people, faces or photos); every word on screen as it is spoken; objects carry the meaning; a
