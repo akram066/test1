@@ -11,7 +11,8 @@
   roll    small coin rolling on a table         spin    coin spinning down on its edge
   thrum   soft hum of a taut wool strand        tug     a knot pulled tight (fabric creak)
   unravel woolly slide of a knot loosening      swell   warm chord swell (a release)
-  exhale  a long airy breath out
+  exhale  a long airy breath out              puff    a cotton puff patting (soft, no thud)
+  sand    a sand timer trickling
 No hard impacts or sub hits: this page never slams.
 """
 import os
@@ -324,6 +325,22 @@ def exhale(d=3.0):
     return onepole_lp(mix * env, 3000)
 
 
+def puff(d=0.45):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.08) * np.exp(-9 * t)
+    soft = bandish(noise(len(t)), 120, 900) * 0.9 + np.sin(2 * np.pi * 110 * t) * 0.25 * np.exp(-14 * t)
+    return onepole_lp(soft * env, 1400)
+
+
+def sand(d=1.8):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.15) * (1 - smooth((u - 0.6) / 0.4))
+    n = noise(len(t))
+    grains = (rng.uniform(0, 1, len(t)) > 0.985) * rng.uniform(0.3, 1, len(t))
+    hiss = bandish(n, 2500, 9000) * 0.25 + bandish(grains, 1500, 7000) * 1.2
+    return hiss * env
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -356,6 +373,8 @@ def main():
     save("unravel", unravel())
     save("swell", swell())
     save("exhale", exhale())
+    save("puff", puff())
+    save("sand", sand())
 
 
 if __name__ == "__main__":
