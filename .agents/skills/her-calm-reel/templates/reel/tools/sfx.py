@@ -13,6 +13,8 @@
   unravel woolly slide of a knot loosening      swell   warm chord swell (a release)
   exhale  a long airy breath out              puff    a cotton puff patting (soft, no thud)
   sand    a sand timer trickling
+  flick   a soft scroll swish
+  purr    a gentle cat purr (low, no thud)
 No hard impacts or sub hits: this page never slams.
 """
 import os
@@ -341,6 +343,21 @@ def sand(d=1.8):
     return hiss * env
 
 
+def flick(d=0.22):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.15) * (1 - smooth((u - 0.25) / 0.75)) ** 2
+    swish = bandish(noise(len(t)), 1800, 6000) * (0.6 + 0.4 * u)
+    return onepole_lp(swish * env, 7000)
+
+
+def purr(d=2.4):
+    t = t_axis(d); u = t / d
+    env = smooth(u / 0.25) * (1 - smooth((u - 0.6) / 0.4))
+    am = 0.55 + 0.45 * np.sin(2 * np.pi * 24 * t) ** 2
+    body = bandish(noise(len(t)), 90, 420) * am + np.sin(2 * np.pi * 120 * t) * 0.08 * am
+    return onepole_lp(body * env, 600)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     print("SFX (soft kit):")
@@ -375,6 +392,8 @@ def main():
     save("exhale", exhale())
     save("puff", puff())
     save("sand", sand())
+    save("flick", flick())
+    save("purr", purr())
 
 
 if __name__ == "__main__":
