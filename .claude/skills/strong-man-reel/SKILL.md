@@ -76,6 +76,13 @@ Name every file you send after the post title only, never the page name (for exa
 `Where your money really goes.mp4`), so the files sort
 cleanly in the user's Drive.
 
+When the user asks for the Facebook post copy, give two paste-ready blocks:
+- **Description:** one or two sentences about the subject in the page's voice. Never repeat or summarise the
+  reel's script. End with 5 hashtags, starting with `#TheStrongManCode`.
+- **First comment (to pin):** one simple question with easy answers taken from the reel's topic, plus a short
+  line inviting replies. Example from rule #1: "Be honest: when does the urge hit you hardest? Bored, tired, or
+  alone? Drop it below. No judgment here."
+
 ## What never changes
 Faceless (no people, faces or photos); every word on screen as it is spoken; objects carry the meaning; a
 different layout each scene; one accent on black; the weak side greyed out; the ending holds on the rule, an
