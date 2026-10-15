@@ -68,6 +68,12 @@ Name the delivered files by the reel's **title only**, with no page name, number
 `A-Small-Savings-Habit-That-Sticks.mp4` and `A-Small-Savings-Habit-That-Sticks_thumbnail.png`. Do not re-send
 earlier reels.
 
+When asked for the Facebook text, give a **description of one or two sentences about the subject** that does
+not repeat the reel's words, plus three hashtags ending in `#hercalmcorner`. Then give a **first comment**: one
+easy question readers can answer (for example, which of the reel's small steps is hardest) and a line inviting
+them to share it with a friend. No emojis. Save both in `deliverables/<Title>_facebook.txt`. Approved example:
+"Tired skin is often just a tired you. Sometimes the kindest thing you can do for your face is an earlier night."
+
 ## What never changes
 Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;
 illustrated objects carry the meaning; a different layout each scene; a light, living pastel background with
