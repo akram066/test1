@@ -10,3 +10,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | A Small Savings Habit That Sticks | reel | 2026-10-17 |
 | Drop Your Shoulders, You're Holding Too Much | reel | 2026-10-18 |
 | If No One Told You Today… (you're doing better than you think) | image post | 2026-10-18 |
+| Rest Days Are Part of Being Healthy | reel | 2026-10-19 |
