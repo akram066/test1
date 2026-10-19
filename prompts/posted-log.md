@@ -11,3 +11,4 @@ instead of writing new copy. Add each new post here as soon as its copy is given
 | 3 | Where your money really goes | Reel | Money rarely disappears in one big mistake. | Where does your money leak the most? Food delivery, subscriptions, or impulse buys? |
 | 4 | Choose friends who make you better | Reel | The people around you are shaping who you become. | Does your circle push you forward, hold you back, or keep you where you are? |
 | 5 | Where your money really goes | Image post | A raise won't fix a habit. | Have you ever added up your small spending for one full month? |
+| 6 | Eating clean when money is tight | Reel | Eating well is not about spending more, it is about choosing better. | What is your go-to cheap healthy meal? Eggs, rice and beans, or something else? |
