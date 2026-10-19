@@ -74,6 +74,10 @@ easy question readers can answer (for example, which of the reel's small steps i
 them to share it with a friend. No emojis. Save both in `deliverables/<Title>_facebook.txt`. Approved example:
 "Tired skin is often just a tired you. Sometimes the kindest thing you can do for your face is an earlier night."
 
+**Before writing any Facebook text, check `references/posted.md`.** If the reel or post is already listed there,
+do not write new text: tell the owner it is already posted and give the date it was listed. After writing text
+for a new one, add it to that list.
+
 ## What never changes
 Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;
 illustrated objects carry the meaning; a different layout each scene; a light, living pastel background with
