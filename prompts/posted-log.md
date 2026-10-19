@@ -1,0 +1,13 @@
+# The Strong Man Code: posted log
+
+Every post the user has already received a description and first comment for. Before writing post copy,
+check this list. If the post is already here, tell the user it is already posted (and show the copy it got)
+instead of writing new copy. Add each new post here as soon as its copy is given.
+
+| # | Post | Type | Description (first line) | First comment question |
+|---|---|---|---|---|
+| 1 | The habit no man talks about | Reel | Every man fights a battle nobody sees. | When does the urge hit you hardest? Bored, tired, or alone? |
+| 2 | Your phone is training you | Reel | The first hour of your day decides who is in control, you or your screen. | What's the first thing you do when you wake up? Phone, water, or something else? |
+| 3 | Where your money really goes | Reel | Money rarely disappears in one big mistake. | Where does your money leak the most? Food delivery, subscriptions, or impulse buys? |
+| 4 | Choose friends who make you better | Reel | The people around you are shaping who you become. | Does your circle push you forward, hold you back, or keep you where you are? |
+| 5 | Where your money really goes | Image post | A raise won't fix a habit. | Have you ever added up your small spending for one full month? |
