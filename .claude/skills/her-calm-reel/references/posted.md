@@ -12,3 +12,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | If No One Told You Today… (you're doing better than you think) | image post | 2026-10-18 |
 | Rest Days Are Part of Being Healthy | reel | 2026-10-19 |
 | Start With What You Already Do Well | image post | 2026-10-19 |
+| One Skill, 20 Minutes a Day | reel | 2026-10-22 |
