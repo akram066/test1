@@ -15,3 +15,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | One Skill, 20 Minutes a Day | reel | 2026-10-22 |
 | You Haven't Opened Your Bank App in Weeks | reel (first tough-love reel) | 2026-10-28 |
 | When Did You Last Open Your Bank App? | image post (tough love) | 2026-10-28 |
+| Winter Skin Needs a Little More Care | reel | 2026-10-28 |
