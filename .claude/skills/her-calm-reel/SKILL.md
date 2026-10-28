@@ -1,6 +1,6 @@
 ---
 name: her-calm-reel
-description: Make faceless motion-graphics reels for the women's Facebook page "Her Calm Corner" (also Her Better Self / Soft & Strong) about self-care, beauty, health habits, confidence and money. A vertical 1080x1920 HyperFrames video of about 28-36 s in the house format. A warm, calm "older sister" voiceover that flows like a real person (breath groups, soft breaths) drives every word on screen; a living pastel background; one orb of light travels through the reel and becomes each scene's object (sun, badge, moon, a drop, the breath, a lamp) for match-cut transitions; illustrated objects (sticky notes, a glass that fills, a window with curtains, a teacup) act out each line; camera glides, wind and mist transitions; a different serif/sans layout every scene; soft procedural sound. Use this whenever the user wants a women's page reel or video, a "gentle reminder" video, a self-care, overwhelm, rest, glow, boundaries or money-habit reel for women, or "a women's version" of the strong man videos, even if they only give a topic. Not for the men's page (use strong-man-reel).
+description: Make faceless motion-graphics reels for the women's Facebook page "Her Calm Corner" (also Her Better Self / Soft & Strong) about self-care, beauty, health habits, confidence and money. A vertical 1080x1920 HyperFrames video of about 28-36 s in the house format. A tough-love "older sister" voiceover (a hook that stings in the first second, calls out the habit never the woman, then one small step and a challenge CTA) drives every word on screen; a living pastel background; one orb of light travels through the reel and becomes each scene's object (sun, badge, moon, a drop, the breath, a lamp) for match-cut transitions; illustrated objects (sticky notes, a glass that fills, a window with curtains, a teacup) act out each line; camera glides, wind and mist transitions; a different serif/sans layout every scene; soft procedural sound. Use this whenever the user wants a women's page reel or video, a "gentle reminder" video, a self-care, overwhelm, rest, glow, boundaries or money-habit reel for women, or "a women's version" of the strong man videos, even if they only give a topic. Not for the men's page (use strong-man-reel).
 ---
 
 # Her Calm Reel
@@ -10,19 +10,19 @@ The starter reel ("If no one told you today") is in [templates/reel/](templates/
 It builds and renders as-is, so each new video starts from a working, on-brand composition.
 
 Read these when the step calls for them:
-- [references/brand.md](references/brand.md): page voice (kind older sister), the "A gentle reminder" device, script rules, topic bank, guardrails, and how this page differs from the men's.
+- [references/brand.md](references/brand.md): page voice (tough-love older sister), hooks, script arc and rules, topic bank, guardrails, and how this page differs from the men's.
 - [references/craft.md](references/craft.md): the format DNA, storyboard method, motif and object bank, layout and transition menus, palettes, and the starter reel scene by scene.
 - [references/pipeline.md](references/pipeline.md): config schema, voice (ElevenLabs / Kokoro / recording), HyperFrames rules, build and verify commands, and the gotchas.
 
 ## Workflow
 
 ### 1. Script (the voice decides everything, so start here)
-Read `references/brand.md`. Write 50–80 words on the user's topic in the page voice: soft, simple sentences
-to "you" that sound said, not written (contractions, her real-life specifics, "I know..."); **validate first,
-then one small practical step**; end with a kind reminder or a gentle question. Group the lines into breath groups.
-Open with "A gentle reminder…" or "If no one told you today…" when it fits (not every time). No shame,
-pressure, fear or claims. Mark pauses and 3–5 comforting key words. **Show the script to the user and get a yes**
-unless they gave the script or said go ahead.
+Read `references/brand.md`. Since 2026-10 the page voice is **tough love**: call out the habit, never the
+woman. Write 65–85 words (about 30 s) on the user's topic: a **hook that stings, spoken at 0.0 s and on screen
+from the first frame** (no title card, no "A gentle reminder" lead-in); her habit in specifics; what it costs
+her; a turn ("Be honest..."); one small concrete step; a payoff line; a challenge CTA for the comments, a follow
+or a share. Never insult her looks, body, age, worth or motherhood, and no fear or claims. Mark 3–5 key words.
+**Show the script to the user and get a yes** unless they gave the script or said go ahead.
 
 ### 2. Storyboard
 Read `references/craft.md`. Make the scene table (line → what the orb becomes → objects → text layout →
@@ -81,6 +81,6 @@ for a new one, add it to that list.
 ## What never changes
 Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;
 illustrated objects carry the meaning; a different layout each scene; a light, living pastel background with
-rose, sage and honey; nothing slams, shakes or flashes; the ending holds on the kind line, the sunrise, the CTA
-and the page name. Never shame, pressure, compare women or put down men.
+rose, sage and honey; nothing slams, shakes or flashes; the hook is on screen in the first frame; the ending holds on the payoff line, the CTA
+and the page name. Sting the habit, never the woman; never compare women or put down men.
 No medical, diet or money claims.
