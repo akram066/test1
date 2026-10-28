@@ -68,7 +68,8 @@ Name the delivered files by the reel's **title only**, with no page name, number
 `A-Small-Savings-Habit-That-Sticks.mp4` and `A-Small-Savings-Habit-That-Sticks_thumbnail.png`. Do not re-send
 earlier reels.
 
-When asked for the Facebook text, give a **description of one or two sentences about the subject** that does
+**Deliver the Facebook text with every new reel** (in the same message as the video and thumbnail, and in
+the posted list); the owner should not have to ask for it. Give a **description of one or two sentences about the subject** that does
 not repeat the reel's words, plus three hashtags ending in `#hercalmcorner`. Then give a **first comment**: one
 easy question readers can answer (for example, which of the reel's small steps is hardest) and a line inviting
 them to share it with a friend. No emojis. Save both in `deliverables/<Title>_facebook.txt`. Approved example:

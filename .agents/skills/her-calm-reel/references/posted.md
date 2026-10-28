@@ -13,3 +13,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | Rest Days Are Part of Being Healthy | reel | 2026-10-19 |
 | Start With What You Already Do Well | image post | 2026-10-19 |
 | One Skill, 20 Minutes a Day | reel | 2026-10-22 |
+| You Haven't Opened Your Bank App in Weeks | reel (first tough-love reel) | 2026-10-28 |
