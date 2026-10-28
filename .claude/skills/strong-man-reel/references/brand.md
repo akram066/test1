@@ -31,6 +31,20 @@ a clear rule or order.
 **Don't:** jokes, emojis, slang, begging for likes, shouting, insulting the viewer, putting down women
 or any group.
 
+### Default mode: the Call-Out (since the user asked for harder reels to grow views)
+Confront the viewer directly, like an older man who is done watching him waste his life. Call out his
+*behavior* hard and specifically (the snooze button, the 2 a.m. scrolling, "next Monday" every Monday)
+so he feels the sting of recognition and keeps watching. Sharp, uncomfortable, certain. The aim is
+"that's me" plus "I'm done with this", never "I'm worthless".
+- Attack the behavior, never the man's worth: no "loser", "pathetic", "worthless".
+- No depression, self-harm or body-shaming angles. No putting down women or any group.
+- Always leave a way out in the last lines: the order, the rule, the choice.
+- Example call-out lines: "You're not tired. You're soft." · "Check your screen time. Now check your bank
+  account. That's not bad luck. That's your choices, added up." · "You know exactly what to do. You're
+  just not doing it."
+
+The calm teacher register below is still used for the occasional reflective reel.
+
 Example lines (the register to match):
 - "Most men will scroll past this. That's why most men stay the same."
 - "Discipline is not a mood. It's a decision you make before the mood arrives."
@@ -54,9 +68,21 @@ When the device is not used, keep the same arc: problem or hard truth → turn �
 The voiceover script drives everything (timing, scenes, captions), so get it right first and show it to
 the user before building when they have not already approved one.
 
-**Length:** 55–80 words → 25–35 s with pauses. One idea per reel.
+**Length:** Call-Out reels: 35–55 words → 15–22 s (short reels get watched to the end, which drives reach).
+Teacher reels: 55–80 words → 25–35 s. One idea per reel.
 
-**Arc (the approved structure):**
+**Call-Out arc (default):**
+
+| Beat | Job | Example |
+| --- | --- | --- |
+| Hook (1 line, first second) | A direct accusation in second person | "You're not tired. You're soft." |
+| Receipts (3 short lines) | Specific things he did today, each one a sting | "You hit snooze three times and call it rest. You scroll till 2 a.m. and call it relaxing. You say 'next Monday' every Monday." |
+| Mirror (1–2 lines) | Make him admit it | "You know exactly what to do. You're just not doing it." |
+| Cost (1 line) | What waiting is costing him | "Every day you wait, the man you could be gets further away." |
+| The choice (1 line) | The rule as a hard choice | "Start today, or stay exactly where you are." |
+| CTA (1 line) | Audience growth (see variants) | "Follow if you're done making excuses." |
+
+**Teacher arc (occasional reflective reels):**
 
 | Beat | Job | Example (approved reel) |
 | --- | --- | --- |
@@ -74,7 +100,9 @@ the user before building when they have not already approved one.
 - Repetition is a tool ("It rises. It passes.", "He stands up. He leaves the room.").
 - Pauses: `short` after the hook and after each section, `long` before the rule, `hold` after the rule.
 - Key words (3–6 per reel) get the accent colour on screen: pick the words that carry the meaning.
-- CTA variants: "Follow for more rules." · "Save this. Read it again tomorrow." · "Share this with a man who needs it."
+- CTA variants (audience growth; there is no product yet, so never send viewers to a link):
+  "Follow if you're done making excuses." · "Send this to the man who needs to hear it." ·
+  "Comment DONE if this was you." · "Save this. Watch it again tomorrow morning." · "Follow for more rules."
 
 ## 5. Topic bank
 
