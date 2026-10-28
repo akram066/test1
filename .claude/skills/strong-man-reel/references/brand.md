@@ -68,15 +68,15 @@ When the device is not used, keep the same arc: problem or hard truth → turn �
 The voiceover script drives everything (timing, scenes, captions), so get it right first and show it to
 the user before building when they have not already approved one.
 
-**Length:** Call-Out reels: 35–55 words → 15–22 s (short reels get watched to the end, which drives reach).
-Teacher reels: 55–80 words → 25–35 s. One idea per reel.
+**Length:** about 30 s for every reel (the user's choice): 55–80 words → 25–35 s with pauses. One idea per reel.
+In Call-Out reels, use the extra time for more receipts (4–5) and a fuller cost line, never for padding.
 
 **Call-Out arc (default):**
 
 | Beat | Job | Example |
 | --- | --- | --- |
 | Hook (1 line, first second) | A direct accusation in second person | "You're not tired. You're soft." |
-| Receipts (3 short lines) | Specific things he did today, each one a sting | "You hit snooze three times and call it rest. You scroll till 2 a.m. and call it relaxing. You say 'next Monday' every Monday." |
+| Receipts (4–5 short lines) | Specific things he did today, each one a sting | "You hit snooze three times and call it rest. You scroll till 2 a.m. and call it relaxing. You say 'next Monday' every Monday." |
 | Mirror (1–2 lines) | Make him admit it | "You know exactly what to do. You're just not doing it." |
 | Cost (1 line) | What waiting is costing him | "Every day you wait, the man you could be gets further away." |
 | The choice (1 line) | The rule as a hard choice | "Start today, or stay exactly where you are." |

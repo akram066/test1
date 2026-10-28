@@ -1,6 +1,6 @@
 ---
 name: strong-man-reel
-description: Make faceless motion-graphics reels for the men's Facebook page "The Strong Man Code" in the approved house format. A vertical 1080x1920 HyperFrames video of 15-25 s (call-out style, 25-35 s for reflective reels) where a deep, wise voiceover drives every word on screen; symbolic objects (weak-man pawn vs strong-man king, doors, calendars, waves) tell the story; a black canvas with one accent colour; a different text layout every scene; a red blade-slash transition plus accents; procedural sound design. Use this whenever the user wants a men's page reel or video, another video "like the strong man one", a weak man vs strong man video, or a short discipline/money/fitness/family self-improvement reel for men, even if they only give a topic or a single line. Not for the women's page (use her-calm-reel).
+description: Make faceless motion-graphics reels for the men's Facebook page "The Strong Man Code" in the approved house format. A vertical 1080x1920 HyperFrames video of about 30 s (25-35 s) where a deep, wise voiceover drives every word on screen; symbolic objects (weak-man pawn vs strong-man king, doors, calendars, waves) tell the story; a black canvas with one accent colour; a different text layout every scene; a red blade-slash transition plus accents; procedural sound design. Use this whenever the user wants a men's page reel or video, another video "like the strong man one", a weak man vs strong man video, or a short discipline/money/fitness/family self-improvement reel for men, even if they only give a topic or a single line. Not for the women's page (use her-calm-reel).
 ---
 
 # Strong Man Reel
@@ -18,11 +18,11 @@ Read these when the step calls for them:
 ## Workflow
 
 ### 1. Script (the voice decides everything, so start here)
-Read `references/brand.md`. Default to the **Call-Out** format: a 35–55 word script (15–22 s) that
+Read `references/brand.md`. Default to the **Call-Out** format: a 55–80 word script (about 30 s) that
 confronts "you" from the first second, calls out specific behavior hard (never the viewer's worth), makes
 him admit it, then ends on a hard choice and an audience-growth CTA (follow, share, comment; no product
 links). Arc: hook accusation → receipts → mirror → cost → the choice → CTA. For a reflective topic use the
-calm teacher format instead (55–80 words): hook → weak man / problem → turn → strong man actions → rule → CTA. Use the weak man vs strong man device when the topic fits (weak first, strong last). Mark
+calm teacher format instead (same length): hook → weak man / problem → turn → strong man actions → rule → CTA. Use the weak man vs strong man device when the topic fits (weak first, strong last). Mark
 pauses and 3–6 key words. **Show the script to the user and get a yes before building**, unless they gave you
 the script or said to go ahead.
 

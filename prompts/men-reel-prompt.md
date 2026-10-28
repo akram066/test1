@@ -38,15 +38,15 @@ QUALITY BAR (hyper-motion, high-quality HyperFrames)
 THE STRUCTURE (the same in every reel)
 
 Format
-- Vertical 1080x1920, 30 fps, 15-22 seconds (call-out style), built in HyperFrames.
+- Vertical 1080x1920, 30 fps, about 30 seconds (25-35), built in HyperFrames.
 - Faceless: no people, faces, bodies or photos. No emojis.
 
-Script (35-55 words, US spelling, simple UK/US English, always original)
+Script (55-80 words, US spelling, simple UK/US English, always original)
 - The Call-Out: an older man who is done watching "you" waste your life. Confront the viewer from the
   first second and call out his behavior hard and specifically, so he feels the sting and keeps watching.
   Attack the behavior, never his worth (no "loser", "pathetic", "worthless"). No jokes, slang, depression
   or self-harm angles, or putting down women or any group. Always leave a way out at the end.
-- Arc: hook (a direct accusation) -> receipts (3 specific things he did today) -> mirror (make him admit
+- Arc: hook (a direct accusation) -> receipts (4-5 specific things he did today) -> mirror (make him admit
   it) -> the cost of waiting -> the choice (the rule) -> an audience CTA (follow / share / comment DONE).
 - No product links. No medical or financial claims.
 
