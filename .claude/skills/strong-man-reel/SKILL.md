@@ -65,6 +65,14 @@ and the last frame. Make a contact sheet with `tools/contact_sheet.py` and look 
 margins (90 px sides, 120 px top/bottom), readability and beat collisions, then re-check. Run
 `tools/check_voice.py` if the voice is new.
 
+### Working fast (the user asked for speed; the video itself must not change)
+- Overlap work: write the sound kit, fonts and project setup while the voice generates; write DESIGN.md and
+  VERIFY.md while the render runs.
+- Check text widths against the 90 px margins while writing the HTML, so one snapshot round is usually enough.
+- Start the render in the background with a long timeout (`timeout: 7200000`) so it is never cut off.
+- When the master would be over 30 MiB anyway, make the two-pass ~29 MiB copy straight from the raw render
+  (same quality, one encode fewer) and report SSIM against the raw render.
+
 ### 7. Render and deliver
 `npx hyperframes render --quality high`, then the CRF 18 master (the HQ file). Confirm `max_volume` < 0 dB on
 that file. Write VERIFY.md (what was checked and what was fixed; say plainly that the audio was checked by numbers
