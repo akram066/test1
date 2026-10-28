@@ -78,7 +78,7 @@ Name every file you send after the post title only, never the page name (for exa
 `Where your money really goes.mp4`), so the files sort
 cleanly in the user's Drive.
 
-When the user asks for the Facebook post copy, first check `prompts/posted-log.md`. If the post (same
+Always deliver the Facebook post copy (description + first comment, format below) together with every finished reel, without being asked, and add it to the log. When the user asks for post copy for an older post, first check `prompts/posted-log.md`. If the post (same
 title and type) is already listed, tell the user it is already posted and show the copy it got; do not write
 new copy. Otherwise give two paste-ready blocks, then add the post to the log:
 - **Description:** one or two sentences about the subject in the page's voice. Never repeat or summarise the
