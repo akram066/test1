@@ -19,3 +19,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | It's Okay to Change Your Mind | reel | 2026-10-29 |
 | Wash Day, Gently (four steps) | image post (text card) | 2026-10-29 |
 | What I Used to Think About Budgeting | image post (then vs now) | 2026-10-29 |
+| Shop With a List, Not a Mood | image post (photo + headline) | 2026-10-29 |
