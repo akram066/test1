@@ -24,3 +24,4 @@ instead of writing new copy. Add each new post here as soon as its copy is given
 | 16 | The comfort that keeps you small | Reel | Growth almost never feels good while it is happening. | What hard thing will you choose today? A cold shower, a workout, or a conversation you have been avoiding? |
 | 17 | The Strong Man November Bundle | Ad (video) | November is 30 days. Most men lose it in the first week. | Which one do you need more this month: discipline or health? |
 | 18 | The Strong Man November Bundle (No Nut version) | Ad (video) | No Nut November is 30 days. Most men lose it in the first week. | Which one do you need more this month: No Nut November or the health reset? |
+| 19 | The promise you keep breaking | Reel | The man you become is decided by the promises nobody sees you keep. | Which small promise will you keep today? Ten push-ups, one page, or bed by eleven? |
