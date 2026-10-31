@@ -21,3 +21,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | What I Used to Think About Budgeting | image post (then vs now) | 2026-10-29 |
 | Shop With a List, Not a Mood | image post (photo + headline) | 2026-10-29 |
 | How to Say No Without the Guilt | reel | 2026-10-29 |
+| A Calm Money Talk at Home | reel | 2026-10-31 |
