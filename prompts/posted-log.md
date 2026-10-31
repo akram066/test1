@@ -25,3 +25,4 @@ instead of writing new copy. Add each new post here as soon as its copy is given
 | 17 | The Strong Man November Bundle | Ad (video) | November is 30 days. Most men lose it in the first week. | Which one do you need more this month: discipline or health? |
 | 18 | The Strong Man November Bundle (No Nut version) | Ad (video) | No Nut November is 30 days. Most men lose it in the first week. | Which one do you need more this month: No Nut November or the health reset? |
 | 19 | The promise you keep breaking | Reel | The man you become is decided by the promises nobody sees you keep. | Which small promise will you keep today? Ten push-ups, one page, or bed by eleven? |
+| 20 | Be the brother they can call | Reel | Brotherhood is not proved at weddings. It is proved in the weeks nobody posts about. | When did you last check in on your brother or sister first? This week, this month, or longer ago? |
