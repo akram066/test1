@@ -23,3 +23,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | How to Say No Without the Guilt | reel | 2026-10-29 |
 | A Calm Money Talk at Home | reel | 2026-10-31 |
 | How to Answer "Tell Me About Yourself" | reel | 2026-10-31 |
+| What I Used to Think About a Career Break | image post (then vs now) | 2026-10-31 |
