@@ -22,3 +22,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | Shop With a List, Not a Mood | image post (photo + headline) | 2026-10-29 |
 | How to Say No Without the Guilt | reel | 2026-10-29 |
 | A Calm Money Talk at Home | reel | 2026-10-31 |
+| How to Answer "Tell Me About Yourself" | reel | 2026-10-31 |
