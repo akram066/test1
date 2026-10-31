@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"DM Sans";font-weight:100 1000;src:url("fonts/DMSans.woff2") format("woff2")}
+@font-face{font-family:"Playfair Display";font-style:normal;font-weight:400 900;src:url("fonts/PlayfairDisplay.woff2") format("woff2")}
+@font-face{font-family:"Playfair Display";font-style:italic;font-weight:400 900;src:url("fonts/PlayfairDisplay-Italic.woff2") format("woff2")}
+html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:#F6EFE8}
+#card{position:relative;width:1080px;height:1350px;overflow:hidden;background:#F6EFE8}
+#photo{position:absolute;left:0;top:0;width:1080px;height:840px;background-size:cover;background-position:50% 50%}
+#photo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(180deg,rgba(246,239,232,0),rgba(246,239,232,.55))}
+#band{position:absolute;left:0;top:840px;width:1080px;height:510px;
+  background:radial-gradient(ellipse 60% 70% at 88% 100%,rgba(240,205,196,.45),rgba(240,205,196,0)),radial-gradient(ellipse 50% 60% at 6% 96%,rgba(247,222,190,.4),rgba(247,222,190,0)),#F6EFE8}
+#rule{position:absolute;left:90px;top:908px;width:900px;height:2px;display:flex;align-items:center;justify-content:center}
+#rule::before,#rule::after{content:"";flex:1;height:2px;background:#D9A6A0}
+#who{display:flex;align-items:center;gap:16px;padding:0 26px;background:#F6EFE8;position:relative;top:-1px}
+#who img{width:64px;height:64px;border-radius:50%;display:block}
+#who span{font-family:"DM Sans",sans-serif;font-weight:500;font-size:29px;color:#82736D;letter-spacing:.01em}
+#head{position:absolute;left:90px;width:900px;top:978px;text-align:center;font-family:"Playfair Display",serif;font-weight:400;font-size:84px;line-height:1.1;color:#3A2B2E;letter-spacing:-.01em}
+#head em{font-style:italic;color:#AE5550}
+</style></head>
+<body><div id="card"><div id="photo"></div><div id="band"></div>
+<div id="rule"><div id="who"><img src="avatar.png" alt=""><span id="handle"></span></div></div>
+<div id="head"></div></div>
+<script>
+window.applyPost=function(post){
+  var ph=document.getElementById('photo'); ph.style.backgroundImage='url("'+post.photo+'")'; if(post.photoPos) ph.style.backgroundPosition=post.photoPos;
+  document.getElementById('handle').textContent=post.handle||'@hercalmcorner';
+  document.getElementById('head').innerHTML=post.headline.map(function(l){return l.replace(/\*([^*]+)\*/g,'<em>$1</em>');}).join('<br>');
+};
+</script></body></html>
