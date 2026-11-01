@@ -68,7 +68,7 @@ When the device is not used, keep the same arc: problem or hard truth → turn �
 The voiceover script drives everything (timing, scenes, captions), so get it right first and show it to
 the user before building when they have not already approved one.
 
-**Length:** about 30 s for every reel (the user's choice): 55–80 words → 25–35 s with pauses. One idea per reel.
+**Length:** 30–40 s, 75–100 words, story-shaped (HOOK → STORY → TURN → SOLUTION → RULE → CTA). See `story-rules.md`, which overrides the older arcs below. One idea per reel.
 In Call-Out reels, use the extra time for more receipts (4–5) and a fuller cost line, never for padding.
 
 **Call-Out arc (default):**

@@ -1,6 +1,6 @@
 ---
 name: strong-man-reel
-description: Make faceless motion-graphics reels for the men's Facebook page "The Strong Man Code" in the approved house format. A vertical 1080x1920 HyperFrames video of about 30 s (25-35 s) where a deep, wise voiceover drives every word on screen; symbolic objects (weak-man pawn vs strong-man king, doors, calendars, waves) tell the story; a black canvas with one accent colour; a different text layout every scene; a red blade-slash transition plus accents; procedural sound design. Use this whenever the user wants a men's page reel or video, another video "like the strong man one", a weak man vs strong man video, or a short discipline/money/fitness/family self-improvement reel for men, even if they only give a topic or a single line. Not for the women's page (use her-calm-reel).
+description: Make faceless motion-graphics reels for the men's Facebook page "The Strong Man Code" in the approved house format. A vertical 1080x1920 HyperFrames story reel of 30-40 s (hook, story, turn, 3-step solution, rule, CTA) where a deep, wise voiceover drives every word on screen; symbolic objects (weak-man pawn vs strong-man king, doors, calendars, waves) tell the story; a black canvas with one accent colour; a different text layout every scene; a red blade-slash transition plus accents; procedural sound design. Use this whenever the user wants a men's page reel or video, another video "like the strong man one", a weak man vs strong man video, or a short discipline/money/fitness/family self-improvement reel for men, even if they only give a topic or a single line. Not for the women's page (use her-calm-reel).
 ---
 
 # Strong Man Reel
@@ -18,13 +18,13 @@ Read these when the step calls for them:
 ## Workflow
 
 ### 1. Script (the voice decides everything, so start here)
-Read `references/brand.md`. Default to the **Call-Out** format: a 55–80 word script (about 30 s) that
-confronts "you" from the first second, calls out specific behavior hard (never the viewer's worth), makes
-him admit it, then ends on a hard choice and an audience-growth CTA (follow, share, comment; no product
-links). Arc: hook accusation → receipts → mirror → cost → the choice → CTA. For a reflective topic use the
-calm teacher format instead (same length): hook → weak man / problem → turn → strong man actions → rule → CTA. Use the weak man vs strong man device when the topic fits (weak first, strong last). Mark
-pauses and 3–6 key words. **Show the script to the user and get a yes before building**, unless they gave you
-the script or said to go ahead.
+**Read `references/story-rules.md` first: the user's standing rules for every reel. They override anything
+older in this skill.** Every reel is a short STORY with a PROBLEM and a SOLUTION, 30–40 s, 75–100 words:
+HOOK (0–2 s, the problem, a specific moment) → STORY (one man living it) → TURN (one line, look and sound
+shift) → SOLUTION (3 concrete steps) → RULE (slow, screenshot-worthy) → CTA (fits the story, echoes the hook
+when possible). Write 3 hook options (rotate hook types), pick the strongest, and show the hooks, the marked
+script with word count and length, the concept and the scene table before building, unless the user said to
+go ahead. Read `references/brand.md` for the page voice and guardrails.
 
 ### 2. Storyboard
 Read `references/craft.md`. Make the scene table (line → object → text layout → transition → SFX). Check
@@ -62,7 +62,7 @@ life layer (grain, vignette, progress line) and no text headers.
 ### 6. Verify (do not skip; lint passing does not mean it looks right)
 `npx hyperframes lint` and `validate`, then snapshots at every hero frame and transition midpoint plus frame 0
 and the last frame. Make a contact sheet with `tools/contact_sheet.py` and look at it. Then render a draft and pull frames from the MP4 (some bugs only show in a real render). Fix overlaps, safe
-margins (90 px sides, 120 px top/bottom), readability and beat collisions, then re-check. Run
+margins (90 px sides, 120 px top, 500 px bottom: nothing important below y 1420), readability, beat collisions, frame 0 (hook text visible, object moving, no fade from black) and no static stretch over 2.5 s, then re-check. Run
 `tools/check_voice.py` if the voice is new.
 
 ### Working fast (the user asked for speed; the video itself must not change)
@@ -76,11 +76,11 @@ margins (90 px sides, 120 px top/bottom), readability and beat collisions, then 
 ### 7. Render and deliver
 `npx hyperframes render --quality high`, then the CRF 18 master (the HQ file). Confirm `max_volume` < 0 dB on
 that file. Write VERIFY.md (what was checked and what was fixed; say plainly that the audio was checked by numbers
-if you could not listen). Send only the HQ master (no share copy, no thumbnail unless asked), and give a short
-summary: scene timings and how to change the script.
-The chat only accepts files up to 30 MiB. If the master is larger, send instead the highest-quality copy
-that fits: two-pass x264 (`-preset slower -tune animation`, AAC 192k) with the bitrate set so the file
-lands at about 29 MiB, and report its SSIM against the master. Never fall back to a small share copy.
+if you could not listen). Deliver (story-rules §9): the HQ master, a share copy under 30 MB, a thumbnail made
+from the hook frame (frame 0), and the scene timings.
+The chat only accepts files up to 30 MiB. If the master is larger, the share copy is the highest-quality copy
+that fits: two-pass x264 (`-preset slower -tune animation`, AAC 192k) at about 29 MiB, with its SSIM against
+the master; put the master itself in the Drive folder.
 
 Name every file you send after the post title only, never the page name (for example
 `Where your money really goes.mp4`), so the files sort

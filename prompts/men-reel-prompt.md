@@ -30,7 +30,7 @@ QUALITY BAR (hyper-motion, high-quality HyperFrames)
   and words, objects that wind up before they move and settle after. Nothing linear, nothing robotic.
 - Transitions are designed moments that carry meaning, never a default cut or plain crossfade.
 - Every word lands exactly on its spoken timestamp, with sound effects locked to the same beats.
-- Pixel-level polish: safe margins (90 px sides, 120 px top and bottom), no overflow, no overlapping
+- Pixel-level polish: safe margins (90 px sides, 120 px top, 500 px bottom), no overflow, no overlapping
   text, crisp readable type at phone size, self-hosted fonts, a deterministic timeline.
 - Render at high quality (HyperFrames --quality high, H.264, CRF 18 master) and check frames
   from the actual MP4, not only previews, before delivering.
@@ -38,16 +38,18 @@ QUALITY BAR (hyper-motion, high-quality HyperFrames)
 THE STRUCTURE (the same in every reel)
 
 Format
-- Vertical 1080x1920, 30 fps, about 30 seconds (25-35), built in HyperFrames.
+- Vertical 1080x1920, 30 fps, 30-40 seconds, built in HyperFrames. Story shape and hook rules: see
+  .claude/skills/strong-man-reel/references/story-rules.md (standing rules, 2026-11-01).
 - Faceless: no people, faces, bodies or photos. No emojis.
 
-Script (55-80 words, US spelling, simple UK/US English, always original)
+Script (75-100 words, story-shaped: HOOK / STORY / TURN / SOLUTION / RULE / CTA, US spelling, always original)
 - The Call-Out: an older man who is done watching "you" waste your life. Confront the viewer from the
   first second and call out his behavior hard and specifically, so he feels the sting and keeps watching.
   Attack the behavior, never his worth (no "loser", "pathetic", "worthless"). No jokes, slang, depression
   or self-harm angles, or putting down women or any group. Always leave a way out at the end.
-- Arc: hook (a direct accusation) -> receipts (4-5 specific things he did today) -> mirror (make him admit
-  it) -> the cost of waiting -> the choice (the rule) -> an audience CTA (follow / share / comment DONE).
+- Arc: HOOK (0-2 s, a specific problem that opens a loop; rotate the 6 hook types) -> STORY (one man,
+  one moment, the cost) -> TURN (look and sound shift) -> SOLUTION (3 concrete steps) -> RULE (slow,
+  screenshot-worthy) -> CTA (fits the story, echoes the hook, no engagement bait).
 - No product links. No medical or financial claims.
 
 Voice and sound
@@ -92,13 +94,13 @@ Ending
   "THE STRONG MAN CODE", readable as a thumbnail.
 
 Deliver
-- Before building, show me: the script (unless I gave it), a one-paragraph creative concept (the
+- Before building, show me: 3 hook options and the pick, the script marked HOOK / STORY / TURN /
+  SOLUTION / RULE / CTA with word count and length (unless I gave it), a one-paragraph creative concept (the
   symbol pair, the colour, the signature transition and why they fit the topic) and the scene table
   (line -> object -> text layout -> transition -> sound).
 - Then build, check every scene and transition in stills and in the rendered MP4, fix any overlaps
-  or unreadable text, and give me only the HQ MP4 (the CRF 18 master: no share copy, no
-  thumbnail), with the scene timings. If it is over the 30 MB chat limit, give me the
-  best-quality copy that fits just under it, never a small share copy.
+  or unreadable text, and give me the HQ MP4 (CRF 18), a share copy under 30 MB, a thumbnail
+  made from the hook frame, and the scene timings.
 - Name every file you give me after the post title only, never the page name (for example
   "Where your money really goes.mp4"), so they don't get mixed up in my Drive.
 ```
