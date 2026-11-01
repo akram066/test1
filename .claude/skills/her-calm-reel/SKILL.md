@@ -1,34 +1,42 @@
 ---
 name: her-calm-reel
-description: Make faceless motion-graphics reels for the women's Facebook page "Her Calm Corner" (also Her Better Self / Soft & Strong) about self-care, beauty, health habits, confidence and money. A vertical 1080x1920 HyperFrames video of about 28-36 s in the house format. A tough-love "older sister" voiceover (a hook that stings in the first second, calls out the habit never the woman, then one small step and a challenge CTA) drives every word on screen; a living pastel background; one orb of light travels through the reel and becomes each scene's object (sun, badge, moon, a drop, the breath, a lamp) for match-cut transitions; illustrated objects (sticky notes, a glass that fills, a window with curtains, a teacup) act out each line; camera glides, wind and mist transitions; a different serif/sans layout every scene; soft procedural sound. Use this whenever the user wants a women's page reel or video, a "gentle reminder" video, a self-care, overwhelm, rest, glow, boundaries or money-habit reel for women, or "a women's version" of the strong man videos, even if they only give a topic. Not for the men's page (use strong-man-reel).
+description: Make faceless, words-only motion-graphics reels for the women's Facebook page "Her Calm Corner" (also Her Better Self / Soft & Strong) about self-care, beauty, health habits, confidence, money, work and family. A vertical 1080x1920 HyperFrames reel of 25-35 s that follows the owner's standing rules: a hook on screen from the first frame, a tiny story of one woman told through objects and words, a turn, 1-3 tiny steps, a payoff that calls back to the hook, and a soft CTA, in the voice of a kind, calm older sister; one new motif per reel that changes with the story and carries match-cut transitions; a new palette, font pairing and layouts every reel; soft procedural sound. Use this whenever the user wants a women's page reel or video, a self-care, overwhelm, rest, glow, boundaries, work or money-habit reel for women, or "a women's version" of the strong man videos, even if they only give a topic. Not for the men's page (use strong-man-reel).
 ---
 
 # Her Calm Reel
 
-Same production machine as the men's page, different soul: everything floats, fills, opens and breathes.
-The starter reel ("If no one told you today") is in [templates/reel/](templates/reel/index.html).
-It builds and renders as-is, so each new video starts from a working, on-brand composition.
+**Start with [references/standing-rules.md](references/standing-rules.md).** The page owner's standing
+instructions (2026-11-01) override everything else here: the story formula, hook rules, pacing, look, motif,
+sound, never-repeat rule, quality bar and what to show and deliver. Where this file or another reference
+disagrees (the older tough-love voice, the travelling orb, "HQ only" delivery), the standing rules win.
+
+The starter reel ("If no one told you today") is in [templates/reel/](templates/reel/index.html). It builds and
+renders as-is and shows the quality level and the pipeline; it is **not** a design to copy.
+[references/used-designs.md](references/used-designs.md) logs every earlier reel's motif, palette, fonts and
+hook so nothing is reused. Image posts use the kit in [templates/post/](templates/post/README.md).
 
 Read these when the step calls for them:
-- [references/brand.md](references/brand.md): page voice (tough-love older sister), hooks, script arc and rules, topic bank, guardrails, and how this page differs from the men's.
+- [references/standing-rules.md](references/standing-rules.md): the owner's standing rules for every reel (read first, every time).
+- [references/used-designs.md](references/used-designs.md): motifs, palettes, fonts and hooks already used.
+- [references/brand.md](references/brand.md): the page, audience, topic bank, guardrails, and how this page differs from the men's.
 - [references/craft.md](references/craft.md): the format DNA, storyboard method, motif and object bank, layout and transition menus, palettes, and the starter reel scene by scene.
 - [references/pipeline.md](references/pipeline.md): config schema, voice (ElevenLabs / Kokoro / recording), HyperFrames rules, build and verify commands, and the gotchas.
 
 ## Workflow
 
-### 1. Script (the voice decides everything, so start here)
-Read `references/brand.md`. Since 2026-10 the page voice is **tough love**: call out the habit, never the
-woman. Write 65–85 words (about 30 s) on the user's topic: a **hook that stings, spoken at 0.0 s and on screen
-from the first frame** (no title card, no "A gentle reminder" lead-in); her habit in specifics; what it costs
-her; a turn ("Be honest..."); one small concrete step; a payoff line; a challenge CTA for the comments, a follow
-or a share. Never insult her looks, body, age, worth or motherhood, and no fear or claims. Mark 3–5 key words.
-**Show the script to the user and get a yes** unless they gave the script or said go ahead.
+### 1. Script
+Read `references/standing-rules.md` §3-6. If the owner gave a script, use it as written. Otherwise write 55-80
+words in the story formula (hook under 12 words; one woman, one moment, 2-3 concrete details; an open loop; a
+turn with a real pause; 1-3 tiny sized steps; a payoff that calls back to the hook; one kind line and a soft
+CTA), in the kind, calm older-sister voice. Pick a hook type different from the last reel's (see
+`used-designs.md`). Mark 3-5 key words for the warm accent.
 
-### 2. Storyboard
-Read `references/craft.md`. Make the scene table (line → what the orb becomes → objects → text layout →
-transition → SFX). Plan the orb's path first: every transition should be the light turning into the next
-scene's object, blooming, or hiding behind mist. Check that neighbouring scenes differ in layout, every scene
-has an object acting on its spoken word, and overwhelming things soften and leave rather than break. Pick the palette.
+### 2. Concept and storyboard, then wait for "go"
+Read `references/craft.md` for technique and `used-designs.md` for what is taken. Choose a **new** motif from
+the topic's world (it shows the problem, changes at the turn, acts out the solution and returns changed in the
+payoff), a new palette with one warm accent, a new serif + sans pairing, and new layouts and transitions.
+Show the owner the script (unless she gave it) with the hook type, a one-paragraph concept and the scene table
+(time → line → story beat → motif / object → text layout → transition → sound). Build after she says go.
 
 ### 3. Scaffold
 ```bash
@@ -48,9 +56,10 @@ python3 tools/build.py --voice --sfx
 Read the printed sentence spans and scene windows; they must match the audio and the storyboard.
 
 ### 5. Compose
-Rewrite the scenes in `index.html` from the storyboard with the template's helpers (`orb`, `floatIn`,
-`writeIn`, `markIn`, `sky`, `motes`, `fadeIn`, word spans `data-w="sentence:index"`). Keep the living background
-and the orb; replace scene content. Build each scene's end-state layout first, then add entrances. Reveal scenes
+Write a new `index.html` from the storyboard: a living background, parallax layers, the reel's own motif and
+objects, and word spans `data-w="sentence:index"` (the template's helpers such as `floatIn`, `writeIn`,
+`markIn`, `sky` and `fadeIn` can be reused; the orb and the template's look are not). Hold the standing rules'
+quality bar: 3+ eases per scene, wind-up and settle, nothing still for more than 3 s except the turn's pause. Build each scene's end-state layout first, then add entrances. Reveal scenes
 with `show` or `fadeIn`, never a `from()` that starts before the scene is shown. No text headers.
 
 ### 6. Verify (lint passing does not mean it looks right)
@@ -60,13 +69,12 @@ frames from the MP4**, because some bugs only show in a real render. Fix overlap
 top/bottom) and readability. Run `tools/check_voice.py` for a new voice.
 
 ### 7. Render and deliver
-`npx hyperframes render --quality high`, then a CRF 18 master (the HQ file) and a last-frame thumbnail.
-The page owner wants **only the HQ video** delivered: no share copy. If the HQ file is over 30 MB (too big to
-send), re-encode it at CRF 19-21 until it fits and say so. Check that `max_volume` is below 0 dB. Write VERIFY.md (say plainly if the audio was checked
-by numbers only). Send the HQ video and thumbnail with a short summary and how to change the script.
-Name the delivered files by the reel's **title only**, with no page name, number or `_HQ` in front of it, e.g.
-`A-Small-Savings-Habit-That-Sticks.mp4` and `A-Small-Savings-Habit-That-Sticks_thumbnail.png`. Do not re-send
-earlier reels.
+`npx hyperframes render --quality high`, then a CRF 18 master (the HQ file), a **share copy under 30 MB**
+(`<Title>_share.mp4`, CRF 23-26 and lower audio bitrate until it fits) and a thumbnail from the **first frame**
+(the hook frame is the cover). Check that `max_volume` is below 0 dB. Check the whole reel on mute. Write
+VERIFY.md (say plainly if the audio was checked by numbers only). Send the HQ video, the share copy and the
+thumbnail with the scene timings. Name files by the reel's **title only**, e.g. `A-Small-Savings-Habit-That-Sticks.mp4`,
+`..._share.mp4`, `..._thumbnail.png`. Do not re-send earlier reels. Add the reel to `used-designs.md`.
 
 **Deliver the Facebook text with every new reel** (in the same message as the video and thumbnail, and in
 the posted list); the owner should not have to ask for it. Give a **description of one or two sentences about the subject** that does
@@ -80,8 +88,9 @@ do not write new text: tell the owner it is already posted and give the date it 
 for a new one, add it to that list.
 
 ## What never changes
-Faceless; every word on screen as it is spoken; one orb of light carries the reel from scene to scene;
-illustrated objects carry the meaning; a different layout each scene; a light, living pastel background with
-rose, sage and honey; nothing slams, shakes or flashes; the hook is on screen in the first frame; the ending holds on the payoff line, the CTA
-and the page name. Sting the habit, never the woman; never compare women or put down men.
-No medical, diet or money claims.
+Faceless and modest, no emojis; every spoken word on screen as it is said, readable on mute; the hook on screen
+in the first frame; one new motif per reel carrying match-cut transitions; a different layout every scene; a
+light, warm, living background that follows the story; nothing slams, breaks, shakes or flashes; the ending
+calls back to the hook and holds on the kind line, the motif, the CTA and HER CALM CORNER. Kind and honest,
+never shaming; never compare women or put down men; nothing against Islamic values; no medical, diet or money
+claims, no invented statistics, no brand names.
