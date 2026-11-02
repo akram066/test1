@@ -28,3 +28,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | When the Afternoon Slump Hits | reel | 2026-11-01 |
 | Stop the Overthinking Loop | reel | 2026-11-01 |
 | It's Okay to Say You're Not Fine | reel | 2026-11-02 |
+| You Don't Have to Hold It All In | image post (text card) | 2026-11-02 |

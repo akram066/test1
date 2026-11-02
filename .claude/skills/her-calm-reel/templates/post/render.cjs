@@ -12,6 +12,6 @@ const path = require('path'), fs = require('fs');
   const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1080, height: 1350 } });
   await p.goto('file://' + tpl); await p.evaluate(post => window.applyPost(post), post);
   await p.evaluate(() => document.fonts.ready); await p.waitForTimeout(300);
-  const box = await p.evaluate(() => { const r = document.getElementById('head').getBoundingClientRect(); return { top: Math.round(r.top), bottom: Math.round(r.bottom) }; });
+  const box = await p.evaluate(() => { const r = (document.getElementById('head') || document.getElementById('body')).getBoundingClientRect(); return { top: Math.round(r.top), bottom: Math.round(r.bottom) }; });
   await p.screenshot({ path: out }); await b.close(); console.log(out, JSON.stringify(box));
 })();

@@ -1,0 +1,8 @@
+{"template":"text-card","handle":"@hercalmcorner","center":true,"blocks":[
+ {"type":"lead","lines":["A gentle reminder:"]},
+ {"type":"gap"},
+ {"type":"p","lines":["You don’t have to hold it all in."]},
+ {"type":"gap"},
+ {"type":"p","lines":["Saying “today was hard”","isn’t weakness. It’s trust."]},
+ {"type":"gap"},
+ {"type":"accent","lines":["Let someone hold it with you."]}]}

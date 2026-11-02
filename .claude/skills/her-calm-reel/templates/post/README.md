@@ -15,7 +15,11 @@ Committed here so it survives a fresh workspace. Renders 1080x1350 (4:5) PNG pos
 - Render: `node render.cjs posts/<name>.json` -> `out/<name>.png` (prints the headline's top and bottom).
 - Check every post at phone size (390 px wide) before delivering.
 
-The text-card template (text card and then vs now) was lost with an earlier workspace and has not been rebuilt
-yet. Its spec: cream background with a blush glow top-right and a peach glow bottom-left, 128 px round profile
-picture, page name in DM Sans 700 cocoa, handle in taupe #82736D, body DM Sans 44/60 px, labels in rose spaced
-caps, old thoughts in taupe, new ones in cocoa, the comforting line in Playfair Display italic 61 px rose.
+- `text-card.html`: text card (and then vs now). Cream background (#F6EFE8) with a blush glow top-right and a
+  peach glow bottom-left; 128 px round profile picture; page name DM Sans 700 46 px cocoa (#3A2B2E); handle
+  33 px taupe (#82736D); body DM Sans 44/60 px cocoa from y 290. Blocks: `lead` (bold), `p`, `gap` (one blank
+  line), `accent` (Playfair Display italic 61 px rose #AE5550); inline `<em>` is rose italic. `"center": true`
+  places a short post at 290 + 42% of the free space; long posts shrink to fit (down to 80%).
+  `{"template":"text-card","handle":"@hercalmcorner","center":true,"blocks":[{"type":"lead","lines":["..."]},{"type":"gap"},...]}`
+  (Rebuilt on 2026-11-02 from the series spec after the original kit was lost; then-vs-now label/old/new
+  blocks still need adding when that format is next requested.)

@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"DM Sans";font-weight:100 1000;src:url("fonts/DMSans.woff2") format("woff2")}
+@font-face{font-family:"Playfair Display";font-style:normal;font-weight:400 900;src:url("fonts/PlayfairDisplay.woff2") format("woff2")}
+@font-face{font-family:"Playfair Display";font-style:italic;font-weight:400 900;src:url("fonts/PlayfairDisplay-Italic.woff2") format("woff2")}
+html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:#F6EFE8}
+#card{position:relative;width:1080px;height:1350px;overflow:hidden;
+  background:radial-gradient(ellipse 55% 45% at 82% 14%,rgba(240,196,190,.55),rgba(240,196,190,0)),radial-gradient(ellipse 50% 40% at 8% 96%,rgba(247,214,176,.45),rgba(247,214,176,0)),linear-gradient(180deg,#F9F3EE 0%,#F6EFE8 50%,#F3E9E1 100%)}
+#who{position:absolute;left:80px;top:84px;display:flex;align-items:center;gap:24px}
+#who img{width:128px;height:128px;border-radius:50%;display:block}
+#name{font-family:"DM Sans",sans-serif;font-weight:700;font-size:46px;color:#3A2B2E;letter-spacing:-.01em;line-height:1.1}
+#handle{font-family:"DM Sans",sans-serif;font-weight:400;font-size:33px;color:#82736D;margin-top:4px}
+#body{position:absolute;left:80px;width:920px;top:290px;transform-origin:0 0}
+#body p{margin:0;font-family:"DM Sans",sans-serif;font-weight:400;font-size:44px;line-height:60px;color:#3A2B2E}
+#body p.lead{font-weight:700}
+#body p.gap{height:60px}
+#body p.accent{font-family:"Playfair Display",serif;font-style:italic;font-size:61px;line-height:76px;color:#AE5550}
+#body em{font-family:"Playfair Display",serif;font-style:italic;color:#AE5550}
+</style></head>
+<body><div id="card">
+<div id="who"><img src="avatar.png" alt=""><div><div id="name">Her Calm Corner</div><div id="handle"></div></div></div>
+<div id="body"></div></div>
+<script>
+// post.blocks: {type:"lead"|"p"|"accent", lines:[...]} or {type:"gap"}; post.center centres a short post
+window.applyPost = function (post) {
+  document.getElementById('handle').textContent = post.handle || '@hercalmcorner';
+  var body = document.getElementById('body'); body.innerHTML = '';
+  post.blocks.forEach(function (b) {
+    var p = document.createElement('p'); p.className = b.type;
+    if (b.type !== 'gap') p.innerHTML = (b.lines || [b.text]).join('<br>');
+    body.appendChild(p);
+  });
+  var LIMIT = 1230, h = body.getBoundingClientRect().height, z = 1;
+  if (290 + h > LIMIT) { z = Math.max(0.8, (LIMIT - 290) / h); body.style.transform = 'scale(' + z + ')'; h *= z; }
+  if (post.center) { var free = LIMIT - 290 - h; body.style.top = (290 + free * 0.42).toFixed(0) + 'px'; }
+};
+</script></body></html>
