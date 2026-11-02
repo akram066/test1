@@ -230,3 +230,19 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - An element revealed later with `fromTo(..., immediateRender:false)` needs `opacity:0` in CSS, or it shows before its tween.
 - `hyperframes snapshot` can miss elements whose entrance is a `fromTo` started mid-scene (they stay at the from
   state). If a still looks wrong, check with a direct `tl.seek()` screenshot or frames from a draft MP4 before changing code.
+
+### Learned in November 2026
+- ElevenLabs now serves audio from `elevenlabsusercontent.com`; the session's network policy must allow that host
+  (Allowed domains). If the download is refused, a fresh signed link comes from `creative_get_flow_run_status`
+  once the host is allowed; never re-generate to get a new link.
+- Do not tween CSS `filter` (brightness/saturate) on a full-frame background layer: the renderer can paint it
+  as a hard dark block. Crossfade a second background layer instead.
+- Do not tween `letterSpacing` (lint error: it snaps during frame capture); move words with x instead.
+- Avoid squashing text with a small `scaleY`/`scale` start and avoid strong same-colour `textShadow` glows: the
+  word is rasterised at the small size and looks blurry when stretched back.
+- Exits: never fade a line before its last word has been on screen; if the next line starts quickly, use a
+  short fast-start fade (power2.out) so the two never overlap. The `out()` helper in the recent reels
+  (afternoon-slump, im-fine, heavy-day) does this from the word timings.
+- Seek stills that jump back to 0 can show stale blur; confirm suspicious frames in the rendered MP4.
+- Tightening pauses one by one (per word before the pause, with `#2` for a repeated word) keeps the turn's
+  pause while trimming the rest; aim for a voice of about 29–31 s.
