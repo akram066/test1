@@ -246,3 +246,5 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Seek stills that jump back to 0 can show stale blur; confirm suspicious frames in the rendered MP4.
 - Tightening pauses one by one (per word before the pause, with `#2` for a repeated word) keeps the turn's
   pause while trimming the rest; aim for a voice of about 29–31 s.
+- Light text on a dark sky: an ink check that counts dark pixels flags every frame. Check margins on a copy with the world, stars, sky and grain hidden (`display:none`) on a black background, using seek stills every 0.2 s and counting light pixels.
+- The template's own fonts (Fraunces + DM Sans) count as used by the starter reel; delete them and pick a new pairing.

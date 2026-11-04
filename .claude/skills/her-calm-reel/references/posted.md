@@ -32,3 +32,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | A Heavy Day Isn't a Bad Life | reel | 2026-11-02 |
 | The Subscription She Forgot | reel | 2026-11-04 |
 | Just Say Thank You | reel | 2026-11-04 |
+| Ten Minutes Outside | reel | 2026-11-04 |
