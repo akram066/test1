@@ -248,3 +248,4 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   pause while trimming the rest; aim for a voice of about 29–31 s.
 - Light text on a dark sky: an ink check that counts dark pixels flags every frame. Check margins on a copy with the world, stars, sky and grain hidden (`display:none`) on a black background, using seek stills every 0.2 s and counting light pixels.
 - The template's own fonts (Fraunces + DM Sans) count as used by the starter reel; delete them and pick a new pairing.
+- The `out()` helper looks 0.4 s ahead, so a line exiting just before the next sentence (under 0.4 s) gets pushed past that sentence's first word. For those exits, set `tl.to(...)` by hand at `ws(next, 0) - 0.34`.
