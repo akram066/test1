@@ -70,8 +70,10 @@ top/bottom) and readability. Run `tools/check_voice.py` for a new voice.
 
 ### 7. Render and deliver
 `npx hyperframes render --quality high`, then a CRF 18 master (the HQ file), a **share copy under 30 MB**
-(`<Title>_share.mp4`, CRF 23-26 and lower audio bitrate until it fits) and a thumbnail from the **first frame**
-(the hook frame is the cover). Check that `max_volume` is below 0 dB. Check the whole reel on mute. Write
+(`<Title>_share.mp4`, CRF 23-26 and lower audio bitrate until it fits) and a **designed cover** as the thumbnail:
+build `cover.html` in the project from the hook, motif and palette, render it with
+`node .claude/skills/her-calm-reel/templates/cover/render.cjs <project>/cover.html <project>/renders/cover.png`, and read
+`cover_check.png` (4:5 and 1:1 crops, phone-grid size) before sending. The rules are in `templates/cover/README.md`. Check that `max_volume` is below 0 dB. Check the whole reel on mute. Write
 VERIFY.md (say plainly if the audio was checked by numbers only). Send the HQ video, the share copy and the
 thumbnail with the scene timings. Name files by the reel's **title only**, e.g. `A-Small-Savings-Habit-That-Sticks.mp4`,
 `..._share.mp4`, `..._thumbnail.png`. Do not re-send earlier reels. Add the reel to `used-designs.md`.

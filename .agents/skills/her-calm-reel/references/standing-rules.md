@@ -33,7 +33,7 @@ wants to save and share. Calm in tone, never slow in pacing.
   surprising turn ("She bought every serum. Her skin got worse."), the thing nobody says, mirror line
   ("If you... this is for you."), small number ("Two minutes. That's all this takes.").
 - Honest and kind: never shaming, scary, harsh or clickbait; the reel delivers what the hook promises.
-- The hook frame is also the cover, so it must read as a thumbnail.
+- The hook frame must still read as a thumbnail (it is what autoplay shows first), but the delivered thumbnail is a designed cover built from the hook (see section 15).
 
 ## 5. Script
 - 55–80 words, simple English for UK and US women, US spelling, always original.
@@ -114,6 +114,6 @@ Every scene and transition in stills and in the rendered MP4, the first frame as
 reel with the sound off. Fix any overlap or unreadable text. Then deliver:
 - the high-quality MP4 (CRF 18 master), `<Title>.mp4`;
 - a share copy under 30 MB, `<Title>_share.mp4` (re-encode lower if needed);
-- a thumbnail from the first frame (the hook), `<Title>_thumbnail.png`;
+- a designed cover as the thumbnail, `<Title>_thumbnail.png`. The owner asked for better thumbnails on 2026-11-05, so a raw first frame is no longer enough. Build `cover.html` and render it with `templates/cover/render.cjs`, following `templates/cover/README.md`: 3–6 big hook words, one huge focal element, the key content inside the 1:1 centre square, and checked in the 4:5 and 1:1 crops and at phone-grid size;
 - the scene timings;
 - the Facebook description and first comment (see SKILL.md), unless the reel is already in `posted.md`.
