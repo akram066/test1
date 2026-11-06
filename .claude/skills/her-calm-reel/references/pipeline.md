@@ -254,3 +254,17 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Self-drawing doodles: give each path `pathLength="1"` and a dasharray of 1, and hide it with opacity 0 until its draw starts (round caps otherwise show as dots). For a boiling line, draw three jittered copies and show one per 1/12 s in render(). If the doodle SVG is CSS-scaled, map any text-anchored coordinates back through the scale.
 - Heavy SVG filters (feTurbulence plus displacement on full-frame groups) crashed the renderer ("Target closed"). Tag those layers with `data-raster`, rasterize them once with `scripts/raster_layers.cjs`, and swap them for <image> at load unless `?raster` is set. Drop masks with `attr: { mask: 'none' }` once a scene is fully revealed, and hide the layers it covers.
 - Covers: `templates/cover/render.cjs` renders `cover.html` and a check sheet (9:16, 4:5 crop at y 285–1635, 1:1 crop at y 420–1500, and a 120 px phone grid). The first one is `video-projects/brush-78/cover.html`: a pre-painted scene behind a cream wash, a bold two-line serif hook, a giant brush-font number and the motif laid at a gentle angle. A steep object next to a number reads as a slash.
+- **A render that "restarts the container" or dies with `Terminated` (exit 143) a second after the lint
+  line:** HyperFrames' orphan-Chrome cleanup runs `pgrep -f chrome-headless-shell` and kills every match whose
+  parent is PID 1, with its whole process tree. If the cloud session's launcher shell has that text in its long
+  command line, the cleanup kills the session itself. Check with `pgrep -a -f chrome-headless-shell`; if a `sh`
+  process with PID 1 as parent shows up, render through a `pgrep` wrapper placed first on `PATH` that drops
+  matches whose `/proc/<pid>/comm` is `sh`, `bash` or `dash` (real orphaned Chrome is still cleaned up).
+- **Seeking jumps past tweens.** The renderer can seek straight to any frame, which skips a `fromTo`'s start
+  values. Give every tween that reveals a hidden element its end opacity explicitly (`{ opacity: 1, ... }` in
+  the "to" vars), and use `fromTo`, not `from`, on elements that start with `opacity="0"`: `from` reads the
+  hidden value as its end state. Test stills with `seek(0)` then `seek(t)`, never only by stepping forward.
+- **Never call `gsap.set` or create tweens inside the per-frame render callback.** Drive moving props from
+  plain state objects that the timeline tweens, and write transforms with `setAttribute` in render().
+- **Do not let GSAP and render() share one transform.** If render() positions a group every frame, put the
+  GSAP-animated child inside a separate wrapper group (and the reverse).
