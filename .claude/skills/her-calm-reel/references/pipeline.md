@@ -291,3 +291,5 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   - Each wipe has a start, a duration and bands. Each band's erased x-range comes from the time, and it drives a black-rect SVG mask on the live scene copy and a white-rect mask on a `<use>` ghost copy (grey, blurred, opacity about 0.16).
   - HTML caption lines are full-width divs, so `clip-path: inset(0 0 0 Xpx)` follows the eraser in screen px with no measuring.
   - With round caps, a zero-length dash still draws a dot, so hide strokes (visibility) until progress > 0.
+- GSAP `svgOrigin` is in the root SVG's global coordinates, not the element's own space: on nested, transformed groups it leaves a permanent offset even after rotation returns to 0 (the photo corners missed their photos). Use `transformOrigin: '50% 50%', smoothOrigin: false`, or put the transform on a wrapper whose origin is already the pivot.
+- Shared `<use>`/symbol scenes: an element inside the symbol (for example a dotted outline) can be animated once and every instance follows, which makes dozens of photos change together cheaply. Draw it last in the symbol so props don't cover it.
