@@ -295,3 +295,6 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Shared `<use>`/symbol scenes: an element inside the symbol (for example a dotted outline) can be animated once and every instance follows, which makes dozens of photos change together cheaply. Draw it last in the symbol so props don't cover it.
 - Page transitions on HTML pages (spin and fold): animate opacity in its own short fromTo (0 to 1 over 0.01 to 0.04 s) separate from the transform tween, so a backward seek reverts the page to hidden instead of showing it tiny at its start scale. Don't use `tl.set(..., 0.001)` for initial hiding; `gsap.set` before the timeline is enough.
 - Heavy paper textures (fibres plus grain) raise the share copy's size (about 20 MB at CRF 24 for 33 s). Still under 30 MB, but check it.
+- Light text on a dark background: `textonly.cjs` counts dark ink, so it can't check margins. Measure each caption line's word boxes with getBoundingClientRect after `document.fonts.ready` instead.
+- Organic paper textures (cyanotype, watercolour): generate once at load on a small canvas with seeded value noise (deterministic), then scale it up as an SVG pattern image. It's cheap and identical in every frame.
+- Display serifs like Cormorant run wider than they look. Measure and fit each line to 880 px instead of guessing sizes.
