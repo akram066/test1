@@ -268,3 +268,14 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   plain state objects that the timeline tweens, and write transforms with `setAttribute` in render().
 - **Do not let GSAP and render() share one transform.** If render() positions a group every frame, put the
   GSAP-animated child inside a separate wrapper group (and the reverse).
+- **Riso / two-ink looks:** put each ink in its own full-frame `<svg>` with `mix-blend-mode: multiply` and a
+  grain mask. CSS `mask-image` files are blocked under `file://` (CORS), so stills differ from the render:
+  embed a small tiling grain PNG as a data URI in a CSS variable and use `mask-repeat`. Offset the second ink a
+  few px and jitter it per boil frame for misregistration. A print-pass transition can be drawn by clipping
+  each scene group with a `clipPath` rect whose top/height render() sets from the time (keep scene ranges a
+  pure function of time so jump-seeks render correctly).
+- **Boiled paths must not use arc (`a`/`A`) commands:** jittering every number breaks the arc flags and the
+  path stops rendering. Use circles or curves for doodles that boil.
+- **GSAP scale on SVG groups that already carry a transform, or that sit inside a scaled group, can land in
+  the wrong place** (and differently per ink layer). Put the position on a static outer wrapper and animate a
+  plain state value that render() turns into `scale(...)` on the inner group.
