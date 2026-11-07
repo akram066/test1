@@ -279,3 +279,9 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - **GSAP scale on SVG groups that already carry a transform, or that sit inside a scaled group, can land in
   the wrong place** (and differently per ink layer). Put the position on a static outer wrapper and animate a
   plain state value that render() turns into `scale(...)` on the inner group.
+- **GSAP `smoothOrigin` leaves SVG elements shifted.** When a tween on an SVG element uses `transformOrigin`
+  (scale or rotation pops), GSAP's default smoothOrigin keeps an x/y offset after the tween ends, so balloons,
+  stamps and badges land off position (it was the cause of the off-frame stamps in the risograph reel). Add
+  `smoothOrigin: false` to those tweens, or drive the scale from state in render().
+- **Two camera tweens on the same state that overlap:** the one that starts later wins once both have ended, even
+  if the other ends later. Leave a gap between camera moves.
