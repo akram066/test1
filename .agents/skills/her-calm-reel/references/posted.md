@@ -41,3 +41,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | Your Turn, Mom | reel | 2026-11-06 |
 | It Mattered to That One | reel | 2026-11-06 |
 | Her Battery Hit 2 Percent | reel | 2026-11-06 |
+| She Wore Her Best Dress on a Tuesday | reel | 2026-11-07 |
