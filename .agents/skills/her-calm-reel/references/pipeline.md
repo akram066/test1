@@ -285,3 +285,9 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   `smoothOrigin: false` to those tweens, or drive the scale from state in render().
 - **Two camera tweens on the same state that overlap:** the one that starts later wins once both have ended, even
   if the other ends later. Leave a gap between camera moves.
+
+- **Underline reveals:** `pathLength` with dash draw-on breaks on paths with `vector-effect="non-scaling-stroke"` (the dash runs in screen units, so the whole line shows dashed). For underlines in a stretched SVG (`preserveAspectRatio="none"`), reveal the svg with a `clip-path: inset()` tween instead.
+- **Eraser wipes as pure functions of time (whiteboard reel):**
+  - Each wipe has a start, a duration and bands. Each band's erased x-range comes from the time, and it drives a black-rect SVG mask on the live scene copy and a white-rect mask on a `<use>` ghost copy (grey, blurred, opacity about 0.16).
+  - HTML caption lines are full-width divs, so `clip-path: inset(0 0 0 Xpx)` follows the eraser in screen px with no measuring.
+  - With round caps, a zero-length dash still draws a dot, so hide strokes (visibility) until progress > 0.
