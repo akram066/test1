@@ -50,3 +50,4 @@ If the owner asks for one of these again, tell her it is already posted instead 
 | She Said the Lowest Number | reel | 2026-11-07 |
 | Mom Are We Poor | reel | 2026-11-07 |
 | Still in Sundays Pajamas | reel | 2026-11-08 |
+| She Cut Her Own Bangs at Midnight | reel | 2026-11-09 |

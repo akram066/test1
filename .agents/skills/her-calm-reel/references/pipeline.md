@@ -300,3 +300,8 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Display serifs like Cormorant run wider than they look. Measure and fit each line to 880 px instead of guessing sizes.
 - Crayon look: an SVG filter with feDisplacementMap (small scale) followed by a noise-thresholded alpha mask (feColorMatrix on feTurbulence, then feComposite in) gives waxy strokes that skip. A covering swipe band needs its own denser variant (low-frequency noise, gentler threshold), or the old scene shows through the gaps. HTML captions can use the same filter via CSS `filter: url(#id)`.
 - When a new scene group fades in later with fromTo and immediateRender false, `gsap.set` it to opacity 0 first. Otherwise it is fully visible before the tween starts and ghosts over the previous scene.
+- Pixel-art reels:
+  - Draw everything into a small canvas (for example 180x320) inside render() with fillRect only, and scale it with CSS `image-rendering: pixelated`. Composite two offscreen buffers block by block for pixel dissolves.
+  - Keep text in HTML with a pixel font so it stays large and crisp.
+  - Typed text boxes: give each letter its own time inside its word's span, and recompute the page's show time after any manual adjustment.
+- To stop a running render without killing your own shell, use `pkill -f "hyperframes render --qualit[y] high"`. The bracket stops the pattern from matching the command line that runs pkill.
