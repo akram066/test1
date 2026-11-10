@@ -326,3 +326,8 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Thin handwriting fonts (Handlee) read weak at phone size; add `-webkit-text-stroke` of about 1.5 px in the ink colour (and a matching SVG stroke).
 - The `aligner: sphinx` build needs `voice.pronounce` for words missing from CMU (for example "journaling": "JH ER N AH L IH NG"); the raw scratch aligner can take a sound-alike spelling instead.
 - Appending to a log file in Python: read it into a variable first. `open(f, 'w').write(open(f).read() + x)` truncates the file before reading it and wipes the log.
+- Stained glass: cut the window with a seeded Voronoi (half-plane clipping of a box per site is fast enough for ~100 sites), fill each cell from a colour-by-position function, and stroke every cell in dark lead plus a thin lighter highlight. Use radial sites (rings around a point) for sunburst windows.
+- Keep lead lines per layer: give each window stacked layers (glass group with the texture filter, then that layer's lead group). One shared lead group on top draws background lines straight through figures and text panels.
+- A glass "ripple and bubbles" filter: feTurbulence (low, anisotropic frequency) into feComposite arithmetic (k1 0.6, k2 0.72) for ripples, plus high-frequency noise thresholded to tiny dots composited inside the glass for bubbles.
+- A screen-blended sunbeam at 0.55 peak washes amber glass toward white; about 0.3 keeps colours rich.
+- Decorative swirls inside a faceless head or bun can read as an eye. Use an open spiral, never a closed almond or two facing arcs.
