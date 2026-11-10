@@ -331,3 +331,6 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - A glass "ripple and bubbles" filter: feTurbulence (low, anisotropic frequency) into feComposite arithmetic (k1 0.6, k2 0.72) for ripples, plus high-frequency noise thresholded to tiny dots composited inside the glass for bubbles.
 - A screen-blended sunbeam at 0.55 peak washes amber glass toward white; about 0.3 keeps colours rich.
 - Decorative swirls inside a faceless head or bun can read as an eye. Use an open spiral, never a closed almond or two facing arcs.
+- Mask reveals of a path (pathLength 1, dasharray "x 1"): give the mask stroke `stroke-linecap: butt`. With an inherited round cap, a zero-length reveal still paints a dot at the start of every hidden trail.
+- Map reels: build one large world (about 2400x2600) and move a camera transform (`translate(cx,cy) scale(s) translate(-x,-y)`) through keyframes; keep fixed UI (the caption scroll) in HTML outside the camera. Scale moving markers by `1/s` so dots stay visible in wide shots.
+- Particles along trails: sample positions with `getPointAtLength` in render(), and start each stream particle only when its own phase passes zero, so streams fill in from the start instead of appearing mid-trail.
