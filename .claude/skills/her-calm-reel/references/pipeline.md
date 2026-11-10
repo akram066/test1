@@ -305,3 +305,5 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
   - Keep text in HTML with a pixel font so it stays large and crisp.
   - Typed text boxes: give each letter its own time inside its word's span, and recompute the page's show time after any manual adjustment.
 - To stop a running render without killing your own shell, use `pkill -f "hyperframes render --qualit[y] high"`. The bracket stops the pattern from matching the command line that runs pkill.
+- Cover pages that reuse a reel's script: copy every element the copied code touches (for example `#table`). A null lookup stops the script and silently leaves only the HTML text. Check covers for page errors with a quick Playwright `pageerror` listener.
+- Diagram labels and arcs around a filled head: draw annotation groups first (behind the figure) and make the arc radius clear the head, or the fill hides them.
