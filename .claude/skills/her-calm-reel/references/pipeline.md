@@ -342,3 +342,7 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - A quarter-turn reveal: rotate the room's faces about the block centre from 0 to 90 degrees, and swap in the next room (pre-rotated by -90 degrees) at the halfway point, when the walls are edge-on.
 - Figures from hand targets: describe poses as left/right hand positions in a body frame and lerp between them; a forward slump rotates everything above the hip. A 1.3 scale keeps a figure readable inside an 8-unit room.
 - Floating text panels: project a 3D anchor to screen with the same camera mapping as the SVG world, and keep panel sizes fixed (billboards). Clamp x so wide panels stay inside 90–990.
+- Shadow puppets: draw each silhouette twice, crisp (blur about 1 px) and as a blurred penumbra group at about 0.28 opacity behind it. Rods are thin blurred strokes from the hands down off the screen. Jointed arms read best as two thick strokes with small lighter pins at the shoulder and elbow.
+- A clip-path on an element that also has a transform is interpreted in that element's transformed space. Put the clip on a wrapper group and the transform on an inner group (a car-window clip failed until it moved to a wrapper).
+- A figure that sits in a chair must be a child of the chair group (or share its transform), or it renders at the origin, off-screen.
+- A thumbs-up raised straight up hides behind the head in profile; angle the upper arm forward (about 118 degrees) with the forearm up.
