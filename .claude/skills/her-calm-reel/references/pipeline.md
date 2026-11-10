@@ -312,3 +312,7 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Gold sheen: a userSpaceOnUse linearGradient stroke with a bright middle stop and spreadMethod reflect, with gradientTransform translated in render(). Every gold line shimmers together cheaply.
 - Sunburst reveal: clip the incoming scene with N wedge polygons whose half-angle eases from 0 to 180/N degrees (no arcs). Fan cover: N pleat wedges from the bottom centre whose start and end angles sweep from -180 to 0. Keep scene visibility a pure function of time in render().
 - When a scene draws itself in after a transition, start its line draws as the transition opens and hide filled figures until their lines appear, or bare silhouettes flash first.
+- VHS look:
+  - Put the background art in a group with an SVG colour-bleed filter (blur, then two offset copies colour-matrixed to magenta and cyan, merged under the original). Keep the figures in a separate unfiltered group with a soft glow so they stay crisp.
+  - Add CSS scan lines (repeating-linear-gradient), grain with backgroundPosition shifted per frame, and a moving tracking-band div.
+  - For a PAUSE freeze, render the scene at a clamped time while the OSD and bars keep running.
