@@ -376,3 +376,9 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Seated figures behind tables are clipped at the tabletop; place their feet so the head sits 120-200 px above the clip, or only a bun peeks over.
 - Arabic text: load Noto Naskh Arabic from its "/* arabic */" Google Fonts subset and give it its own class. Chrome shapes it correctly inside SVG text and rotated text.
 - A transient "no verdict" from the auto-mode safety check blocks Bash and MCP calls for a few minutes; do read-only planning meanwhile and retry. Downloads and renders resumed normally.
+- TV weather look: keep the broadcast HUD (FORECAST pill, clock pill, lower third with a coloured tab, white sub-line and ticker) in its own fixed group above a clipped scene area (y 0-1300), so scenes can zoom and swipe underneath. Change the lower third with a 0.4 s sunny wipe, and pin each buzz label as a coral chip in the ticker while the text keeps scrolling behind at low opacity.
+- A map-to-close-up zoom without a real deep world: scale the map about the target point 1x to 4x while fading it out, and scale the close-up scene 0.3x to 1x while fading it in, over 0.6 s.
+- Lightning as a friendly icon: a short zigzag stroke from the cloud to the phone, shown for 0.28 s and fading, plus a phone shake, a "+1" badge pop and a small hop. Avoid big bolts or dark skies so nothing reads as scary.
+- A typing line that "loses its place": reveal characters at 0.07 s each from the last strike time, so every buzz restarts it from the beginning.
+- Lower-third text needs a length rule (over 21 characters, use about 35 px) or long titles run past the bar.
+- Cover for a full-frame map: scale the scenes group toward the bottom center (0.66x) instead of translating it, so the clip never shows an empty band. Hide duplicate numbers that compete with the title.
