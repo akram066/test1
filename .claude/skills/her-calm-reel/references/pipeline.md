@@ -369,3 +369,10 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - A wet wash wipe: a filled path whose right edge is a sum of two sines, pushed across in 0.45 s at about 0.82 opacity with the same watercolor filter, then faded over 0.55 s. Swap scene content while it covers the frame.
 - A bob drawn with a fringe line across a faceless head reads like a band over the face; draw only the outer hair outline and let the wash fill behind the head.
 - Google Fonts for a CJK family (Klee One) has no "/* latin */" comment; pick the subset whose unicode-range starts with U+0000-00FF.
+- Postage stamps: draw the perforated paper as ONE path, walking the rectangle clockwise; each edge is n teeth of (straight a, a7 7 0 0 0 14 0 rotated to the edge direction, straight a). Sweep flag 0 bites inward on a clockwise walk. A feDropShadow on that path follows the holes. Add a tint rect offset 3,2 for misregistration, a double printed border, and an engraving-line pattern over a clipped art group.
+- Engraved line art: per-ink pattern fills (diagonal hatch at 45 degrees, cross-hatch at 30) under a stroked outline; a paper-colored head fill keeps faceless heads clean.
+- Postmark: two rings, the word repeated on a textPath ring, two bars and wavy cancel lines; press it with scale 1.3 to 1 and opacity 0 to 0.74 over 0.16 s, at about -14 degrees.
+- Album camera: put stamps in one world group at x = slot*1180 and move the camera with translate/scale; hide stamps more than 1300 px from the camera. For "placed on top", drop the new stamp in from scale 1.14 with a small rotation settle and a tap.
+- Seated figures behind tables are clipped at the tabletop; place their feet so the head sits 120-200 px above the clip, or only a bun peeks over.
+- Arabic text: load Noto Naskh Arabic from its "/* arabic */" Google Fonts subset and give it its own class. Chrome shapes it correctly inside SVG text and rotated text.
+- A transient "no verdict" from the auto-mode safety check blocks Bash and MCP calls for a few minutes; do read-only planning meanwhile and retry. Downloads and renders resumed normally.
