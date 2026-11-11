@@ -389,3 +389,9 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Overstrike for a crossed-out word: type "xxxxx" over the same character cells, then fade the struck word to about 40% so it reads clearly.
 - The Write tool turns "\u2019" in JS source into a literal curly apostrophe; match that character when patching the file later.
 - Anything below the machine body must be covered (desk colour), or the long sheet shows through under the caption band.
+- Word-level highlights on handwriting: do not measure words inside one text element with getStartPositionOfChar or getSubStringLength (Chrome placed boxes one word early after short words such as "I"). Make each word its own text element and lay the line out yourself (x += width + space). Measure lazily in render once document.fonts.status is "loaded", and set a minimum space of about 18 px at 52 px.
+- Highlighter look: thick butt-capped strokes (stroke-width about 0.9x the font size, opacity 0.5) in a multiply group under the ink, grown left to right in 0.16 s. A wide sweep transition needs a straight chisel end: use a long butt-capped path, not a short one with a round cap, or the tip reads as a blob.
+- Words the forced aligner does not know (sorrys, justs): align with base forms for the raw pause pass, and give tools/build.py voice.pronounce ARPABET phones without stress digits ("S AA R IY Z").
+- Procedural envelopes like sin(pi*t/T)^p go slightly negative at the end and produce NaN; clip the base to 0–1 and nan_to_num before normalizing.
+- Covers that scale the world group: add a matching background (the same grid pattern with the same transform), or the unscaled area shows a seam.
+- Adding cover.html next to index.html makes lint report multiple_root_compositions. Run lint before building the cover, or note that the cover page is a still.
