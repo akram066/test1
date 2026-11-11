@@ -346,3 +346,7 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - A clip-path on an element that also has a transform is interpreted in that element's transformed space. Put the clip on a wrapper group and the transform on an inner group (a car-window clip failed until it moved to a wrapper).
 - A figure that sits in a chair must be a child of the chair group (or share its transform), or it renders at the origin, off-screen.
 - A thumbs-up raised straight up hides behind the head in profile; angle the upper arm forward (about 118 degrees) with the forearm up.
+- Black-and-white with one colour: put the scenes under an feColorMatrix saturate 0 filter, draw the colour version of the last scene in a separate unfiltered layer under a mask circle that grows from the coloured object, and give the first coloured object its own small unmasked copy, so it blooms alone before the rest of the colour spreads (a soft-edged mask circle alone leaks a halo of background colour).
+- Silent-film texture is cheap and deterministic: grain backgroundPosition and dust or scratch positions chosen from a hash of floor(t*18), a flicker overlay, a vignette gradient, and a 1–2 px gate-weave translate. Boil hand-drawn lines by stepping the feTurbulence seed a few times a second.
+- An opening iris at frame 0 must already show the hook (start the radius at about 430 and centre it on the subject), or frame 0 is nearly black.
+- Black props on a figure in a black sweater vanish; raise them clear of the body before a cut.
