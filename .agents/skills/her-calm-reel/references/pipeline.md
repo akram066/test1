@@ -356,3 +356,10 @@ VERIFY.md. Never claim the audio sounds right without hearing it; say it was che
 - Daylight over a dark wall: a screen-blended gradient that fades to black above the caption band keeps captions on dark brick. A strong wash kills the contrast of light neon (peach on terracotta); keep the top stop dark (about #9A5A30).
 - Measure getTotalLength and sample getPointAtLength once at init with every scene group visible, then hide them again; use the stored points for a travelling tip dot instead of measuring in the timeline callback.
 - A global element shared by two scenes (a window) must fade in with that scene's light, or it pops over the previous scene's lingering dead tubes.
+- Paper quilling: draw every strip four times per scene layer group (a blurred dark shadow offset 4,6 at 0.4 opacity; a darker side wall offset 1.4,2.4; the colored top; a thin light highlight offset -0.9,-1.1). Coils are Archimedean spirals (gap about 4.2, 28 points per turn); a teardrop multiplies the radius by 1 + k*max(0,cos(theta - dir))^5 growing toward the outer turns.
+- Pastel strips on a cream card read pale and small at first: widen strips about 20%, saturate the palette, darken the side wall, and keep figures at scale 1.25–1.5 (heads 100–120 px across).
+- A spiral filling a faceless head can read like a face on large figures; keep heads as plain outlines.
+- Draw-on and roll-up for a whole scene: measure every strip once at init (all scenes visible), then set stroke-dasharray "len*f len+40" on all four copies from one scene-level f; set it to none once f reaches 1 and skip further writes.
+- Strip sweep transition: a wave path with arc length precomputed in JS; show the window [tail, head] with dasharray (head - tail) and dashoffset -tail, and move a rolling coil along the head with the precomputed points (no DOM measuring in the timeline callback).
+- HTML caption tags: show the tag about 0.1 s before its first word, not 0.25 s, or it sits empty for a moment.
+- When a brief arrives cut off (no SCRIPT or AVOID), write the script from the topic with the standing formula, apply the standing avoid list, and say so in the delivery notes.
